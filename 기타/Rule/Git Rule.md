@@ -5,7 +5,7 @@
 >## Branch
 >
 >1. 브랜치는 기본적으로  <u>master -> develop -> feature</u>의 구조를 가진다.
->2. feature의 이름은 feature/fe/(work) 또는 feature/be/(work) 의 형식으로 작성한다.
+>2. feature의 이름은 feature/(work)/fe 또는 feature/(work)/be 의 형식으로 작성한다.
 >
 >## Merge
 >
