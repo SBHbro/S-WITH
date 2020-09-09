@@ -8,6 +8,8 @@
 import cv2
 import argparse
 import numpy as np
+from requests import Request
+from requests import Session
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=True,
@@ -31,23 +33,38 @@ def get_output_layers(net):
 
 
 def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
-
     label = str(classes[class_id])
-
     color = COLORS[class_id]
-
     cv2.rectangle(img, (x,y), (x_plus_w,y_plus_h), color, 2)
-
     cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+    print(label)
+    print(en_to_kor(label))
+
+def en_to_kor(text):
+    s = Session()
+    headers = {
+        'X-Naver-Client-Id' : 'aoURwmtiLa5QHQde4DGy',
+        'X-Naver-Client-Secret' : 'rU9yb7cieh'
+    }
+
+    payload = {
+        'source' : 'en',
+        'target' : 'ko',
+        'text' : 'a ' + text
+    }
+
+    url = 'https://openapi.naver.com/v1/papago/n2mt'
+
+    req = Request('POST',url, data=payload, headers=headers)
+    prepped = req.prepare()
+    res = s.send(prepped)
+
+    result = res.json()['message']['result']['translatedText']
+
+    return result
 
     
 image = cv2.imread(args.image)
-# display output image
-dst = cv2.resize(image, dsize=(640, 480), interpolation=cv2.INTER_AREA)
-cv2.imshow("object detection", dst)
-
-# wait until any key is pressed
-cv2.waitKey()
 
 Width = image.shape[1]
 Height = image.shape[0]
@@ -103,8 +120,15 @@ for i in indices:
     h = box[3]
     draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
 
-cv2.imshow("object detection", image)
+imageHeight, imageWidth = image.shape[:2]
+print(imageHeight, imageWidth)
+resizeHeight = int(0.3 * imageHeight)
+resizeWidth = int(0.3 * imageWidth)
+resize_image = cv2.resize(image, (resizeHeight, resizeWidth), interpolation=cv2.INTER_CUBIC)
+
+
+cv2.imshow("object detection", resize_image)
 cv2.waitKey()
 
-cv2.imwrite("object-output.jpg", image)
+cv2.imwrite("object-output.jpg", resize_image)
 cv2.destroyAllWindows()
