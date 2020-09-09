@@ -1,4 +1,4 @@
-# frontend
+# ai
 
 ## Project setup
 ```
