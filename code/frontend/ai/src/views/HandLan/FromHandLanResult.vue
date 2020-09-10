@@ -8,7 +8,7 @@
               <v-btn color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기</v-btn>
               <v-btn color="rgb(54, 214, 123)">다시하기</v-btn>
                 <v-btn color="rgb(228, 184, 244)">홈으로</v-btn>
-          </div>
+          </div> 
       </div>
   </div>
 </template>
