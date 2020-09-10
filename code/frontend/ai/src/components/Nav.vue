@@ -9,7 +9,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-spacer></v-spacer>
+      <v-spacer style="text-align:center;"><router-link to="/"><div>홈으로</div></router-link></v-spacer>
 
     </v-app-bar>
     <v-sheet
@@ -19,8 +19,13 @@
       :max-height="frameSize.y"
       style="z-index:0;"
     >
-      <div style="background-color:#fdebf6; padding-top:64px;" :style="{width:frameSize.x+'px', height:frameSize.y+'px'}">
+      <div v-if="$route.name=='Home'" style="background-color:#fdebf6; padding-top:64px;" :style="{width:frameSize.x+'px', height:frameSize.y+'px'}">
         <router-view></router-view>
+      </div>
+      <div v-if="$route.name !='Home'" style="background-color:#fdebf6; padding-top:64px;" :style="{width:frameSize.x+'px', height:frameSize.y+'px'}">
+        <div style="width:90%; height:90%; background-color:white; margin-left:5%;" :style="{'margin-top':(frameSize.y-46-(frameSize.y*0.9))/2+'px'}">
+        <router-view></router-view>
+        </div>
       </div>
     </v-sheet>
 
