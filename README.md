@@ -101,9 +101,13 @@ master -> develop -> feature/fe(김재은, 류혜명) or feature/be(안성호)
 
 **merge**
 
-``` 
-merge 하기 전 서로 코드 리뷰하기
-merge 후 branch 지우기
+```
+- 코딩하기 전 develop 가져오기
+git checkout develop 
+git pull origin develop
+
+- merge 하기 전 서로 코드 리뷰하기
+- merge 후 branch 지우기
 ```
 
 **commit**
