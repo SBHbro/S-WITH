@@ -3,6 +3,11 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import ToHandLan from './views/HandLan/ToHandLan.vue'
 import FromHandLan from './views/HandLan/FromHandLan.vue'
+import Board from './views/board/Board.vue'
+import BoardCreate from './views/board/BoardCreate.vue'
+import BoardDetail from './views/board/BoardDetail.vue'
+import BoardUpdate from './views/board/BoardUpdate.vue'
+import Camera from './views/Camera.vue'
 import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
 import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 
@@ -24,6 +29,31 @@ export default new Router({
             path: '/fromHandLan',
             name: 'FromHandLan',
             component: FromHandLan,
+        },
+        {
+            path: '/board',
+            name: 'Board',
+            component: Board,
+        },
+        {
+            path: '/board/create',
+            name: 'BoardCreate',
+            component: BoardCreate,
+        },
+        {
+            path: '/board/detail',
+            name: 'BoardDetail',
+            component: BoardDetail,
+        },
+        {
+            path: '/board/update',
+            name: 'BoardUpdate',
+            component: BoardUpdate,
+        },
+        {
+            path: '/camera',
+            name: 'Camera',
+            component: Camera,
         },
         {
             path: '/fromHandLanResult',

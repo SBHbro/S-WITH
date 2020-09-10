@@ -59,6 +59,19 @@
           <v-list-item>
             <v-list-item-title>Buzz</v-list-item-title>
           </v-list-item>
+
+        <router-link to="/board">
+          <v-list-item>
+            <v-list-item-title>게시판</v-list-item-title>
+          </v-list-item>
+        </router-link>
+
+        <router-link to="/camera">
+          <v-list-item>
+            <v-list-item-title>카메라</v-list-item-title>
+          </v-list-item>
+        </router-link>
+        
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
