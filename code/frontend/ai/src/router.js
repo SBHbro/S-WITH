@@ -1,0 +1,59 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './views/Home.vue'
+import ToHandLan from './views/HandLan/ToHandLan.vue'
+import FromHandLan from './views/HandLan/FromHandLan.vue'
+import Board from './views/board/Board.vue'
+import BoardCreate from './views/board/BoardCreate.vue'
+import BoardDetail from './views/board/BoardDetail.vue'
+import BoardUpdate from './views/board/BoardUpdate.vue'
+import Camera from './views/Camera.vue'
+
+
+
+Vue.use(Router) //플러그인 등록
+
+export default new Router({
+    routes: [
+        {
+            path: '/',
+            name: 'Home',
+            component: Home,
+        },
+        {
+            path: '/toHandLan',
+            name: 'ToHandLan',
+            component: ToHandLan,
+        },
+        {
+            path: '/fromHandLan',
+            name: 'FromHandLan',
+            component: FromHandLan,
+        },
+        {
+            path: '/board',
+            name: 'Board',
+            component: Board,
+        },
+        {
+            path: '/board/create',
+            name: 'BoardCreate',
+            component: BoardCreate,
+        },
+        {
+            path: '/board/detail',
+            name: 'BoardDetail',
+            component: BoardDetail,
+        },
+        {
+            path: '/board/update',
+            name: 'BoardUpdate',
+            component: BoardUpdate,
+        },
+        {
+            path: '/camera',
+            name: 'Camera',
+            component: Camera,
+        },
+    ]
+})
