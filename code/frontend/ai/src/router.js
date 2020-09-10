@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import ToHandLan from './views/HandLan/ToHandLan.vue'
 import FromHandLan from './views/HandLan/FromHandLan.vue'
 import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
+import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -28,6 +29,11 @@ export default new Router({
             path: '/fromHandLanResult',
             name: 'FromHandLanResult',
             component: FromHandLanResult,
+        },
+        {
+            path: '/toHandLanResult',
+            name: 'ToHandLanResult',
+            component: ToHandLanResult,
         },
     ]
 })
