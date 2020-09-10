@@ -1,4 +1,6 @@
-## Google Vision API
+# Text Detection
+
+### Google Vision API
 
 - 구글에서 제공하는 이미지속 물체 검출 API
 - Text Detection에서도 사용가능
