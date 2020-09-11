@@ -1,4 +1,4 @@
-# Text Detection
+# Obejct Detection
 
 ### Google Vision API
 
@@ -43,5 +43,33 @@ from google.cloud.vision import types
 
 ```python
 client = vision.ImageAnnotatorClient()
+```
+
+
+
+### Google Translation API
+
+- 구글에서 제공하는 번역 API
+- 여러개의 언어로 번역 가능
+
+
+
+#### 사용방법
+
+- Google Vision API와 마찬가지로 JSON 파일 다운 후 시스템 환경변수 추가
+- 필요한 라이브러리 설치
+
+```python
+#Basic
+pip install google-cloud-translate==2.0.1
+#Advanced
+pip install --upgrade google-cloud-translate
+```
+
+- 필요한 모듈 불러오기
+
+```python
+from google.cloud import translate_v2 as translate
+client = translate.Client()
 ```
 
