@@ -3,17 +3,13 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import ToHandLan from './views/HandLan/ToHandLan.vue'
 import FromHandLan from './views/HandLan/FromHandLan.vue'
-<<<<<<< HEAD
 import Board from './views/board/Board.vue'
 import BoardCreate from './views/board/BoardCreate.vue'
 import BoardDetail from './views/board/BoardDetail.vue'
 import BoardUpdate from './views/board/BoardUpdate.vue'
 import Camera from './views/Camera.vue'
-
-
-=======
 import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
->>>>>>> 505e42ad00bf7f3e02f4a7eaf1015eed99dcfba9
+import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -35,7 +31,6 @@ export default new Router({
             component: FromHandLan,
         },
         {
-<<<<<<< HEAD
             path: '/board',
             name: 'Board',
             component: Board,
@@ -59,11 +54,16 @@ export default new Router({
             path: '/camera',
             name: 'Camera',
             component: Camera,
-=======
+        },
+        {
             path: '/fromHandLanResult',
             name: 'FromHandLanResult',
             component: FromHandLanResult,
->>>>>>> 505e42ad00bf7f3e02f4a7eaf1015eed99dcfba9
+        },
+        {
+            path: '/toHandLanResult',
+            name: 'ToHandLanResult',
+            component: ToHandLanResult,
         },
     ]
 })
