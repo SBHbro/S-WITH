@@ -23,7 +23,8 @@
         <router-view></router-view>
       </div>
       <div v-if="$route.name !='Home'" style="background-color:#fdebf6; padding-top:64px;" :style="{width:frameSize.x+'px', height:frameSize.y+'px'}">
-        <div style="width:90%; height:90%; background-color:white; margin-left:5%;" :style="{'margin-top':(frameSize.y-46-(frameSize.y*0.9))/2+'px'}">
+        <div style="width:90%; height:90%; background-color:white; margin-left:5%;     border-radius: 30px;
+    box-shadow: 0px 0px 27px -4px #00000026;" :style="{'margin-top':(frameSize.y-46-(frameSize.y*0.9))/2+'px'}">
         <router-view></router-view>
         </div>
       </div>
@@ -97,7 +98,10 @@ export default {
   },
   mounted(){
     this.onResize();
-  },
+      window.onresize=()=>{
+          this.onResize();
+        }
+      },
   watch:{
      group () {
         this.drawer = false

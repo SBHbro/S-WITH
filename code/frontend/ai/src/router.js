@@ -7,9 +7,10 @@ import Board from './views/board/Board.vue'
 import BoardCreate from './views/board/BoardCreate.vue'
 import BoardDetail from './views/board/BoardDetail.vue'
 import BoardUpdate from './views/board/BoardUpdate.vue'
-import Camera from './views/Camera.vue'
+import Camera from './components/Camera.vue'
 import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
 import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
+import FromHandLanSend from './views/HandLan/FromHandLanSend.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -64,6 +65,11 @@ export default new Router({
             path: '/toHandLanResult',
             name: 'ToHandLanResult',
             component: ToHandLanResult,
+        },
+        {
+            path: '/fromHandLanSend',
+            name: 'FromHandLanSend',
+            component: FromHandLanSend,
         },
     ]
 })
