@@ -4,14 +4,12 @@
       <tr>
         <th>NO</th>
         <th>TITLE</th>
-        <th>CONTENT</th>
         <th>EMAIL</th>
         <th>DATE</th>
       </tr>
       <tr v-for="p in paginatedData" :key="p.no">
         <td>{{ p.no }}</td>
         <td>{{ p.title }}</td>
-        <td>{{ p.content }}</td>
         <td>{{ p.email }}</td>
         <td>{{ p.date }}</td>
       </tr>
