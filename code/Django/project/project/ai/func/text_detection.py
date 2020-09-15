@@ -36,5 +36,4 @@ def detection(image):
         # print('bounds: {}'.format(','.join(vertices)))
         list.append(text.description)
     list.remove(list[0])
-    print("list",list,"==============================================")
     return list
