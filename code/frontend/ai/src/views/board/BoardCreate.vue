@@ -19,6 +19,29 @@
         등록
       </button>
     </div>
+
+<div>
+<table>
+<tr>
+<th>제목</th>
+</tr>
+<tr>
+  <textarea placeholder = "제목을 입력하세요"></textarea>
+</tr>
+<tr>
+<th>내용</th>
+</tr>
+<tr>
+  <textarea placeholder = "내용을 입력하세요"></textarea>
+</tr>
+<tr>
+<th>이메일</th>
+</tr>
+<tr>
+  <textarea placeholder = "작성자 이메일을 입력하세요"></textarea>
+</tr>
+</table>
+</div>
 </div>
 </template>
 
