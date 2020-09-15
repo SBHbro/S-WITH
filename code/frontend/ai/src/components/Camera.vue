@@ -4,8 +4,8 @@
     <video autoplay ref="video" id="video" class="video" v-if="ok"></video>
     <button class="snap" v-on:click="capture()">SNAP</button>
     <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>
-    <button class="send" v-on:click="send()">보내기</button>
-    <button class="redo" v-on:click="redo()">다시찍기</button>
+    <button class="send" @click="objectDetection()">물체</button>
+    <button class="redo" @click="textDetection()">글자</button>
 
     <div v-if="$route.name =='FromHandLan'">
         <v-btn :style="{'margin-left':(frameSize.x*0.9-100)/2+'px'}" type="button" @click="startRecording()" v-bind:disabled="isStartRecording" id="btnStart">
@@ -27,6 +27,7 @@
 
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 export default {
   name: "camera",
   data() {
@@ -88,10 +89,20 @@ export default {
       this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
       //this.ok = !this.ok;
       // 캡처한거 저장하는
-      this.captures.push(this.canvas.toDataURL("image/png"));
+      // this.captures.push(this.canvas.toDataURL("image/png"));
       //
       // this.ok = 'true';
       //
+    },
+     objectDetection(){
+      // this.canvas;
+      console.log(this.canvas.toDataURL());
+      axios.get('http://localhost:8000/',this.canvas.toDataURL()).then(data=>{
+        console.log(data);
+      })
+    },
+    textDetection(){
+      alert('글자')
     }
   },
   beforeMount() {
@@ -112,12 +123,6 @@ export default {
   destroy(){
     this.videoPlayer.stop();
   },
-  send(){
-
-  },
-  redo(){
-
-  }
 };
 </script>
 
