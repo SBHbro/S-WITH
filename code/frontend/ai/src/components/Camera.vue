@@ -1,7 +1,12 @@
 <template>
   <div id="camera" class="camera" >
-    <video autoplay class="feed"></video>
-    <!-- <button class="snap" v-on:click="$emit('take-picture')">SNAP</button> -->
+   
+    <video autoplay ref="video" id="video" class="video" v-if="ok"></video>
+    <button class="snap" v-on:click="capture()">SNAP</button>
+    <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>
+    <button class="send" v-on:click="send()">보내기</button>
+    <button class="redo" v-on:click="redo()">다시찍기</button>
+
     <div v-if="$route.name =='FromHandLan'">
         <v-btn :style="{'margin-left':(frameSize.x*0.9-100)/2+'px'}" type="button" @click="startRecording()" v-bind:disabled="isStartRecording" id="btnStart">
           <div id="btnStartInner"></div>
@@ -17,6 +22,7 @@
       <router-link to="/FromHandLanResult"><v-btn class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn></router-link>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -31,7 +37,10 @@ export default {
       },
       sendWidth:0,
       buttonMargin:0,
-      videoPlayer:''
+      videoPlayer:'',
+      canvas:'',
+      video:'',
+      ok : true,
     }
   },
   methods: {
@@ -73,6 +82,17 @@ export default {
         alert("Cannot get Media Devices");
       }
     },
+    capture(){
+      this.video = this.$refs.video;
+      this.canvas = this.$refs.canvas;
+      this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
+      //this.ok = !this.ok;
+      // 캡처한거 저장하는
+      this.captures.push(this.canvas.toDataURL("image/png"));
+      //
+      // this.ok = 'true';
+      //
+    }
   },
   beforeMount() {
     this.init();
@@ -91,6 +111,12 @@ export default {
   },
   destroy(){
     this.videoPlayer.stop();
+  },
+  send(){
+
+  },
+  redo(){
+
   }
 };
 </script>
@@ -102,14 +128,67 @@ export default {
   padding: 0px;
   box-sizing: border-box;
 
-  .feed {
+  .video{
     display: block;
-    width: 100%;
-    height:100%;
-    background-color: #171717;
-    box-shadow: 4px 4px 12px 0px rgba(0, 0, 0, 0.3);
-    margin: 0 auto;
+    position:fixed;
+    height: 500px;
+    margin-top: 10px;
+    margin-right: 900px;
   }
+
+  .canvas{
+    display: block;
+    position:fixed;
+    width: 1050px;
+    height: 840px;
+    margin-top: 10px;
+    margin-left: 700px;
+  }
+  
+  .send{
+    display: block;
+    position:fixed;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: transparentize($color: #2493dd, $amount: 0.75);
+    border: 1px solid color #171717;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    margin-top: 530px;
+    margin-left: 900px;
+
+    &:hover {
+      background-color: #2493dd;
+    }
+    &:active {
+      background-color: darken($color: #2493dd, $amount: 10);
+    }
+  }
+
+  .redo{
+    display: block;
+    position:fixed;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: transparentize($color: #fd3015, $amount: 0.75);
+    border: 1px solid color #171717;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    margin-top: 530px;
+    margin-left: 1000px;
+
+    &:hover {
+      background-color: #fd3015;
+    }
+    &:active {
+      background-color: darken($color: #fd3015, $amount: 10);
+    }
+  }
+
   .snap {
     display: block;
     position:fixed;
@@ -121,7 +200,8 @@ export default {
     border-radius: 50%;
     outline: none;
     cursor: pointer;
-    margin: 25px auto;
+    margin-top: 530px;
+    margin-left: 250px;
 
     &:hover {
       background-color: #ffce00;
