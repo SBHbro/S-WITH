@@ -36,13 +36,15 @@ export default {
         }
     },
     beforeCreate(){
-        // axios.get('http://code.responsivevoice.org/responsivevoice.js')
-        // .then(response=>{
-        //     console.log(response)
-        // })
-        // .catch(e=>{
-        //     console.log('error:',e)
-        // })
+        const textToSpeech = require('@google-cloud/text-to-speech');
+
+        // Import other required libraries
+        const fs = require('fs');
+        const util = require('util');
+        // Creates a client
+        const client = new textToSpeech.TextToSpeechClient();
+        this.quickStart(fs,util,client); 
+
     },
     beforeUpdate(){
         this.textWidth = document.getElementById('textbox').offsetWidth;
@@ -59,6 +61,7 @@ export default {
         textToSound(){
             this.speaker = 'mdi-volume-high';
             this.spaekerColor = 'blue';
+            this.quickStart()
         },
         test() {
                 // code
@@ -66,6 +69,26 @@ export default {
         onResize(){
             this.frameSize = {x:window.innerWidth, y:window.innerHeight};
         },
+        async quickStart(fs,util,client) {
+        // The text to synthesize
+        const text = 'hello, world!';
+
+        // Construct the request
+        const request = {
+            input: {text: text},
+            // Select the language and SSML voice gender (optional)
+            voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+            // select the type of audio encoding
+            audioConfig: {audioEncoding: 'MP3'},
+        };
+
+        // Performs the text-to-speech request
+        const [response] = await client.synthesizeSpeech(request);
+        // Write the binary audio content to a local file
+        const writeFile = util.promisify(fs.writeFile);
+        await writeFile('output.mp3', response.audioContent, 'binary');
+        console.log('Audio content written to file: output.mp3');
+        }
     }
 }
 </script>
