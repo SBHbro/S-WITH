@@ -2,9 +2,10 @@ import os
 import cv2
 import numpy as np
 from google.cloud import vision
+import base64
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) +"\\datasets\\winter-sum-241407-8886c2c92665.json"
-path = os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\dog.jpg'
+# path = os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\dog.jpg'
 client = vision.ImageAnnotatorClient()
 
 
@@ -12,7 +13,7 @@ def draw_prediction(img, class_id, x, y, x_plus_w, y_plus_h, label, COLORS):
     color = COLORS[class_id]
     cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
     label = translated(label)
-    print(label)
+    # print(label)
     cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
     return img, label
 
@@ -25,8 +26,13 @@ def translated(text):
     # print(result['translatedText'])
     return result['translatedText']
 
-def run():
-    with open(path, 'rb') as image_file:
+def run(image):
+    imgdata = base64.b64decode(image)
+    filename = 'object_detection.jpg'  # I assume you have a way of picking unique filenames
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+    path = 'object_detection.jpg'
+    with open('object_detection.jpg', 'rb') as image_file:
         content = image_file.read()
     image = vision.types.Image(content=content)
 
@@ -36,7 +42,7 @@ def run():
     COLORS = np.random.uniform(0, 255, size=(len(objects), 3))
     list = []
     for idx, object_ in enumerate(objects):
-        print('\n{} (confidence: {})'.format(object_.name, object_.score))
+        # print('\n{} (confidence: {})'.format(object_.name, object_.score))
         x = object_.bounding_poly.normalized_vertices[0].x * img.shape[1]
         y = object_.bounding_poly.normalized_vertices[0].y * img.shape[0]
         w = object_.bounding_poly.normalized_vertices[2].x * img.shape[1]

@@ -98,17 +98,14 @@ export default {
       // this.canvas;
       var image = new Image();
       image.src = this.canvas.toDataURL();
-      // console.log(this.canvas.toDataURL());
-      var formData = new FormData();
-      formData.append("images",this.canvas.toDataURL());
-      // console.log(this.canvas.toDataURL());
-      axios.post(`http://localhost:8000/api/ai/objectDetection/`,formData).then(data=>{
+
+      axios.post(`http://localhost:8000/api/ai/objectDetection/`,{image : image.src}).then(data=>{
         console.log(data);
       })
     },
     textDetection(){
       alert('글자')
-    }
+    },
   },
   beforeMount() {
     this.init();

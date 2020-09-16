@@ -138,7 +138,8 @@ MEDIA_URL = '/media/'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
-    'http://127.0.0.1:8080'
+    'http://127.0.0.1:8080',
+    'http://j3b105.p.ssafy.io'
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
