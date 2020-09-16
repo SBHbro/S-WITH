@@ -1,82 +1,95 @@
 <template>
-  <div>
-    <table>
-      <tr>
-        <th>NO</th>
-        <th>TITLE</th>
-        <th>EMAIL</th>
-        <th>DATE</th>
-      </tr>
-      <tr v-for="p in paginatedData" :key="p.no">
-        <td>{{ p.no }}</td>
-        <td>{{ p.title }}</td>
-        <td>{{ p.email }}</td>
-        <td>{{ p.date }}</td>
-      </tr>
-    </table>
-    <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
-      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
-        다음
-      </button>
-              
-      <router-link to="/board/create">
-        새로 만들기
-      </router-link>
+    <div class="container" align="center">
+      <div>
+        <h2>게시판</h2>
+
+
+
+      <div align="right">
+          <v-btn 
+            align = "left"
+            type="button"
+            id="mvWriteBtn"
+            class="btn btn-sm btn-primary"
+            data-backdrop="static"
+            @click="movePage"
+            >새글쓰기</v-btn>
+
+        <v-spacer></v-spacer>
+        <v-col cols="12" sm="6">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="제목, 내용을 검색해주세요"
+            single-line
+            filled
+          ></v-text-field>
+        </v-col>
+      </div>
+
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :items="boards"
+          :search="search"
+          :items-per-page="5"
+          item-key="id"
+          @click:row="moveRead"
+        ></v-data-table>
+
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-//   name: 'paginated-list',
-//   data () {
-//     return {
-//       pageNum: 0
-//     }
-//   },
-//   props: {
-//     listArray: {
-//       type: Array,
-//       required: true
-//     },
-//     pageSize: {
-//       type: Number,
-//       required: false,
-//       default: 10
-//     }
-//   },
-//   methods: {
-//     nextPage () {
-//       this.pageNum += 1;
-//     },
-//     prevPage () {
-//       this.pageNum -= 1;
-//     }
-//   },
-//   computed: {
-//     pageCount () {
-//       let listLeng = this.listArray.length,
-//           listSize = this.pageSize,
-//           page = Math.floor(listLeng / listSize);
-//       if (listLeng % listSize > 0) page += 1;
-      
-//       /*
-//       아니면 page = Math.floor((listLeng - 1) / listSize) + 1;
-//       이런식으로 if 문 없이 고칠 수도 있다!
-//       */
-//       return page;
-//     },
-//     paginatedData () {
-//       const start = this.pageNum * this.pageSize,
-//             end = start + this.pageSize;
-//       return this.listArray.slice(start, end);
-//     }
-//   }
- }
+  name: "boardlist",
+  data() {
+    return {
+      search: "",
+      headers: [
+        { text: "NO.", value: "id" },
+        { text: "제 목", value: "subject" },       
+        { text: "작 성 자", value: "email" },
+        { text: "작 성 일", value: "date" }
+      ],
+      boards: [],
+      selected: []
+    };
+  },
+  created() {
+    axios
+      .get(`http://j3b105.p.ssafy.io/api/notices/notice`)
+      .then(({ data }) => {
+        console.log(data)
+        this.boards = data;
+      });
+  },
+  computed: {
+    numberOfPages() {
+      return Math.ceil(this.boards.length / this.itemsPerPage);
+    }
+  },
+  methods: {
+    movePage() {
+      this.$router.push("/board/create");
+    },
+    moveRead(value) {
+      // console.log(value.id);
+      this.$router.push("/board/detail/" + value.id);
+    },
+    nextPage() {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    },
+    formerPage() {
+      if (this.page - 1 >= 1) this.page -= 1;
+    },
+    updateItemsPerPage(number) {
+      this.itemsPerPage = number;
+    }
+  }
+};
 </script>
 
 <style>
@@ -99,6 +112,9 @@ table tr td {
   padding: 1rem 0;
   font-size: 1.1rem;
 }
+container{
+  border-bottom: 1px solid #505050;
+}
 .btn-cover {
   margin-top: 1.5rem;
   text-align: center;
@@ -110,5 +126,8 @@ table tr td {
 }
 .btn-cover .page-count {
   padding: 0 1rem;
+}
+.btn btn-sm btn-primary{
+  margin-left: 250px;
 }
 </style>
