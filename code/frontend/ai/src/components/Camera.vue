@@ -104,7 +104,12 @@ export default {
       })
     },
     textDetection(){
-      alert('글자')
+      var image = new Image();
+      image.src = this.canvas.toDataURL();
+
+      axios.post(`http://localhost:8000/api/ai/textDetection/`,{image : image.src}).then(data=>{
+        console.log(data);
+      })
     },
   },
   beforeMount() {

@@ -1,29 +1,27 @@
-# from PIL import Image
-# from pytesseract import *
-# import re
-# import cv2
-#
-# img = Image.open('.\\datasets\\kakao.png')
-# text = pytesseract.image_to_string(img,lang='kor')
-# print(text)
-
 import io # 파일을 읽고 쓰기위한 모듈
 import os # os의 기능을 사용하기 위한 모듈
 
 # Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
+import base64
+
 def detection(image):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\My Project-070d5c77d071.json'
     client = vision.ImageAnnotatorClient()
 
+    imgdata = base64.b64decode(image)
+    path = 'text_detection.jpg'  # I assume you have a way of picking unique filenames
+    with open(path, 'wb') as f:
+        f.write(imgdata)
+
     # 이미지 읽기
-    with io.open(image, 'rb') as image_file:
+    with io.open(path, 'rb') as image_file:
         content = image_file.read()
 
-    image = vision.types.Image(content=content)
+    img = vision.types.Image(content=content)
 
-    response = client.text_detection(image=image)
+    response = client.text_detection(image=img)
     texts = response.text_annotations
 
     list = []
