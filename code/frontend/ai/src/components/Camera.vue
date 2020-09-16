@@ -96,8 +96,13 @@ export default {
     },
      objectDetection(){
       // this.canvas;
-      console.log(this.canvas.toDataURL());
-      axios.get('http://localhost:8000/',this.canvas.toDataURL()).then(data=>{
+      var image = new Image();
+      image.src = this.canvas.toDataURL();
+      // console.log(this.canvas.toDataURL());
+      var formData = new FormData();
+      formData.append("images",this.canvas.toDataURL());
+      // console.log(this.canvas.toDataURL());
+      axios.post(`http://localhost:8000/api/ai/objectDetection/`,formData).then(data=>{
         console.log(data);
       })
     },

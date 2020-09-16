@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class OdConfig(AppConfig):
-    name = 'ods'
+    name = 'ai'
