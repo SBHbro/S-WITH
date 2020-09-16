@@ -72,11 +72,15 @@
 
    source deactivate [가상환경 명]
 
-### Django Server 시작하기
+### Nginx 업데이트 하기
 
+sudo cp -f /home/ubuntu/project/backend/project/project/.config/nginx/project.conf.ini /etc/nginx/sites-available/project.conf
 
+sudo ln -sf /etc/nginx/sites-available/project.conf /etc/nginx/sites-enabled/project.conf
 
+sudo systemctl daemon-reload
 
+sudo systemctl restart uwsgi nginx
 
 #### 가상환경에 install
 

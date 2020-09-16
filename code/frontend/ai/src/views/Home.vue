@@ -1,8 +1,14 @@
 <template>
   <div style="width:100%; height:100%;" :style="{'padding-top':(frameSize.y-64-(frameSize.x*0.3))/2+'px'}">
     <div>
-      <router-link to="/fromHandLan"><div class="serviceButton" :style="{'margin-left':frameSize.x*0.15+'px',height:frameSize.x*0.3+'px'}"><div>수어를<br>번역하기</div></div></router-link>
-      <router-link to="/toHandLan"><div class="serviceButton" :style="{'margin-left':frameSize.x*0.15+'px',height:frameSize.x*0.3+'px'}"><div>수어로<br>번역하기</div></div></router-link>
+      <router-link to="/fromHandLan"><div class="serviceButton" :style="{'margin-left':frameSize.x*0.15+'px',height:frameSize.x*0.3+'px'}"><div style="height: 30%;
+    padding: 5%;
+    font-size: xx-large;
+    font-weight: bold;">수어를<br>번역하기</div><div style="height:70%; padding:5%"><img style="height:100%;width:auto;" src="../assets/btn/FromHandLan.png"></div></div></router-link>
+      <router-link to="/toHandLan"><div class="serviceButton" :style="{'margin-left':frameSize.x*0.15+'px',height:frameSize.x*0.3+'px'}"><div style="    height: 30%;
+    padding: 5%;
+    font-size: xx-large;
+    font-weight: bold;">수어로<br>번역하기</div><div style="height:70%; padding:5%"><img style="height:100%;width:auto;" src="../assets/btn/ToHandLan.png"></div></div></router-link>
     </div>
     
   </div>
@@ -42,5 +48,8 @@ export default {
   float: left;
   min-width: 300px;
   min-height: 300px;
+}
+.v-application a {
+  color:black;
 }
 </style>
