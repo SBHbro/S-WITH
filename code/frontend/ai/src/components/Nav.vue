@@ -68,6 +68,12 @@
             <v-list-item-title>카메라</v-list-item-title>
           </v-list-item>
         </router-link>
+
+        <router-link to="/video">
+          <v-list-item>
+            <v-list-item-title>비디오</v-list-item-title>
+          </v-list-item>
+        </router-link>
         
         </v-list-item-group>
       </v-list>

@@ -11,6 +11,8 @@ import Camera from './components/Camera.vue'
 import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
 import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 import FromHandLanSend from './views/HandLan/FromHandLanSend.vue'
+import Video from './components/Video.vue'
+
 
 Vue.use(Router) //플러그인 등록
 
@@ -43,12 +45,12 @@ export default new Router({
             component: BoardCreate,
         },
         {
-            path: '/board/detail',
+            path: '/board/detail/:id',
             name: 'BoardDetail',
             component: BoardDetail,
         },
         {
-            path: '/board/update',
+            path: '/board/update/:id',
             name: 'BoardUpdate',
             component: BoardUpdate,
         },
@@ -71,6 +73,11 @@ export default new Router({
             path: '/fromHandLanSend',
             name: 'FromHandLanSend',
             component: FromHandLanSend,
+        },
+        {
+            path: '/video',
+            name: 'Video',
+            component: Video,
         },
     ]
 })
