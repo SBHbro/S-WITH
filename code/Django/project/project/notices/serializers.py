@@ -7,4 +7,4 @@ from .models import Notice
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
-        fields = ['id','subject','content','email']
+        fields = ['id','subject','content','email','date']
