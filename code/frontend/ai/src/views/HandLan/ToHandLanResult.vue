@@ -57,7 +57,7 @@
     ></v-img>
 
     <v-card-title>
-      <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>
+      <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
     </v-card-title>
 
     <v-card-subtitle>
@@ -70,9 +70,25 @@
     </v-dialog>
             </v-card>
           </div>
-          <div v-if="i==2">
-            <v-card v-for="(result,index) in letters" :key="index">
+          
+          
+          <div v-if="i==2" >
+            <v-card v-for="(result,index) in letters" :key="index" style="height: 50px;
+    margin: 5px 0px;
+    padding:6px 8px;
+    font-weight: bold;
+    font-size: x-large;">
+    <div style="float:left;width:80%;text-align:center;">
               {{result.transResult}}
+              </div>
+              <v-btn
+        style="float:right; width:20%;"
+          v-bind="attrs"
+          v-on="on"
+          @click="transButton(result)"
+        >
+          <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+        </v-btn>
             </v-card>
           </div>
         </v-card>
@@ -118,10 +134,13 @@ export default {
             ],
             letters:[
               {
-                transResult:'예시1'
+                transResultLetter:'핫식스'
               },
               {
-                transResult:'예시1'
+                transResultLetter:'NONE'
+              },
+              {
+                transResultLetter:'HOT6'
               },
               
             ]
@@ -136,7 +155,7 @@ export default {
       transButton(nowTrans){
         this.nowTransLate = nowTrans;
         console.log(nowTrans)
-      }
+      },
     },
     mounted(){
     window.onresize=()=>{
