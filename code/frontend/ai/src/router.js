@@ -13,7 +13,6 @@ import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 import FromHandLanSend from './views/HandLan/FromHandLanSend.vue'
 import Video from './components/Video.vue'
 
-
 Vue.use(Router) //플러그인 등록
 
 export default new Router({
