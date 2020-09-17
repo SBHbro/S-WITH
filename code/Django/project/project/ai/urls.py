@@ -7,6 +7,6 @@ from . import views
 app_name = 'ai'
 
 urlpatterns =[
-    path('textDetection/', views.textDetection, name='textDetection'),
-    path('objectDetection/', views.objectDetection, name='objectDetection'),
+    path('textDetection', views.textDetection, name='textDetection'),
+    path('objectDetection', views.objectDetection, name='objectDetection'),
 ]

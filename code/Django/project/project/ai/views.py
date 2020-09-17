@@ -12,6 +12,7 @@ import os
 import json
 from .models import Image
 from .func import text_detection, google_object
+import base64
 
 
 @api_view(['POST'])
@@ -20,7 +21,12 @@ def textDetection(request):
     header, encoded = request['image'].split(",", 1)
 
     list = text_detection.detection(encoded)
-    return Response(list)
+    result = dict()
+    result['data'] = list
+    with open('text_result.jpg', "rb") as img_file:
+        my_string = base64.b64encode(img_file.read()).decode('utf-8')
+    result['image'] = my_string
+    return Response(result)
 
 @api_view(['POST'])
 def objectDetection(request):
@@ -28,4 +34,17 @@ def objectDetection(request):
     header, encoded = request['image'].split(",", 1)
 
     list = google_object.run(encoded)
-    return Response(list)
+    result = dict()
+    result['data'] = list
+    with open('object_result.jpg', "rb") as img_file:
+        my_string = base64.b64encode(img_file.read()).decode('utf-8')
+    result['image'] = my_string
+
+    # roi_list = []
+    # for f in os.listdir('result/'):
+    #     with open('result/' + f, "rb") as img_file:
+    #         my_string = base64.b64encode(img_file.read()).decode('utf-8')
+    #     roi_list.append(my_string)
+    #
+    # result['roi'] = roi_list
+    return Response(result)

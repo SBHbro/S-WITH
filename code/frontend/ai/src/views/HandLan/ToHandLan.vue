@@ -47,9 +47,7 @@ padding:10px 10px 10px 30px;">
     </div>
     </div>
   </v-card>
-
-      <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera>
-      
+    <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera>
   </div>
 </template>
 
@@ -85,7 +83,7 @@ export default {
     },
     closeSearchResult(){
       this.showSearchResult = 'none';
-    }
+    },
   },
   beforeMount() {
     this.onResize();
@@ -102,7 +100,7 @@ export default {
   },
   
   mounted(){
-        this.onResize();
+      this.onResize();
       this.searchMargin = (this.frameSize.x*0.9-this.serachMargin)/2;
       if(this.frameSize.x>550){
         this.searchSize = 550;   
