@@ -19,7 +19,7 @@ def detection(image):
     # 이미지 읽기
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
-    new_img = cv2.imread(image)
+    new_img = cv2.imread(path)
     img = vision.types.Image(content=content)
 
     response = client.text_detection(image=img)
@@ -41,7 +41,9 @@ def detection(image):
         # cv2.rectangle(img, (10,10), (40,40), (255,0,0), 2)
         # print(vertices)
         list.append(text.description)
-    list.remove(list[0])
+    if len(list) != 0:
+        list.remove(list[0])
+    cv2.imwrite("text_result.jpg", new_img)
     # cv2.imshow('result',img)
     # cv2.waitKey()
     return list

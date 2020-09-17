@@ -2,10 +2,10 @@
   <div id="camera" class="camera" >
    
     <video style="width:100%; height:100%;" autoplay ref="video" id="video" class="video" v-if="ok"></video>
-    <button class="snap" v-on:click="capture()">SNAP</button>
+    <!-- <button class="snap" v-on:click="capture()">SNAP</button> -->
     <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>
-    <button class="send" @click="objectDetection()">물체</button>
-    <button class="redo" @click="textDetection()">글자</button>
+    <!-- <button class="send" @click="objectDetection()">물체</button>
+    <button class="redo" @click="textDetection()">글자</button> -->
 
     <div v-if="$route.name =='FromHandLan'">
         <v-btn :style="{'margin-left':(frameSize.x*0.9-100)/2+'px'}" type="button" @click="startRecording()" v-bind:disabled="isStartRecording" id="btnStart">
@@ -15,12 +15,13 @@
         <!-- <v-btn type="button" class="btn btn-primary" @click.prevent="retakeVideo()" v-bind:disabled="isRetakeDisabled" id="btnRetake">Retake</v-btn> -->
     </div>
     <div v-if="$route.name =='ToHandLan'">
-      <router-link to="/ToHandLanResult"><v-btn style="margin: -100px 225px 0px 225px;" id="btnCapture"><v-icon size="45px">mdi-camera</v-icon></v-btn></router-link>
+      <v-btn style="margin: -100px 225px 0px 225px;" id="btnCapture" @click="capture()"><v-icon size="45px">mdi-camera</v-icon></v-btn>
     </div>
     <div id="send" style="margin-top:-80px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}" v-if="$route.name =='FromHandLanSend'">
       <router-link to="/FromHandLan"><v-btn class="sendBtn" color="rgb(232, 107, 94)" style="width:150px;color:white; margin-right:5px; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-backup-restore</v-icon>다시 하기</v-btn></router-link>
       <router-link to="/FromHandLanResult"><v-btn class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn></router-link>
     </div>
+  
   </div>
 
 </template>
@@ -28,6 +29,7 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
+import Swal from "sweetalert2";
 export default {
   name: "camera",
   data() {
@@ -42,6 +44,11 @@ export default {
       canvas:'',
       video:'',
       ok : true,
+      oList : "",
+      tList : "",
+      textImage: 'data:image/jpeg;base64,',
+      objectImage: 'data:image/jpeg;base64,',
+      roiList: '',
     }
   },
   methods: {
@@ -86,29 +93,80 @@ export default {
     capture(){
       this.video = this.$refs.video;
       this.canvas = this.$refs.canvas;
-      this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
-      //this.ok = !this.ok;
-      // 캡처한거 저장하는
-      // this.captures.push(this.canvas.toDataURL("image/png"));
-      //
-      // this.ok = 'true';
-      //
+      this.canvas.getContext("2d").drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+
+      this.objectDetection();
+      this.textDetection();
+
+      let timerInterval;
+        Swal.fire({
+          title: '검색중...',
+          // html: '전송까지 <b></b> 초 남았습니다.',
+          timer: 5000,
+          timerProgressBar: true,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            
+            Swal.color= 'green';
+            timerInterval = setInterval(() => {
+              const content = Swal.getContent()
+              if (content) {
+                const b = content.querySelector('b')
+                if (b) {
+                  b.textContent = Swal.getTimerLeft()
+                }
+              }
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+            Swal.fire(
+              '검색완료!',
+              '',
+              'success'
+            )
+
+            var objectList = this.oList;
+            var textList = this.tList;
+            this.$router.push({name:"ToHandLanResult", params:
+            {
+              oList : objectList, 
+              tList : textList,
+              objectImage : this.objectImage,
+              textImage : this.textImage,
+              roiList : this.roiList
+            }
+            
+            });
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // // console.log('I was closed by the timer')
+          }
+        })
+      
     },
      objectDetection(){
       // this.canvas;
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/objectDetection/`,{image : image.src}).then(data=>{
-        console.log(data);
+      axios.post(`http://localhost:8000/api/ai/objectDetection`,{image : image.src}).then(response=>{
+        // console.log(response);
+        this.oList = response.data;
+        this.objectImage += response.data.image;
+        this.roiList = response.data.roi;
       })
     },
     textDetection(){
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/textDetection/`,{image : image.src}).then(data=>{
-        console.log(data);
+      axios.post(`http://localhost:8000/api/ai/textDetection`,{image : image.src}).then(response=>{
+        // console.log(response);
+        this.tList = response.data;
+        this.textImage += response.data.image;
       })
     },
   },
@@ -145,17 +203,17 @@ export default {
   }
 
   .canvas{
-    display: block;
-    position:fixed;
-    width: 1050px;
-    height: 840px;
-    margin-top: 10px;
-    margin-left: 700px;
+    display: none;
+    // position:fixed;
+    // width: 1050px;
+    // height: 840px;
+    // margin-top: 10px;
+    // margin-left: 700px;
   }
   
   .send{
     display: block;
-    position:fixed;
+    // position:fixed;
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -164,8 +222,8 @@ export default {
     border-radius: 50%;
     outline: none;
     cursor: pointer;
-    margin-top: 530px;
-    margin-left: 900px;
+    // margin-top: 530px;
+    // margin-left: 900px;
 
     &:hover {
       background-color: #2493dd;
@@ -177,7 +235,7 @@ export default {
 
   .redo{
     display: block;
-    position:fixed;
+    // position:fixed;
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -186,8 +244,8 @@ export default {
     border-radius: 50%;
     outline: none;
     cursor: pointer;
-    margin-top: 530px;
-    margin-left: 1000px;
+    // margin-top: 530px;
+    // margin-left: 1000px;
 
     &:hover {
       background-color: #fd3015;
@@ -199,7 +257,7 @@ export default {
 
   .snap {
     display: block;
-    position:fixed;
+    // position:fixed;
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -208,8 +266,8 @@ export default {
     border-radius: 50%;
     outline: none;
     cursor: pointer;
-    margin-top: 530px;
-    margin-left: 250px;
+    // margin-top: 530px;
+    // margin-left: 250px;
 
     &:hover {
       background-color: #ffce00;
