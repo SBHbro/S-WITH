@@ -1,37 +1,20 @@
-## 수어영상 인식
+# 수어영상 인식
 
 >
 >
->## 파일구조
+>- 데이터 만들기 -> 학습 -> 테스트 순으로 진행
 >
->/step1.py
 >
->/step2.py
 >
->/step3.py
+>## 데이터 만들기
 >
->/train.py
+>- video 폴더에 클래스별로 영상을 넣는다.
+>- step1.py 실행 -> step1 폴더에 영상이 이미지 변환되고 손목, 코 데이터가 들어있는 hnData.pickle 파일이 생성됨
+>- step2.py 실행 -> step2 폴더에 양손 마스킹 이미지, step2-2 폴더에 마스킹되지 않은 이미지가 생성됨
+>- step3.py 실행 -> step3 폴더에 양손 마스킹 + 얼굴 마스킹 된 이미지가 생성됨
 >
->/predict_img.py
 >
->/predict_video.py
 >
->/util/...
+>## 학습
 >
->/model/model
->
->​			/class.pickle
->
->/video/ ...
->
->/image/step1
->
->​			/step2
->
->​			/step2-2
->
->​			/step3
->
->/test/input
->
->​		/output
+>- triain.py 실행 --dataset --model --label-bin --epochs --plot 등의 옵션이 있다.
