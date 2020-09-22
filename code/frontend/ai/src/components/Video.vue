@@ -3,7 +3,10 @@
       <button class="record" @click="record()" id="btn-start-recording">녹화</button>
       <button class="stop" @click="stop()" id="btn-stop-recording">멈춤</button>
 <hr>
-<video id="my-preview" controls autoplay></video>
+<!-- <video id="my-preview" controls autoplay></video> -->
+
+    <video id="gum" autoplay></video>
+    <video id="recorded" controls autoplay></video>
 <!-- <video style="width:50%; height:90%;" autoplay ref="video" id="video" class="video"></video> -->
 <!-- <video style="width:100%; height:100%;" controls autoplay ref="video" id="my-preview" class="video" v-if="ok"></video> -->
   </div>
@@ -63,16 +66,16 @@ export default {
          recorder.stopRecording().then(function() {
             console.info('stopRecording success');
 
-            // Retrieve recorded video as blob and display in the preview element
-            var videoBlob = recorder.getBlob();
-            video.src = URL.createObjectURL(videoBlob);
-            video.play();
+            // // Retrieve recorded video as blob and display in the preview element
+            // var videoBlob = recorder.getBlob();
+            // video.src = URL.createObjectURL(videoBlob);
+            // video.play();
 
-            // Unmute video on preview
-            video.muted = false;
+            // // Unmute video on preview
+            // video.muted = false;
 
-            // Stop the device streaming
-            recorder.stream.stop();
+            // // Stop the device streaming
+            // recorder.stream.stop();
          })}
       }, 
 
