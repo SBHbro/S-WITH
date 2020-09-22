@@ -3,10 +3,8 @@
       <button class="record" @click="record()" id="btn-start-recording">녹화</button>
       <button class="stop" @click="stop()" id="btn-stop-recording">멈춤</button>
 <hr>
-<!-- <video id="my-preview" controls autoplay></video> -->
-
-    <video id="gum" autoplay></video>
-    <video id="recorded" controls autoplay></video>
+<video id="my-preview" autoplay></video>
+<video id="preview" controls autoplay></video>
 <!-- <video style="width:50%; height:90%;" autoplay ref="video" id="video" class="video"></video> -->
 <!-- <video style="width:100%; height:100%;" controls autoplay ref="video" id="my-preview" class="video" v-if="ok"></video> -->
   </div>
@@ -21,97 +19,89 @@ export default {
 
     data(){
         return{
-    // Store a reference of the preview video element and a global reference to the recorder instance
-         video : '',
-         recorder : '',
-         videoPlayer:'',
+          video : '',
+          recorder : '',
+          videoPlayer:'',
+          recordedBlobs:[],
         }
     },
-     methods: {
+    methods: {
       record(){
-        // Request access to the media devices
-        
-        // console.log(document.getElementById('my-preview'))
         navigator.mediaDevices.getUserMedia({
-            audio: true, 
+            // audio: true, 
             video: true,
         }).then((stream) => {
             // Display a live preview on the video element of the page
             // setSrcObject(stream, video);
-            this.video = document.querySelector("video");
-            console.log(this.videoPlayer)
-            this.video.srcObject = stream;
-            this.video.play();
-            video.muted = true;
+            // this.video = document.querySelector("video");
+
+            // this.video = document.getElementById("my-preview");
+            // // console.log(this.videoPlayer)
+            // this.video.srcObject = stream;
+            // this.video.play();
+            // video.muted = true;
 
             // Initialize the recorder
-            this.recorder = new RecordRTCPromisesHandler(stream, {
+            this.recorder = new MediaRecorder(stream, {
                 mimeType: 'video/webm',
-                bitsPerSecond: 128000
             });
-            console.log(this.recorder)
+
+            var recordArr = [];
+            var recordedVideo = document.getElementById("preview");
+            console.log(recordedVideo);
+            this.recorder.onstop = function(e) {
+              console.log("Recorder stopped: ");
+              console.log(recordArr);
+              var superBuffer = new Blob(recordArr, { type: "video/webm" });
+              recordedVideo.src = window.URL.createObjectURL(superBuffer);
+              recordedVideo.addEventListener("loadedmetadata", function () {
+                if (recordedVideo.duration === Infinity) {
+                  recordedVideo.currentTime = 1e101;
+                  recordedVideo.ontimeupdate = function () {
+                    recordedVideo.currentTime = 0;
+                    recordedVideo.ontimeupdate = function () {
+                      delete recordedVideo.ontimeupdate;
+                      recordedVideo.play();
+                    };
+                  };
+                }
+              });
+            };
+            this.recorder.ondataavailable = function(e) {
+              if (e.data && e.data.size > 0) {
+                recordArr.push(e.data);
+              }
+            };
+            this.recorder.start(10); // collect 10ms of data
+            console.log("MediaRecorder started", this.recorder)
         });
-            //         // Start recording the video
-            // this.recorder.startRecording().then(function() {
-            //     console.info('Recording video ...');
-            // }).catch(function(error) {
-            //     console.error('Cannot start video recording: ', error);
-            // });
-
-            // // release stream on stopRecording
-            // this.recorder.stream = stream;
       },
-
       stop(){
-         recorder.stopRecording().then(function() {
-            console.info('stopRecording success');
-
-            // // Retrieve recorded video as blob and display in the preview element
-            // var videoBlob = recorder.getBlob();
-            // video.src = URL.createObjectURL(videoBlob);
-            // video.play();
-
-            // // Unmute video on preview
-            // video.muted = false;
-
-            // // Stop the device streaming
-            // recorder.stream.stop();
-         })}
-      }, 
-
-    //   init() {
-    //   if (
-    //     "mediaDevices" in navigator &&
-    //     "getUserMedia" in navigator.mediaDevices
-    //   ) {
-    //     let constraints = {
-    //       video: {
-    //         width: {
-    //           min: 640,
-    //           ideal: 1280,
-    //           max: 1920,
-    //         },
-    //         height: {
-    //           min: 360,
-    //           ideal: 720,
-    //           max: 1080,
-    //         },
-    //       },
-    //     };
-    //     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-    //       this.videoPlayer = document.querySelector("video");
-    //       this.videoPlayer.srcObject = stream;
-    //       this.videoPlayer.play();
-    //     });
-    //   } else {
-    //     alert("Cannot get Media Devices");
-    //   }
-
-    // },
-       
+          this.recorder.stop();
+         }
+      },
+      // init(){
+      //   navigator.mediaDevices.getUserMedia({
+      //       // audio: true, 
+      //       video: true,
+      //   }).then((stream) => {
+      //     this.videoPlayer = document.getElementById("my-preview");
+      //     this.videoPlayer.srcObject = stream;
+      //     this.videoPlayer.play();
+      //   });
+      // },
+      
     mounted() {
-        // this.init();
-        this.videoPlayer = document.querySelector('video');
+      // this.init();
+      navigator.mediaDevices.getUserMedia({
+            // audio: true, 
+            video: true,
+        }).then((stream) => {
+          this.videoPlayer = document.getElementById("my-preview");
+          this.videoPlayer.srcObject = stream;
+          this.videoPlayer.play();
+        });
+        // this.videoPlayer = document.querySelector('video');
     },
 };
 </script>
