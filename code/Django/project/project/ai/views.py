@@ -55,11 +55,4 @@ def videoDetection(request):
     header, encoded = request['image'].split(",", 1)
 
     list = video_detection.run(encoded)
-    print(list)
-    # result = dict()
-    # result['data'] = list
-    # with open('text_result.jpg', "rb") as img_file:
-    #     my_string = base64.b64encode(img_file.read()).decode('utf-8')
-    # result['image'] = my_string
-    # return Response(result)
     return Response(list)
