@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view  # 요청 방식을 필터링
 import os
 import json
 from .models import Image
-from .func import text_detection, google_object
+from .func import text_detection, google_object, video_detection
 import base64
 
 
@@ -48,3 +48,18 @@ def objectDetection(request):
     #
     # result['roi'] = roi_list
     return Response(result)
+
+@api_view(['POST'])
+def videoDetection(request):
+    request = json.loads(request.body)
+    header, encoded = request['image'].split(",", 1)
+
+    list = video_detection.run(encoded)
+    print(list)
+    # result = dict()
+    # result['data'] = list
+    # with open('text_result.jpg', "rb") as img_file:
+    #     my_string = base64.b64encode(img_file.read()).decode('utf-8')
+    # result['image'] = my_string
+    # return Response(result)
+    return Response(list)
