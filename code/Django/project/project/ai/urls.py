@@ -9,4 +9,5 @@ app_name = 'ai'
 urlpatterns =[
     path('textDetection', views.textDetection, name='textDetection'),
     path('objectDetection', views.objectDetection, name='objectDetection'),
+    path('videoDetection', views.videoDetection, name='videoDetection'),
 ]
