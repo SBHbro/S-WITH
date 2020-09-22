@@ -54,6 +54,7 @@ export default {
               console.log(recordArr);
               var superBuffer = new Blob(recordArr, { type: "video/webm" });
               recordedVideo.src = window.URL.createObjectURL(superBuffer);
+              console.log(recordedVideo.src)
               recordedVideo.addEventListener("loadedmetadata", function () {
                 if (recordedVideo.duration === Infinity) {
                   recordedVideo.currentTime = 1e101;
