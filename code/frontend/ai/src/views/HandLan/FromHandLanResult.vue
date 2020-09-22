@@ -1,9 +1,22 @@
 <template>
   <div style="width:100%; height:100%;">
-        <div id="textbox" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
-            <div style="font-size:57px; font-weight: bold;     margin-bottom: 50px"><button @click="textToSound"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
+        <div id="textbox" v-if="transResult!='' && transResult!='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
+            <div style="font-size:57px; font-weight: bold; margin-bottom: 50px"><button @click="clickHandler()"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
             <div style="width:100%;">
                 <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn>
+            </div>
+            <div style="width:100%;">
+                <router-link to="/fromHandLan"><v-btn class="btnText" style="width:24.5%;height: 46px; font-weight: bold; font-size: large; color:white; margin-right:1%; max-width:250px; min-width: 124px;" color="rgb(54, 214, 123)"><v-icon color="white">mdi-refresh</v-icon>다시하기</v-btn></router-link>
+                <router-link to="/"><v-btn class="btnText" style="width:24.5%; font-weight: bold; height: 46px; font-size: large; max-width:250px; color:white; min-width: 124px;" color="rgb(228, 184, 244)"><v-icon color="white">mdi-home</v-icon>홈으로</v-btn></router-link>
+            </div>
+        </div> 
+        <div id="textbox" v-if="transResult=='' || transResult=='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
+            <div style="font-size:57px; font-weight: bold; margin-bottom: 50px">결과가 없어요.</div>
+            <div style="font-size:25px; font-weight: bold; margin-bottom: 50px">죄송합니다. 이 데이터를 추가해달라고 요청해주세요.</div>
+            <div style="width:100%;">
+                <router-link to="/board">
+                    <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
+                </router-link>
             </div>
             <div style="width:100%;">
                 <router-link to="/fromHandLan"><v-btn class="btnText" style="width:24.5%;height: 46px; font-weight: bold; font-size: large; color:white; margin-right:1%; max-width:250px; min-width: 124px;" color="rgb(54, 214, 123)"><v-icon color="white">mdi-refresh</v-icon>다시하기</v-btn></router-link>
@@ -23,7 +36,8 @@ export default {
     },
     data() {
         return {
-            transResult:'화상을 입었어요.',
+            // transResult:'화상을 입었어요.',
+            transResult:'',
             responsiveVoice:'',
             speaker:'mdi-volume-medium',
             spaekerColor:'gray',
