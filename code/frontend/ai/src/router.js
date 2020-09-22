@@ -15,7 +15,6 @@ import Video from './components/Video.vue'
 import ToHandLanChoice from './views/HandLan/ToHandLanChoice.vue'
 import ToHandLanDic from './views/HandLan/ToHandLanDic.vue'
 
-
 Vue.use(Router) //플러그인 등록
 
 export default new Router({

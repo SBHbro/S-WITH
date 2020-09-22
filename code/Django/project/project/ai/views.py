@@ -14,6 +14,10 @@ from .models import Image
 from .func import text_detection, google_object
 import base64
 
+@api_view(['GET'])
+def index(request):
+    return render(request, 'index.html')
+    # return Response("index")
 
 @api_view(['POST'])
 def textDetection(request):
