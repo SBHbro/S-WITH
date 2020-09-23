@@ -1,7 +1,7 @@
 <template>
   <div id ="video">
     <video id="my-preview" autoplay class="video"></video>
-    <video style="width:50%; height:90%;" id="preview" controls autoplay v-if="ok" class="video"></video>
+    <video style="width:50%; height:90%;" id="preview" controls autoplay v-if="ok"></video>
 <!-- <video style="width:50%; height:90%;" autoplay ref="video" id="video" class="video"></video> -->
 <!-- <video style="width:100%; height:100%;" controls autoplay ref="video" id="my-preview" class="video" v-if="ok"></video> -->
  
@@ -165,8 +165,6 @@ export default {
   padding: 0px;
   box-sizing: border-box;
 
-
-  
   .send{
     display: block;
     // position:fixed;
