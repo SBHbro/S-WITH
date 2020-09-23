@@ -2,9 +2,7 @@
     <div class="container" align="center">
       <div>
         <h2>게시판</h2>
-
-
-
+        
       <div align="right">
           <v-btn 
             align = "left"
