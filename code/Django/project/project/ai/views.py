@@ -13,6 +13,7 @@ import json
 from .models import Image
 from .func import text_detection, google_object
 import base64
+import csv
 
 @api_view(['GET'])
 def index(request):
