@@ -47,14 +47,14 @@ padding:10px 10px 10px 30px;">
     </div>
     </div>
   </v-card>
-    <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera>
+    <!-- <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera> -->
   </div>
 </template>
 
 <script>
-import Camera from '../../components/Camera.vue'
+// import Camera from '../../components/Camera.vue'
 export default {
-  components:{Camera},
+  // components:{Camera},
   data() {
     return {
       translateSearch:'',
