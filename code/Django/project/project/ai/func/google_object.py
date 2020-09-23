@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from google.cloud import vision
 import base64
+import csv
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) +"\\datasets\\winter-sum-241407-8886c2c92665.json"
 # path = os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\dog.jpg'
@@ -26,6 +27,14 @@ def translated(text):
     result = client.translate(text, target_language='ko')
     # print(result['translatedText'])
     return result['translatedText']
+
+def findName(text):
+    f = open('./ai/func/datasets/filename.csv', 'r')
+    rdr = csv.reader(f)
+    for list in rdr:
+        if list[6] == text and list[1] == '1' and list[3] == '정면':
+            return list[5][:-3] + "avi"
+
 
 def run(image):
     imgdata = base64.b64decode(image)
@@ -55,15 +64,18 @@ def run(image):
         h = object_.bounding_poly.normalized_vertices[2].y * img.shape[0]
         img, label = draw_prediction(img, idx, round(x), round(y), round(w), round(h), object_.name, COLORS)
         subImg = temp_img[ round(y):round(h),round(x):round(w)]
-        print(round(x),round(w), round(y),round(h))
+
+        videoname = findName(label)
+        # print(round(x),round(w), round(y),round(h))
         # cv2.namedWindow('cutting', cv2.WINDOW_NORMAL)
-        print(object_.bounding_poly.normalized_vertices)
+        # print(object_.bounding_poly.normalized_vertices)
         roi_name = roi + str(idx) + ".jpg"
         cv2.imwrite("result/" + roi_name, subImg)
         with open("result/" + roi_name, "rb") as img_file:
             my_string = base64.b64encode(img_file.read()).decode('utf-8')
         data['label'] = label
         data['src'] = my_string
+        data['videoname'] = videoname
         list.append(data)
         #
         # for vertex in object_.bounding_poly.normalized_vertices:
