@@ -1,7 +1,7 @@
 <template>
   <div style="width:100%; height:100%;">
-        <div id="textbox" v-if="transResult!='' && transResult!='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
-            <div style="font-size:57px; font-weight: bold; margin-bottom: 50px"><button @click="clickHandler()"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
+        <div id="textbox" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
+            <div style="font-size:57px; font-weight: bold;     margin-bottom: 50px"><button @click="textToSound"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
             <div style="width:100%;">
                 <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn>
             </div>
@@ -77,40 +77,6 @@ export default {
             this.spaekerColor = 'blue';
             this.quickStart()
         },
-        speak(text, opt_prop) {
-            console.log("test", text);
-            if (
-                typeof SpeechSynthesisUtterance === "undefined" ||
-                typeof window.speechSynthesis === "undefined"
-            ) {
-                alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
-                return;
-            }
-
-            window.speechSynthesis.cancel(); // 현재 읽고있다면 초기화
-
-            const prop = opt_prop || {};
-
-            const speechMsg = new SpeechSynthesisUtterance();
-            speechMsg.rate = prop.rate || 1; // 속도: 0.1 ~ 10
-            speechMsg.pitch = prop.pitch || 1; // 음높이: 0 ~ 2
-            speechMsg.lang = prop.lang || "ko-KR";
-            speechMsg.text = text;
-
-            // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
-            window.speechSynthesis.speak(speechMsg);
-            },
-        clickHandler() {
-            // alert(inputText);
-            // this.speaker = 'mdi-volume-high';
-            // this.spaekerColor = 'blue';
-            this.speak(this.transResult, {
-                rate: 1,
-                pitch: 1.2,
-                lang: "ko-KR"
-            });
-        },
-        
         test() {
                 // code
         },

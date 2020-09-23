@@ -179,15 +179,15 @@ export default {
     }
     console.log(this.$route.params.oList);
     console.log(this.$route.params.tList);
-    if(this.$route.params.tList){
-      this.$route.params.oList.data.forEach(object => {
-        // console.log(object);
-        this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label})
-      });
-    } else {
-      this.objects.push({src : '', transResultLetter : '물체를 찾을 수 없습니다.'})
-    }
-    if(this.$route.params.tList){
+    this.$route.params.oList.data.forEach(object => {
+      // console.log(object);
+      this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label})
+    });
+    // this.$route.params.roiList.forEach(roi => {
+    //   // console.log(object);
+    //   this.objects.push({src : 'data:image/jpeg;base64,'+ ,transResultLetter: object})
+    // });
+    if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
         console.log(letter);
         this.letters.push({transResultLetter: letter})

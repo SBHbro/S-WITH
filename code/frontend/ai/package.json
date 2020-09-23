@@ -18,6 +18,7 @@
     "videojs-record": "^4.1.0",
     "vue": "^2.6.12",
     "vue-router": "^3.4.3",
+    "vue-video-player": "^5.0.2",
     "vue-web-cam": "^1.9.0",
     "vue2-tts": "0.0.4",
     "vuetify": "^2.2.11",
