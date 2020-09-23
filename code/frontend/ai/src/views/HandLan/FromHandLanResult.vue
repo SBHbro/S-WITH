@@ -1,7 +1,7 @@
 <template>
   <div style="width:100%; height:100%;">
         <div id="textbox" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
-            <div style="font-size:57px; font-weight: bold;     margin-bottom: 50px"><button @click="textToSound"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
+            <div style="font-size:57px; font-weight: bold; margin-bottom: 50px"><button @click="textToSound"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
             <div style="width:100%;">
                 <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn>
             </div>
