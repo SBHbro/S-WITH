@@ -12,6 +12,8 @@ import FromHandLanResult from './views/HandLan/FromHandLanResult.vue'
 import ToHandLanResult from './views/HandLan/ToHandLanResult.vue'
 import FromHandLanSend from './views/HandLan/FromHandLanSend.vue'
 import Video from './components/Video.vue'
+import ToHandLanChoice from './views/HandLan/ToHandLanChoice.vue'
+import ToHandLanDic from './views/HandLan/ToHandLanDic.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -78,5 +80,15 @@ export default new Router({
             name: 'Video',
             component: Video,
         },
+        {
+            path:'/toHandLanChoice',
+            name: 'ToHandLanChoice',
+            component : ToHandLanChoice
+        },
+        {
+            path:'/toHandLanDic',
+            name: 'ToHandLanDic',
+            component : ToHandLanDic
+        }
     ]
 })
