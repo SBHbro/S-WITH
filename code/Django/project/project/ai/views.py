@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view  # 요청 방식을 필터링
 import os
 import json
 from .models import Image
-from .func import text_detection, google_object
+from .func import text_detection, google_object, video_detection
 import base64
 import csv
 
@@ -53,3 +53,19 @@ def objectDetection(request):
     #
     # result['roi'] = roi_list
     return Response(result)
+
+@api_view(['POST'])
+def videoDetection(request):
+    print('request',request)
+    request = json.loads(request.body)
+
+    videodata = base64.b64decode(request['data'])
+    path = 'test.mov'  # I assume you have a way of picking unique filenames
+    with open(path, 'wb') as f:
+        f.write(videodata)
+    f.close()
+
+    list = video_detection.run(path)
+
+    return Response(list)
+
