@@ -53,7 +53,7 @@
           :items="items"
           v-model="emailDomain"
           label="이메일을 선택해주세요."
-          outlined
+          Standard
         ></v-select>
       </v-col>
           </tr>
