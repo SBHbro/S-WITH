@@ -51,8 +51,16 @@ def objectDetection(request):
 
 @api_view(['POST'])
 def videoDetection(request):
+    print('request',request)
     request = json.loads(request.body)
-    header, encoded = request['image'].split(",", 1)
 
-    list = video_detection.run(encoded)
+    videodata = base64.b64decode(request['data'])
+    path = 'test.mov'  # I assume you have a way of picking unique filenames
+    with open(path, 'wb') as f:
+        f.write(videodata)
+    f.close()
+
+    list = video_detection.run(path)
+
     return Response(list)
+
