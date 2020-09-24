@@ -89,7 +89,7 @@ def run(path):
         i = np.argmax(results)
         label = lb.classes_[i]
         acc = results[i]
-        text = "activity: {}".format(label)
+        text = label
     cap.release()
     cv2.destroyAllWindows()
 
