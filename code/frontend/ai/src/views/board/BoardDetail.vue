@@ -1,81 +1,39 @@
 <template>
-  <div>
-    <v-row justify="center">
+  <div style="width:100%; height:100%;">
+    <v-row style="width:100%; height:100%;overflow-y:scroll; overflow-x:hidden;" justify="center">
       <v-col cols="30" sm="20" md="10" lg="10">
-            <div align="center">
-              <h2>글 상세보기</h2>
+            <div style="height:10%; min-height:35px;" align="center">
+              <router-link to="/board"><div style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;">
+                <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+              </div></router-link>
             </div>
-            <v-divider class="mt-20"></v-divider>
-
-            <div>
-              <table>
-               <tr>
-                <td>        
-                  <v-col cols="12" sm="10" md="8">
-                     <v-text-field
-                        label=""
-                         filled
-                         rounded
-                         dense
-                         readonly
-                         v-model="subject"
-                      ></v-text-field>
-                   </v-col>
-        </td>
-                <td>                  
-                  <v-col cols="12" sm="10" md="8">
-          <v-text-field
-            label=""
-            filled
-            rounded
-            dense
-            readonly
-            v-model="email"
-          ></v-text-field>
-        </v-col></td>
-                <td>                 
-                   <v-col cols="12" sm="8" md="6">
-          <v-text-field
-            label=""
-            filled
-            rounded
-            dense
-            readonly
-            v-model="date"
-          ></v-text-field>
-        </v-col></td>
-              </tr>
-              </table>
+            <div style="height:10%;border-bottom:1px solid rgba(0, 0, 0, 0.12);" align="center">
+              <h3>{{subject}}</h3>
+              <div style=" margin-top:-25px; float:right;">
+               <div class="modify btn" style="" @click="moveUpdate">수정</div>
+               <div class="delete btn" @click="Delete">삭제</div>
+              </div>
             </div>
-
-            <v-divider class="mt-20"></v-divider>
-          
-          
-            <v-textarea
-            filled
-          name="content"
-          label="내용"
-          readonly
-          value=""
-          v-model="content"
-          id="content"
-          ref="content"
-        ></v-textarea>
-
-          <div
-            class="form-group"
-            align="center"
-          >
-            <v-btn @click="moveList">목록</v-btn>
-            <v-btn @click="moveUpdate">수정</v-btn>
-            <v-btn @click="Delete">삭제</v-btn>
-          </div>
-
-          <div
-            class="form-group"
-            align="center"
-          >
-          </div>
+            <div style="height:8%; width:100%; border-bottom:1px solid rgba(0, 0, 0, 0.12);     padding: 8px 0px;">     
+              <div style=" width:50%; float:left;">글쓴이 : {{email}}</div> 
+              <div style="width:50%; float:right;text-align:right;">{{date}} 작성</div>              
+            </div>
+            <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
+            <div class="replyinput">
+              <input style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
+              <v-btn 
+            style="height:45px; width:9%;border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+            type="button"
+            class="btn btn-sm"
+            color="rgb(98 149 232)"
+            >등록</v-btn>
+            </div>
+            <div class="reply" v-for="(re,index) in reply" :key="index">
+              <div style="width:100%; height:40%;">
+                <div style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;">{{re.id}}</div>
+                <div style="float: right; width: 50%; text-align: right; font-size: 12px; color: #00000082; padding: 6px 31px;"> {{re.date}}</div></div>
+              <div style="width:100%; height:60%;"> {{re.comment}} </div>
+            </div>
       </v-col>
     </v-row>
   </div>
@@ -92,7 +50,8 @@ export default {
     subject: "",
     content: "",
     email:"",
-    date: ""
+    date: "",
+    reply:[]
   }),
 
   created() {
@@ -132,6 +91,29 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+.btn{
+  display:inline-block;
+  margin:0px 4px;
+  height:100%;
+}
+.delete{
+  color:#b72626;
+}
+.modify{
+  color:#148843;
+}
+.replyinput{
+    width: 100%;
+    height: 65px;
+    background-color: #80808021;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding:10px;
+}
+.reply{
+  height:80px;
+  width:100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+}
 </style>

@@ -1,20 +1,19 @@
 <template>
-  <div style="width:100%; height:100%; padding-top:50px;">
+  <div style="width:100%; height:100%;">
     <div @click="closeSearchResult" style="width: 100%;
     height: 100%;
     position: fixed;
     background-color: #0000008c;
     display: block;
-    margin-top: -50px;
     z-index: 1;" :style="{display:showSearchResult,'margin-left':'-'+frameSize.x*0.05+'px'}"></div>
-
+    <div style="width:100%; height:10%"></div>
       <div id="search" :style="{'margin-left':searchMargin+'px'}" style="width: 100%; 
 height: 50px; 
 max-width:550px; 
 background-color: rgb(243, 242, 242); border-radius: 45px; 
 padding:10px 10px 10px 30px;">
         <v-icon size="30" style="float:left;margin-right:20px;">mdi-magnify</v-icon>
-        <input v-model="attr" placeholder="검색할 단어를 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
+        <input v-model="attr" placeholder="수어로 번역할 한글을 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
         
         <v-btn
         style="float:right; text-align:center;width:30px; height:30px; background-color:white; border-radius:15px;"
