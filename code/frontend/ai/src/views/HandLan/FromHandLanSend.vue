@@ -5,7 +5,7 @@
       
       <div id="send" style="margin-top:-85px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}">
         <router-link to="/FromHandLan"><v-btn class="sendBtn" color="rgb(232, 107, 94)" style="width:150px;color:white; margin-right:5px; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-backup-restore</v-icon>다시 하기</v-btn></router-link>
-        <router-link to="/FromHandLanResult"><v-btn class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn></router-link>
+        <v-btn @click="onClickGo()" class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn>
       </div>
 
     </div>
@@ -13,7 +13,9 @@
 
 <script>
 // import Video from '../../components/Video.vue'
-// import axios from 'axios'
+import axios from 'axios'
+import Swal from "sweetalert2";
+
 export default {
     // components:{Video},
 
@@ -26,6 +28,9 @@ export default {
         sendWidth:0,
         buttonMargin:0,
         videoSrc : '',
+        answer : '',
+        accuracy :0,
+
       }
     },
     methods:{
@@ -33,6 +38,62 @@ export default {
           this.frameSize = {x:window.innerWidth, y:window.innerHeight};
           console.log(this.frameSize.x)
       },
+
+      videoDetection(){
+        axios.post(`http://localhost:8000/api/ai/videoDetection`,{data : this.$route.params.data}).then(response=>{
+          console.log(response);
+          this.answer = response.data[0].answer
+          this.accuracy = response.data[0].accuracy
+        })
+      },
+
+      onClickGo(){
+        this.videoDetection()
+        let timerInterval;
+        Swal.fire({
+          title: '검색중...',
+          // html: '전송까지 <b></b> 초 남았습니다.',
+          timer: 2000,
+          timerProgressBar: true,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            
+            Swal.color= 'green';
+            timerInterval = setInterval(() => {
+              const content = Swal.getContent()
+              if (content) {
+                const b = content.querySelector('b')
+                if (b) {
+                  b.textContent = Swal.getTimerLeft()
+                }
+              }
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+            Swal.fire(
+              '검색완료!',
+              '',
+              'success'
+            )
+
+            var answer = this.answer;
+            var accuracy = this.accuracy;
+            this.$router.push({name:"FromHandLanResult", params:
+            {
+              answer : answer, 
+              accuracy : accuracy,
+            }
+            
+            });
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // // console.log('I was closed by the timer')
+          }
+        })
+      }
     },
     created(){
       this.onResize();

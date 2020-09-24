@@ -25,6 +25,7 @@
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 <script>
+import axios from 'axios'
 import $ from 'jquery'
 import router from '../router.js'
 export default {
@@ -77,11 +78,17 @@ export default {
             this.recorder.onstop = function(e) {
               console.log("Recorder stopped: ");
               var superBuffer = new Blob(recordArr, { type: "video/webm" });
-              // recordedVideo.src = window.URL.createObjectURL(superBuffer);
-              console.log(window.URL.createObjectURL(superBuffer));
+              console.log(superBuffer)
+              var reader = new FileReader();
+              var test;
 
-              router.push({name : 'FromHandLanSend', params : {videoSrc : window.URL.createObjectURL(superBuffer)}});
-
+              reader.readAsDataURL(superBuffer); 
+              reader.onloadend = function() {
+                  var base64data = reader.result;                
+                  router.push({name : 'FromHandLanSend', params : {videoSrc : window.URL.createObjectURL(superBuffer), data : base64data}});
+                  return;
+              }
+       
               recordedVideo.addEventListener("loadedmetadata", function () {
                 if (recordedVideo.duration === Infinity) {
                   recordedVideo.currentTime = 1e101;
@@ -106,6 +113,7 @@ export default {
       },
       stop(){
           this.recorder.stop();
+          console.log('멈춰잇')
          }
       },
       // init(){
@@ -165,6 +173,8 @@ export default {
   padding: 0px;
   box-sizing: border-box;
 
+
+  
   .send{
     display: block;
     // position:fixed;
