@@ -3,7 +3,7 @@
       <!-- <Video style="width:100%; height:100%;" :src="videoSrc"></Video> -->
       <video id="preview" controls autoplay :src="videoSrc"></video>
       
-      <div id="send" style="margin-top:-80px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}">
+      <div id="send" style="margin-top:-85px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}">
         <router-link to="/FromHandLan"><v-btn class="sendBtn" color="rgb(232, 107, 94)" style="width:150px;color:white; margin-right:5px; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-backup-restore</v-icon>다시 하기</v-btn></router-link>
         <v-btn @click="onClickGo()" class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn>
       </div>
@@ -36,6 +36,7 @@ export default {
     methods:{
       onResize(){
           this.frameSize = {x:window.innerWidth, y:window.innerHeight};
+          console.log(this.frameSize.x)
       },
 
       videoDetection(){
@@ -94,9 +95,14 @@ export default {
         })
       }
     },
- 
+    created(){
+      this.onResize();
+      window.onresize=()=>{
+        this.onResize();
+      }
+    },
     mounted(){
-      
+      this.onResize();
       window.onresize=()=>{
         this.onResize();
         
