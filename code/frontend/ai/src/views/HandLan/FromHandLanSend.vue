@@ -30,6 +30,7 @@ export default {
         videoSrc : '',
         answer : '',
         accuracy :0,
+        task : false,
 
       }
     },
@@ -40,20 +41,23 @@ export default {
       },
 
       videoDetection(){
-        axios.post(`http://localhost:8000/api/ai/videoDetection`,{data : this.$route.params.data}).then(response=>{
+        axios.post(`https://j3b105.p.ssafy.io/api/ai/videoDetection`,{data : this.$route.params.data}).then(response=>{
           console.log(response);
           this.answer = response.data[0].answer
           this.accuracy = response.data[0].accuracy
+          this.task = true
+        }).catch(e=>{
+          console.log(e)
+          this.task = true
         })
       },
 
       onClickGo(){
-        this.videoDetection()
         let timerInterval;
         Swal.fire({
           title: '검색중...',
           // html: '전송까지 <b></b> 초 남았습니다.',
-          timer: 2000,
+          timer: 3000,
           timerProgressBar: true,
           onBeforeOpen: () => {
             Swal.showLoading()
@@ -79,13 +83,23 @@ export default {
 
             var answer = this.answer;
             var accuracy = this.accuracy;
-            this.$router.push({name:"FromHandLanResult", params:
-            {
-              answer : answer, 
-              accuracy : accuracy,
+            if(this.task){
+               this.$router.push({name:"FromHandLanResult", params:
+                {
+                  answer : answer, 
+                  accuracy : accuracy,
+                }
+              });
             }
-            
-            });
+            else{
+              Swal.fire(
+                '아직 분석중이에요!',
+                '조금만 더 기다려주세요',
+                'error'
+              ).then(()=>{
+                this.onClickGo()
+              })
+            }
           }
         }).then((result) => {
           /* Read more about handling dismissals below */
@@ -96,6 +110,7 @@ export default {
       }
     },
     created(){
+      this.videoDetection()
       this.onResize();
       window.onresize=()=>{
         this.onResize();
