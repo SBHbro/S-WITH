@@ -18,25 +18,26 @@ import base64
 
 print('모델 로딩중')
 lb = pickle.loads(open(os.path.dirname(os.path.abspath(__file__))+'/model/class.pickle', "rb").read())
-baseModel = ResNet50(weights="imagenet", include_top=False,
-	input_tensor=Input(shape=(224, 224, 3)))
-print(len(lb.classes_))
-
-# construct the head of the model that will be placed on top of the
-# the base model
-headModel = baseModel.output
-headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
-headModel = Flatten(name="flatten")(headModel)
-headModel = Dense(512, activation="relu")(headModel)
-headModel = Dropout(0.5)(headModel)
-headModel = Dense(len(lb.classes_), activation="softmax")(headModel)
-
-# place the head FC model on top of the base model (this will become
-# the actual model we will train)
-model = Model(inputs=baseModel.input, outputs=headModel)
-
-# 가중치를 복원합니다
-# model.load_weights(os.path.dirname(os.path.abspath(__file__))+'/model/model')
+model = load_model(os.path.dirname(os.path.abspath(__file__))+'/model/model.h5')
+# baseModel = ResNet50(weights="imagenet", include_top=False,
+# 	input_tensor=Input(shape=(224, 224, 3)))
+# print(len(lb.classes_))
+#
+# # construct the head of the model that will be placed on top of the
+# # the base model
+# headModel = baseModel.output
+# headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
+# headModel = Flatten(name="flatten")(headModel)
+# headModel = Dense(512, activation="relu")(headModel)
+# headModel = Dropout(0.5)(headModel)
+# headModel = Dense(len(lb.classes_), activation="softmax")(headModel)
+#
+# # place the head FC model on top of the base model (this will become
+# # the actual model we will train)
+# model = Model(inputs=baseModel.input, outputs=headModel)
+#
+# # 가중치를 복원합니다
+# model.load_weights(os.path.dirname(os.path.abspath(__file__))+'/model/model.h5')
 
 print('모델 로딩 완료')
 
