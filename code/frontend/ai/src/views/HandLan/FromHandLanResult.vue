@@ -38,7 +38,7 @@ export default {
     data() {
         return {
             // inputText:'화상을 입었어요.',
-            inputText:'',
+            inputText:this.$route.params.answer,
             responsiveVoice:'',
             speaker:'mdi-volume-medium',
             spaekerColor:'gray',
