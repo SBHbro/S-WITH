@@ -36,7 +36,7 @@ headModel = Dense(len(lb.classes_), activation="softmax")(headModel)
 model = Model(inputs=baseModel.input, outputs=headModel)
 
 # 가중치를 복원합니다
-model.load_weights(os.path.dirname(os.path.abspath(__file__))+'/model/model')
+# model.load_weights(os.path.dirname(os.path.abspath(__file__))+'/model/model')
 
 print('모델 로딩 완료')
 
