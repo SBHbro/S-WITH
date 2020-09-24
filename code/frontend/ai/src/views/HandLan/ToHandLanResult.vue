@@ -36,7 +36,7 @@
       >
         <v-card flat>
           <div v-if="i==1">
-            <div v-if="objects[0].transResultLetter!='물체를 찾을 수 없습니다.'">
+            <!-- <div v-if="objects[0].transResultLetter!='물체를 찾을 수 없습니다.'"> -->
             <v-card v-for="(result,index) in objects" style="margin:10px; display:block;" :key="index">
               <img style="width:80px; height:80px; margin:5px; display:inline-block;" :src="result.src">
               <div style="display:inline-block;">{{result.transResultLetter}}</div>
@@ -73,8 +73,8 @@
             </v-card>
               </v-dialog>
             </v-card>
-            </div>
-            <div v-if="objects[0].transResultLetter=='물체를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
+            <!-- </div> -->
+            <!-- <div v-if="objects[0].transResultLetter=='물체를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
               검출된 물체가 없습니다.
               <br>
               죄송합니다. 데이터를 추가해달라고 요청해주세요.
@@ -83,12 +83,12 @@
                     <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
                 </router-link>
             </div>
-            </div>
+            </div> -->
           </div>
           
           
           <div v-if="i==2" >
-            <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'">
+            <!-- <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'"> -->
             <v-card v-for="(result,index) in letters" :key="index" style="height: 50px;
               margin: 5px 0px;
               padding:6px 8px;
@@ -106,8 +106,8 @@
           <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
         </v-btn>
             </v-card>
-            </div>
-            <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
+            <!-- </div> -->
+            <!-- <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
               검출된 글자가 없습니다.
               <br>
               죄송합니다. 데이터를 추가해달라고 요청해주세요.
@@ -116,7 +116,7 @@
                     <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
                 </router-link>
             </div>
-            </div>
+            </div> -->
           </div>
         </v-card>
       </v-tab-item>

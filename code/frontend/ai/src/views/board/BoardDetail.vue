@@ -20,8 +20,8 @@
             </div>
             <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
             <div class="replyinput">
-              <input style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
-              <v-btn 
+              <input v-model="thisReply" style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
+              <v-btn @click="addReply"
             style="height:45px; width:9%;border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
             type="button"
             class="btn btn-sm"
@@ -30,9 +30,9 @@
             </div>
             <div class="reply" v-for="(re,index) in reply" :key="index">
               <div style="width:100%; height:40%;">
-                <div style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;">{{re.id}}</div>
+                <div style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;">{{re.user_id}}</div>
                 <div style="float: right; width: 50%; text-align: right; font-size: 12px; color: #00000082; padding: 6px 31px;"> {{re.date}}</div></div>
-              <div style="width:100%; height:60%;"> {{re.comment}} </div>
+              <div style="width:100%; height:60%;"> {{re.content}} </div>
             </div>
       </v-col>
     </v-row>
@@ -51,14 +51,16 @@ export default {
     content: "",
     email:"",
     date: "",
-    reply:[]
+    reply:[],
+    thisReply:""
   }),
 
   created() {
     var id = this.$route.params.id;
+    this.selectNoticeReply();
     axios
       .get(
-        `http://j3b105.p.ssafy.io/api/notices/notice/${id}`)
+        `https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
         this.id = data.id;
         this.subject = data.subject;
@@ -86,7 +88,41 @@ export default {
         alert("게시글이 삭제되었습니다");
         this.$router.push("/board");
       });
-    }
+    },
+    addReply() {
+      var notice_num = 8;
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: res => {
+          axios
+            .post(`https://j3b105.p.ssafy.io/api/notices/reply`, {
+              user_id: res.id,
+              notice_id: notice_num,
+              content: this.thisReply
+            })
+            .then(res => {
+              console.log(res);
+              console.log("댓글 등록 완료");
+              this.selectNoticeReply();
+            });
+        }
+      });
+    },
+    selectNoticeReply() {
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: () => {
+          axios
+            .get(`https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.id}`)
+            .then(response => {
+              console.log(response);
+              this.reply = response.data;
+              console.log(this.reply);
+              console.log("한 게시글에 대한 댓글 가져오기 완료");
+            });
+        }
+      });
+    },
   }
 };
 </script>
