@@ -1,14 +1,14 @@
 <template>
   <div style="width:100%; height:100%;">
-      <camera style="width:100%; height:100%;"></camera>
+      <Video style="width:100%; height:100%;"></Video>
   </div>
 </template>
 
 <script>
-import Camera from '../../components/Camera.vue'
+import Video from '../../components/Video.vue'
 
 export default {
-    components:{Camera},
+    components:{Video},
 
 }
 </script>
