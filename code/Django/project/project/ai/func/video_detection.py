@@ -63,6 +63,7 @@ def run(path):
     (W, H) = (None, None)
     text = ''
     acc = 0
+    results = []
     while True:
         # read the next frame from the file
         (grabbed, frame) = cap.read()
@@ -70,6 +71,8 @@ def run(path):
         # if the frame was not grabbed, then we have reached the end
         # of the stream
         if not grabbed:
+            break
+        if not frame.any():
             break
 
         # if the frame dimensions are empty, grab them
@@ -84,12 +87,14 @@ def run(path):
         predval = np.argmax(preds)
         if preds[predval] > 0.65:
             Q.append(preds)
-
-        results = np.array(Q).mean(axis=0)
-        i = np.argmax(results)
-        label = lb.classes_[i]
-        acc = results[i]
-        text = label
+        if Q:
+            results = np.array(Q).mean(axis=0)
+            # print('result',results)
+            i = np.argmax(results)
+            label = lb.classes_[i]
+            if results.any():
+                acc = results[i]
+            text = label
     cap.release()
     cv2.destroyAllWindows()
 
