@@ -90,4 +90,5 @@ export default {
 .v-image__image--cover {
     background-size: contain;
 }
+
 </style>
