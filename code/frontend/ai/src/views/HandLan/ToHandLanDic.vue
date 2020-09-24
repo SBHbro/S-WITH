@@ -1,12 +1,7 @@
 <template>
   <div style="width:100%; height:100%;">
-    <div @click="closeSearchResult" style="width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: #0000008c;
-    display: block;
-    z-index: 1;" :style="{display:showSearchResult,'margin-left':'-'+frameSize.x*0.05+'px'}"></div>
-    <div style="width:100%; height:10%"></div>
+    <div style="width:100%; height:20%;">
+    <div style="width:100%; height:50%"></div>
       <div id="search" :style="{'margin-left':searchMargin+'px'}" style="width: 100%; 
 height: 50px; 
 max-width:550px; 
@@ -22,35 +17,43 @@ padding:10px 10px 10px 30px;">
           <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
       </div>
-      
-      <v-card id="searchResult" style="z-index:2; width:100%; position:relative;"
-      :style="{height:frameSize.y*0.6+'px',display:showSearchResult}"
-      >
-    <v-img
+  </div>
+  <div style="width:100%;height:80%;">
+    <v-row  style="width:100%; height:100%; margin:0px;" justify="center">
+    <div  style="height:100%; width:100%; padding-top:1%;">
+      <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
+      <div  style=" height:100%; width:100%;">
+        <v-img
       src="../../assets/HandLan/result.png"
       width="100%"
       height="50%"
       style="background-size: contain;"
     ></v-img>
     <div style="width:100%; height:50%;">
-    <v-card-title>
-      <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{attr}}에 대한 수어</div>
-    </v-card-title>
+      <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{attr}}에 대한 수어</div>
 
-    <v-card-subtitle style="overflow:auto;">
+    <v-card-subtitle style="overflow:auto; text-align:center;     height: 117px; ">
       왼쪽 검지와 오른쪽 검지를 뻗는다.<br>
       두 손가락을 마주보게하고 오른쪽 손이 위로 오게 한다.
     </v-card-subtitle>
-    <div style="width:100%; height: 50px; position:absolute; bottom:0; float:right;">
-      <v-btn @click="closeSearchResult">닫기</v-btn>
+    <div style="width:100%; height: 50px; text-align: center;">
+      <v-btn @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
     </div>
     </div>
-  </v-card>
+      </div>
+      </v-row>
+      <v-row style="height:100%;" justify="center">
+      <img style="height:100%;z-index:0;" :src="require('../../assets/dictionary_'+this.search+'.png')">
+      </v-row>
+    </div>
+  </v-row>
+  </div>
     <!-- <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera> -->
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 // import Camera from '../../components/Camera.vue'
 export default {
   // components:{Camera},
@@ -67,6 +70,8 @@ export default {
       attr:'',
       showSearchResult:'none',
       searchMargin:0,
+      search:'close',
+      isopened : 'none'
     }
   },
   methods: {
@@ -78,10 +83,33 @@ export default {
         alert('검색할 단어를 입력해주세요');
       }else{
         this.showSearchResult = 'block';
+        this.search = 'open';
+        this.isopened = 'block';
       }
     },
     closeSearchResult(){
       this.showSearchResult = 'none';
+    },
+    addVoca() {
+      var user_id;
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: res => {
+          user_id = res.id;
+          console.log("token", user_id);
+          axios
+            .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
+              user_id: res.id,
+              word: this.attr,
+              video: "test"
+            })
+            .then(res => {
+              console.log(res);
+              console.log("단어 등록 완료");
+              alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+            });
+        }
+      });
     },
   },
   beforeMount() {

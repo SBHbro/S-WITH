@@ -60,49 +60,13 @@ export default {
         { text: "작 성 일", value: "date" }
       ],
       boards: [
-        {
-        id:1,
-        subject:'title1',
-        email:'1@naver.com',
-        date:'2020-10-10'
-      },
-      {
-        id:2,
-        subject:'title3',
-        email:'2@naver.com',
-        date:'2020-10-10'
-      },
-      {
-        id:3,
-        subject:'title2',
-        email:'2@naver.com',
-        date:'2020-10-10'
-      },
-      {
-        id:4,
-        subject:'title',
-        email:'2@naver.com',
-        date:'2020-10-10'
-      },
-      {
-        id:5,
-        subject:'title',
-        email:'2@naver.com',
-        date:'2020-10-10'
-      },
-      {
-        id:6,
-        subject:'title',
-        email:'2@naver.com',
-        date:'2020-10-10'
-      },
       ],
       selected: [],
     };
   },
   created() {
     axios
-      .get(`http://j3b105.p.ssafy.io/api/notices/notice`)
+      .get(`https://j3b105.p.ssafy.io/api/notices/notice`)
       .then(({ data }) => {
         console.log(data)
         this.boards = data;
