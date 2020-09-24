@@ -13,3 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id','nickname','email','email','gender','birthday','age_range','voca_set','voca_count']
 
+class UserFirstSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','nickname','email','email','gender','birthday','age_range']
+

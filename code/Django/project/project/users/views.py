@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response  # 응답하는 메서드
 from rest_framework.decorators import api_view  # 요청 방식을 필터링
 from .models import User, Voca
-from .serializers import UserSerializer, VocaSerializer
+from .serializers import UserSerializer, VocaSerializer, UserFirstSerializer
 from django.core.serializers import serialize
 import json
 
@@ -18,10 +18,8 @@ def user_insert(request):
         id = req['id']
 
         pk = User.objects.filter(id=id)
-
         if not pk.exists():
-            print("null")
-            serializer = UserSerializer(data=request.data)
+            serializer = UserFirstSerializer(data=request.data)
             if(serializer.is_valid(raise_exception=True)):
                 serializer.save()
             return Response(serializer.data)
