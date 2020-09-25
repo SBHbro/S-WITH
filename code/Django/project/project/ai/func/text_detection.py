@@ -9,14 +9,14 @@ import cv2
 import csv
 
 def findName(text):
-    f = open('./ai/func/datasets/filename.csv', 'r')
+    f = open('./ai/func/datasets/filename.csv', 'r',encoding="cp949")
     rdr = csv.reader(f)
     for list in rdr:
         if list[6] == text and list[1] == '1' and list[3] == '정면':
-            return list[5][:-3] + "avi"
+            return list[5][:-3] + "mp4"
 
 def detection(image):
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\My Project-070d5c77d071.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '/datasets/My Project-070d5c77d071.json'
     client = vision.ImageAnnotatorClient()
 
     imgdata = base64.b64decode(image)
@@ -25,7 +25,7 @@ def detection(image):
         f.write(imgdata)
 
     # 이미지 읽기
-    with io.open(path, 'rb') as image_file:
+    with open(path, 'rb') as image_file:
         content = image_file.read()
     new_img = cv2.imread(path)
     img = vision.types.Image(content=content)
