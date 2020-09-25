@@ -23,12 +23,13 @@ padding:10px 10px 10px 30px;">
     <div  style="height:100%; width:100%; padding-top:1%;">
       <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
       <div  style=" height:100%; width:100%;">
-        <v-img
+        <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay></video>
+        <!-- <v-img
       src="../../assets/HandLan/result.png"
       width="100%"
       height="50%"
       style="background-size: contain;"
-    ></v-img>
+    ></v-img> -->
     <div style="width:100%; height:50%;">
       <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{attr}}에 대한 수어</div>
 
@@ -71,7 +72,8 @@ export default {
       showSearchResult:'none',
       searchMargin:0,
       search:'close',
-      isopened : 'none'
+      isopened : 'none',
+      videoSrc : ''
     }
   },
   methods: {
@@ -85,6 +87,12 @@ export default {
         this.showSearchResult = 'block';
         this.search = 'open';
         this.isopened = 'block';
+
+        axios.get(`http://localhost:8000/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
+          console.log(res)
+          this.videoSrc = res.data;
+        });
+
       }
     },
     closeSearchResult(){
