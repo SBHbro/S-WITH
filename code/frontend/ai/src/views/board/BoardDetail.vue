@@ -66,7 +66,11 @@ export default {
         this.subject = data.subject;
         this.content = data.content;
         this.email = data.email;
-        this.date = data.date;
+          var dateBefore = data.date;
+          var date = dateBefore.split("T")[0];
+          date = date + " ";
+          date = date + dateBefore.split("T")[1].split(".")[0];
+        this.date = date;
       });
   },
 
