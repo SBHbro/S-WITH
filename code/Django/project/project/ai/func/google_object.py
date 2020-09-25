@@ -6,7 +6,7 @@ from google.cloud import vision
 import base64
 import csv
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) +"\\datasets\\winter-sum-241407-8886c2c92665.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) +"/datasets/winter-sum-241407-8886c2c92665.json"
 # path = os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\dog.jpg'
 client = vision.ImageAnnotatorClient()
 
@@ -29,11 +29,11 @@ def translated(text):
     return result['translatedText']
 
 def findName(text):
-    f = open('./ai/func/datasets/filename.csv', 'r')
+    f = open('./ai/func/datasets/filename.csv', 'r',encoding='cp949')
     rdr = csv.reader(f)
     for list in rdr:
         if list[6] == text and list[1] == '1' and list[3] == '정면':
-            return list[5][:-3] + "avi"
+            return list[5][:-3] + "mp4"
 
 
 def run(image):
