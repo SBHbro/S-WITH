@@ -13,7 +13,7 @@ def findName(text):
     rdr = csv.reader(f)
     for list in rdr:
         if list[6] == text and list[1] == '1' and list[3] == '정면':
-            return list[5][:-3] + "mp4"
+            return list[5][:-3] + "webm"
 
 def detection(image):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '/datasets/My Project-070d5c77d071.json'
