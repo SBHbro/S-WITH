@@ -23,7 +23,7 @@ padding:10px 10px 10px 30px;">
     <div  style="height:100%; width:100%; padding-top:1%;">
       <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
       <div  style=" height:100%; width:100%;">
-        <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay></video>
+        <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
         <!-- <v-img
       src="../../assets/HandLan/result.png"
       width="100%"
@@ -88,7 +88,7 @@ export default {
         this.search = 'open';
         this.isopened = 'block';
 
-        axios.get(`http://localhost:8000/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
+        axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
           console.log(res)
           this.videoSrc = res.data;
         });
