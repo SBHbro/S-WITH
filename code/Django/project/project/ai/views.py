@@ -11,9 +11,14 @@ from rest_framework.decorators import api_view  # 요청 방식을 필터링
 import os
 import json
 from .models import Image
-from .func import text_detection, google_object
+from .func import text_detection, google_object, video_detection
 import base64
+import csv
 
+@api_view(['GET'])
+def index(request):
+    return render(request, 'index.html')
+    # return Response("index")
 
 @api_view(['POST'])
 def textDetection(request):
@@ -48,3 +53,31 @@ def objectDetection(request):
     #
     # result['roi'] = roi_list
     return Response(result)
+
+@api_view(['POST'])
+def videoDetection(request):
+    print('request',request)
+    request = json.loads(request.body)
+
+    videodata = base64.b64decode(request['data'])
+    path = 'test.mov'  # I assume you have a way of picking unique filenames
+    with open(path, 'wb') as f:
+        f.write(videodata)
+    f.close()
+
+    list = video_detection.run(path)
+
+    return Response(list)
+
+@api_view(['GET'])
+def word(request):
+    request = request.GET['text']
+    print(request)
+
+    f = open('./ai/func/datasets/filename.csv', 'r',encoding='cp949')
+    rdr = csv.reader(f)
+    for list in rdr:
+        if list[6] == request and list[1] == '1' and list[3] == '정면':
+            return Response(list[5][:-3] + "mp4")
+
+    return Response("fail")

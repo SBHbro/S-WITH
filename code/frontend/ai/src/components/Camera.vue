@@ -1,26 +1,19 @@
 <template>
   <div id="camera" class="camera" >
-   
     <video style="width:100%; height:100%;" autoplay ref="video" id="video" class="video" v-if="ok"></video>
     <!-- <button class="snap" v-on:click="capture()">SNAP</button> -->
     <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>
     <!-- <button class="send" @click="objectDetection()">물체</button>
     <button class="redo" @click="textDetection()">글자</button> -->
 
-    <div v-if="$route.name =='FromHandLan'">
-        <v-btn :style="{'margin-left':(frameSize.x*0.9-100)/2+'px'}" type="button" @click="startRecording()" v-bind:disabled="isStartRecording" id="btnStart">
-          <div id="btnStartInner"></div>
-        </v-btn>
-        <!-- <router-link to="/fromHandLanResult"><v-btn type="button" class="btn btn-success" @click.prevent="submitVideo()" v-bind:disabled="isSaveDisabled" id="btnSave">{{ submitText }}</v-btn></router-link> -->
-        <!-- <v-btn type="button" class="btn btn-primary" @click.prevent="retakeVideo()" v-bind:disabled="isRetakeDisabled" id="btnRetake">Retake</v-btn> -->
-    </div>
     <div v-if="$route.name =='ToHandLan'">
       <v-btn style="margin: -100px 225px 0px 225px;" id="btnCapture" @click="capture()"><v-icon size="45px">mdi-camera</v-icon></v-btn>
     </div>
-    <div id="send" style="margin-top:-80px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}" v-if="$route.name =='FromHandLanSend'">
+
+    <!-- <div id="send" style="margin-top:-80px" :style="{'margin-left':(frameSize.x*0.9-305)/2+'px'}" v-if="$route.name =='FromHandLanSend'">
       <router-link to="/FromHandLan"><v-btn class="sendBtn" color="rgb(232, 107, 94)" style="width:150px;color:white; margin-right:5px; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-backup-restore</v-icon>다시 하기</v-btn></router-link>
       <router-link to="/FromHandLanResult"><v-btn class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn></router-link>
-    </div>
+    </div> -->
   
   </div>
 
@@ -152,7 +145,7 @@ export default {
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/objectDetection`,{image : image.src}).then(response=>{
+      axios.post(`https://j3b105.p.ssafy.io/api/ai/objectDetection`,{image : image.src}).then(response=>{
         // console.log(response);
         this.oList = response.data;
         this.objectImage += response.data.image;
@@ -163,7 +156,7 @@ export default {
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/textDetection`,{image : image.src}).then(response=>{
+      axios.post(`https://j3b105.p.ssafy.io/api/ai/textDetection`,{image : image.src}).then(response=>{
         // console.log(response);
         this.tList = response.data;
         this.textImage += response.data.image;
