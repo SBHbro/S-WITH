@@ -6,9 +6,17 @@ from google.cloud import vision
 from google.cloud.vision import types
 import base64
 import cv2
+import csv
+
+def findName(text):
+    f = open('./ai/func/datasets/filename.csv', 'r',encoding="cp949")
+    rdr = csv.reader(f)
+    for list in rdr:
+        if list[6] == text and list[1] == '1' and list[3] == '정면':
+            return list[5][:-3] + "mp4"
 
 def detection(image):
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '\\datasets\\My Project-070d5c77d071.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.path.dirname(os.path.abspath(__file__)) + '/datasets/My Project-070d5c77d071.json'
     client = vision.ImageAnnotatorClient()
 
     imgdata = base64.b64decode(image)
@@ -17,7 +25,7 @@ def detection(image):
         f.write(imgdata)
 
     # 이미지 읽기
-    with io.open(path, 'rb') as image_file:
+    with open(path, 'rb') as image_file:
         content = image_file.read()
     new_img = cv2.imread(path)
     img = vision.types.Image(content=content)
@@ -40,7 +48,12 @@ def detection(image):
             cv2.rectangle(new_img, (x,y), (x2,y2), (255,0,0), 1)
         # cv2.rectangle(img, (10,10), (40,40), (255,0,0), 2)
         # print(vertices)
-        list.append(text.description)
+
+        data = dict()
+
+        data['label'] = text.description
+        data['videoname'] = findName(text.description)
+        list.append(data)
     if len(list) != 0:
         list.remove(list[0])
     cv2.imwrite("text_result.jpg", new_img)
