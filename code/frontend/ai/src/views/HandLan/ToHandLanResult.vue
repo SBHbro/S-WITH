@@ -43,7 +43,9 @@
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                  style="float:right;"
+          style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+          color="rgb(98 149 232)"
+
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
@@ -89,24 +91,27 @@
           
           <div v-if="i==2" >
             <!-- <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'"> -->
-            <v-card v-for="(result,index) in letters" :key="index" style="height: 50px;
+            <v-card v-for="(result,index) in letters" :key="index" style="width:100%; height: 50px;
               margin: 5px 0px;
               padding:6px 8px;
               font-weight: bold;
-              font-size: x-large;">
-    <div style="float:left;width:80%;text-align:center;">
-              {{result.transResultLetter}}
+              font-size: large;">
+    <div style="float:left;width:70%;text-align:center;">
+              {{result.transResultLetter.label}}
               </div>
               <v-btn
-        style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+                  style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+
           v-bind="attrs"
           v-on="on"
           color="rgb(98 149 232)"
           @click="transButton(result)"
         >
-          <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
+                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+
+          <!-- <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
           <div style="width:100%; text-align:center;">수화 보기</div>
-          <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div>
+          <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div> -->
         </v-btn>
             </v-card>
             <!-- </div> -->
@@ -193,7 +198,7 @@ export default {
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
         console.log(letter);
-        this.letters.push({transResultLetter: letter})
+        this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {
         this.letters.push({transResultLetter: '단어를 찾을 수 없습니다.'})
