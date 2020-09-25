@@ -98,12 +98,15 @@
               {{result.transResultLetter}}
               </div>
               <v-btn
-        style="float:right; width:20%;"
+        style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
           v-bind="attrs"
           v-on="on"
+          color="rgb(98 149 232)"
           @click="transButton(result)"
         >
-          <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+          <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
+          <div style="width:100%; text-align:center;">수화 보기</div>
+          <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div>
         </v-btn>
             </v-card>
             <!-- </div> -->
