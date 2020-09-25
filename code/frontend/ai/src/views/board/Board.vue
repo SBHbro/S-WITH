@@ -70,6 +70,13 @@ export default {
       .then(({ data }) => {
         console.log(data)
         this.boards = data;
+        for (let index = 0; index < data.length; index++) {
+          var dateBefore = data[index].date;
+          var date = dateBefore.split("T")[0];
+          date = date + " ";
+          date = date + dateBefore.split("T")[1].split(".")[0];
+          data[index].date = date;
+        }
       });
   },
   computed: {
