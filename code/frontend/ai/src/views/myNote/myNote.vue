@@ -1,8 +1,12 @@
 <template>
   <div style="width:100%; height:100%;">
-    <v-row justify="center">
+    <v-row justify="center" style="width:100%; height:10%;">
     <h2>내 단어장</h2>
     </v-row>
+    <div style="width:100%; height:90%;">
+      <img src="../../assets/dictionary_open.png">
+
+    </div>
       <v-card style="height:50px;" v-for="(word,index) in mywords" :key="index">
           {{word.word}}
           <div style="float:right"><v-btn @click="deleteVoca(word.id)"><v-icon color="red">mdi-minus</v-icon></v-btn></div>

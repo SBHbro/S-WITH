@@ -4,7 +4,7 @@
         <div v-if="inputText!='' && inputText!='null'" id="textbox" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
             <div style="font-size:57px; font-weight: bold;     margin-bottom: 50px"><button @click="clickHandler()"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{inputText}}</div>
             <div style="width:100%;">
-                <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn>
+                <!-- <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn> -->
             </div>
             <div style="width:100%;">
                 <router-link to="/fromHandLan"><v-btn class="btnText" style="width:24.5%;height: 46px; font-weight: bold; font-size: large; color:white; margin-right:1%; max-width:250px; min-width: 124px;" color="rgb(54, 214, 123)"><v-icon color="white">mdi-refresh</v-icon>다시하기</v-btn></router-link>
