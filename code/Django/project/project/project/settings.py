@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['localhost','j3b105.p.ssafy.io',]
 INSTALLED_APPS = [
     'notices',
     'ai',
+    'users',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -89,7 +90,7 @@ DATABASES = {
         'HOST': 'j3b105.p.ssafy.io',
         'PORT': '3306',
         'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
+            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
         }
     }
 }
@@ -136,6 +137,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8080',

@@ -36,14 +36,16 @@
       >
         <v-card flat>
           <div v-if="i==1">
-            <div v-if="objects[0].transResultLetter!='물체를 찾을 수 없습니다.'">
+            <!-- <div v-if="objects[0].transResultLetter!='물체를 찾을 수 없습니다.'"> -->
             <v-card v-for="(result,index) in objects" style="margin:10px; display:block;" :key="index">
               <img style="width:80px; height:80px; margin:5px; display:inline-block;" :src="result.src">
               <div style="display:inline-block;">{{result.transResultLetter}}</div>
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                  style="float:right;"
+          style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+          color="rgb(98 149 232)"
+
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
@@ -59,6 +61,7 @@
                 src="../../assets/HandLan/result.png"
                 height="200px"
               ></v-img>
+              <!-- <video :src="`/video/${nowTransLate.videoSrc}`" autoplay></video> -->
 
               <v-card-title>
                 <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
@@ -73,8 +76,8 @@
             </v-card>
               </v-dialog>
             </v-card>
-            </div>
-            <div v-if="objects[0].transResultLetter=='물체를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
+            <!-- </div> -->
+            <!-- <div v-if="objects[0].transResultLetter=='물체를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
               검출된 물체가 없습니다.
               <br>
               죄송합니다. 데이터를 추가해달라고 요청해주세요.
@@ -83,31 +86,37 @@
                     <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
                 </router-link>
             </div>
-            </div>
+            </div> -->
           </div>
           
           
           <div v-if="i==2" >
-            <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'">
-            <v-card v-for="(result,index) in letters" :key="index" style="height: 50px;
+            <!-- <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'"> -->
+            <v-card v-for="(result,index) in letters" :key="index" style="width:100%; height: 50px;
               margin: 5px 0px;
               padding:6px 8px;
               font-weight: bold;
-              font-size: x-large;">
-    <div style="float:left;width:80%;text-align:center;">
-              {{result.transResultLetter}}
+              font-size: large;">
+    <div style="float:left;width:70%;text-align:center;">
+              {{result.transResultLetter.label}}
               </div>
               <v-btn
-        style="float:right; width:20%;"
+                  style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+
           v-bind="attrs"
           v-on="on"
+          color="rgb(98 149 232)"
           @click="transButton(result)"
         >
-          <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+
+          <!-- <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
+          <div style="width:100%; text-align:center;">수화 보기</div>
+          <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div> -->
         </v-btn>
             </v-card>
-            </div>
-            <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
+            <!-- </div> -->
+            <!-- <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
               검출된 글자가 없습니다.
               <br>
               죄송합니다. 데이터를 추가해달라고 요청해주세요.
@@ -116,7 +125,7 @@
                     <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
                 </router-link>
             </div>
-            </div>
+            </div> -->
           </div>
         </v-card>
       </v-tab-item>
@@ -181,7 +190,7 @@ export default {
     console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
       // console.log(object);
-      this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label})
+      this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
     });
     // this.$route.params.roiList.forEach(roi => {
     //   // console.log(object);
@@ -190,7 +199,7 @@ export default {
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
         console.log(letter);
-        this.letters.push({transResultLetter: letter})
+        this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {
         this.letters.push({transResultLetter: '단어를 찾을 수 없습니다.'})

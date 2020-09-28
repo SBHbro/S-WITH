@@ -1,7 +1,8 @@
+
 <template>
   <div style="width:100%; height:100%;">
-        <div id="textbox" v-if="transResult!='' && transResult!='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
-            <div style="font-size:57px; font-weight: bold; margin-bottom: 50px"><button @click="clickHandler()"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{transResult}}</div>
+        <div v-if="inputText!='' && inputText!='null'" id="textbox" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
+            <div style="font-size:57px; font-weight: bold;     margin-bottom: 50px"><button @click="clickHandler()"><v-icon size="57px" id="speaker" v-text="speaker" :color="spaekerColor"></v-icon></button>{{inputText}}</div>
             <div style="width:100%;">
                 <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-alert-circle</v-icon>구급 메세지 보내기<v-icon color="white">mdi-email</v-icon></v-btn>
             </div>
@@ -10,7 +11,7 @@
                 <router-link to="/"><v-btn class="btnText" style="width:24.5%; font-weight: bold; height: 46px; font-size: large; max-width:250px; color:white; min-width: 124px;" color="rgb(228, 184, 244)"><v-icon color="white">mdi-home</v-icon>홈으로</v-btn></router-link>
             </div>
         </div> 
-        <div id="textbox" v-if="transResult=='' || transResult=='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
+        <div id="textbox" v-if="inputText=='' || inputText=='null'" style="text-align:center;" :style="{'padding-top':(frameSize.y*0.9-textHeight-80)/2+'px'}">
             <div style="font-size:57px; font-weight: bold; margin-bottom: 50px">결과가 없어요.</div>
             <div style="font-size:25px; font-weight: bold; margin-bottom: 50px">죄송합니다. 이 데이터를 추가해달라고 요청해주세요.</div>
             <div style="width:100%;">
@@ -36,8 +37,8 @@ export default {
     },
     data() {
         return {
-            // transResult:'화상을 입었어요.',
-            transResult:'',
+            // inputText:'화상을 입었어요.',
+            inputText:this.$route.params.answer,
             responsiveVoice:'',
             speaker:'mdi-volume-medium',
             spaekerColor:'gray',
@@ -77,32 +78,42 @@ export default {
             this.spaekerColor = 'blue';
             this.quickStart()
         },
-        test() {
-                // code
-        },
+        speak(opt_prop) {
+      console.log("test", this.inputText);
+      if (
+        typeof SpeechSynthesisUtterance === "undefined" ||
+        typeof window.speechSynthesis === "undefined"
+      ) {
+        alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+        return;
+      }
+
+      window.speechSynthesis.cancel(); // 현재 읽고있다면 초기화
+
+      const prop = opt_prop || {};
+
+      const speechMsg = new SpeechSynthesisUtterance();
+      speechMsg.rate = prop.rate || 1; // 속도: 0.1 ~ 10
+      speechMsg.pitch = prop.pitch || 1; // 음높이: 0 ~ 2
+      speechMsg.lang = prop.lang || "ko-KR";
+      speechMsg.text =  this.inputText;
+
+      // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
+      window.speechSynthesis.speak(speechMsg);
+    },
+    clickHandler(inputText) {
+      // alert(inputText);
+      this.spaekerColor = 'blue';
+      this.speak(inputText, {
+        rate: 1,
+        pitch: 1.2,
+        lang: "ko-KR"
+      });
+    },
         onResize(){
             this.frameSize = {x:window.innerWidth, y:window.innerHeight};
         },
-        async quickStart(fs,util,client) {
-        // The text to synthesize
-        const text = 'hello, world!';
-
-        // Construct the request
-        const request = {
-            input: {text: text},
-            // Select the language and SSML voice gender (optional)
-            voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
-            // select the type of audio encoding
-            audioConfig: {audioEncoding: 'MP3'},
-        };
-
-        // Performs the text-to-speech request
-        const [response] = await client.synthesizeSpeech(request);
-        // Write the binary audio content to a local file
-        const writeFile = util.promisify(fs.writeFile);
-        await writeFile('output.mp3', response.audioContent, 'binary');
-        console.log('Audio content written to file: output.mp3');
-        }
+        
     }
 }
 </script>
