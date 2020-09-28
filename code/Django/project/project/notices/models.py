@@ -20,3 +20,8 @@ class Reply(models.Model):
     notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
+
+
+class UploadFileModel(models.Model):
+    title = models.TextField(default='')
+    file = models.FileField(null=True)
