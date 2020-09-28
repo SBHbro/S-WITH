@@ -15,6 +15,7 @@ import Video from './components/Video.vue'
 import ToHandLanChoice from './views/HandLan/ToHandLanChoice.vue'
 import ToHandLanDic from './views/HandLan/ToHandLanDic.vue'
 import Upload from './views/Upload.vue'
+import MyNote from './views/myNote/myNote.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -96,5 +97,10 @@ export default new Router({
             name: 'Upload',
             component: Upload,
         },
+        {
+            path:'/myNote',
+            name: 'MyNote',
+            component : MyNote
+        }
     ]
 })
