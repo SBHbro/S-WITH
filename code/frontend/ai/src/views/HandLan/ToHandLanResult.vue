@@ -61,6 +61,7 @@
                 src="../../assets/HandLan/result.png"
                 height="200px"
               ></v-img>
+              <!-- <video :src="`/video/${nowTransLate.videoSrc}`" autoplay></video> -->
 
               <v-card-title>
                 <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
@@ -97,7 +98,7 @@
               font-weight: bold;
               font-size: large;">
     <div style="float:left;width:70%;text-align:center;">
-              {{result.transResultLetter.label}}
+              {{result.transResultLetter}}
               </div>
               <v-btn
                   style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
@@ -189,7 +190,7 @@ export default {
     console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
       // console.log(object);
-      this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label})
+      this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
     });
     // this.$route.params.roiList.forEach(roi => {
     //   // console.log(object);
