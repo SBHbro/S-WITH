@@ -19,6 +19,11 @@
               <div style="width:50%; float:right;text-align:right;">{{date}} 작성</div>              
             </div>
             <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
+           
+            <div>
+              
+            </div>
+
             <div class="replyinput">
               <input v-model="thisReply" style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
               <v-btn @click="addReply"
