@@ -37,6 +37,12 @@
               ref="content"
             ></v-textarea>
   </tr>
+  <tr>
+    <input style="width:50%; margin-left:0%; margin-top:0%; " type="file" @change="onChange($event)">
+    <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
+    <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
+    <v-btn @click="removeImage">Remove video</v-btn>
+  </tr>
   <tr style="width:80%; margin-left:10%;">
             <v-text-field
             style="width:38%;float:left"
@@ -87,6 +93,7 @@ export default {
     content: "",
     email: "",
     emailDomain:"",
+    image: '',
   }),
 
   methods: {
@@ -130,6 +137,29 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
+    },    
+    removeImage: function () {
+      this.image = '';
+    },
+    uploadImage(){
+      var reader = new FileReader();
+      reader.readAsDataURL(this.fileData);
+      reader.onloadend = function() {
+          var base64data = reader.result;
+          console.log(base64data);
+          axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result}).then(response=>{
+              console.log(response);
+            }).catch(e=>{
+              console.log(e)
+              // this.task = true
+          })
+      }
+    },
+    onChange(e) {
+      const file = e.target.files[0];
+      //   this.item.imageUrl = URL.createObjectURL(file);
+      this.image = URL.createObjectURL(file);
+      // this.$set(this.items[index], "file", file);
     }
   }
 };
