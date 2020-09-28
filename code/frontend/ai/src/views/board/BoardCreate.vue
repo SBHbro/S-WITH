@@ -43,33 +43,13 @@
     <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
     <v-btn @click="removeImage">Remove video</v-btn>
   </tr>
-  <tr style="width:80%; margin-left:10%;">
-            <v-text-field
-            style="width:38%;float:left"
-              v-model="email"
-              :counter="20"
-              label="아이디를 적어주세요."
-              required
-              id="email"
-              ref="email"
-            ></v-text-field><div style="float: left; width: 4%; font-size: xx-large; font-weight: 700; color: #00000078;">@</div>
-            <v-col class="d-flex" cols="12" sm="6">
-        <v-select
-        style="width:58%;float:left; margin:0px; padding:0px;"
-          :items="items"
-          v-model="emailDomain"
-          label="이메일을 선택해주세요."
-          Standard
-        ></v-select>
-      </v-col>
-          </tr>
           <!-- </v-card-text> -->
         </table>        
           <div style="height:10%;" class="form-group" align="center">
             <v-btn 
             align = "left"
             type="button" 
-            color="rgb(54, 214, 123)"
+            color="rgb(46 179 103)"
             style=" color: white; width: 150px; height: 90%; font-size: large; font-weight: bold; text-shadow:#343a40d4 1px 1px 4px;"
     
             @click="checkHandler">등록하기</v-btn>
