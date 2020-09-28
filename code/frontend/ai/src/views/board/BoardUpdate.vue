@@ -36,6 +36,12 @@
             ></v-textarea>
   </tr>
   <tr>
+    <input style="width:50%; margin-left:0%; margin-top:0%; " type="file" @change="onChange($event)">
+    <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
+    <v-btn @click="uploadImage">Upload video</v-btn>
+    <v-btn @click="removeImage">Remove video</v-btn>
+  </tr>
+  <tr>
             <v-text-field
               v-model="email"
               :counter="20"
@@ -73,6 +79,7 @@ export default {
     subject: "",
     content: "",
     email: "",
+    image: '',
   }),
 
   created() {
@@ -130,6 +137,19 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
+    },
+    removeImage: function () {
+      this.image = '';
+    },
+    uploadImage(){
+      // var reader = new FileReader();
+      // reader.readAsDataURL(superBuffer); 
+    },
+    onChange(e) {
+      const file = e.target.files[0];
+      //   this.item.imageUrl = URL.createObjectURL(file);
+      this.image = URL.createObjectURL(file);
+      // this.$set(this.items[index], "file", file);
     }
   }
 };
