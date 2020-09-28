@@ -74,10 +74,10 @@ def word(request):
     request = request.GET['text']
     print(request)
 
-    f = open('./ai/func/datasets/filename.csv', 'r')
+    f = open('./ai/func/datasets/filename.csv', 'r',encoding='cp949')
     rdr = csv.reader(f)
     for list in rdr:
         if list[6] == request and list[1] == '1' and list[3] == '정면':
-            return Response(list[5][:-3] + "avi")
+            return Response(list[5][:-3] + "webm")
 
     return Response("fail")
