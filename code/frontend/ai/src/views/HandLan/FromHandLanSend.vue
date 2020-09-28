@@ -1,6 +1,5 @@
 <template>
   <div id="video" style="width:100%; height:100%;">
-    <a :href="videoSrc" download="test.webm">gigi</a>
       <!-- <Video style="width:100%; height:100%;" :src="videoSrc"></Video> -->
       <video id="preview" controls autoplay :src="videoSrc"></video>
       
