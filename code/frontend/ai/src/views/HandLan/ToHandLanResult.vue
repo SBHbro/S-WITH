@@ -98,7 +98,7 @@
               font-weight: bold;
               font-size: large;">
     <div style="float:left;width:70%;text-align:center;">
-              {{result.transResultLetter.label}}
+              {{result.transResultLetter}}
               </div>
               <v-btn
                   style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
