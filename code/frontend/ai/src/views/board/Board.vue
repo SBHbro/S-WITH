@@ -3,7 +3,7 @@
       <div>
         <h3 style="    font-size: x-large; color: #000000b8; margin: 15px 0px;">문의 게시판</h3>
       <div style="height:50px;">
-          <v-btn 
+          <v-btn v-if="$store.state.userinfo.id!=''"
             style="border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
             type="button"
             id="mvWriteBtn"
@@ -11,6 +11,15 @@
             data-backdrop="static"
             color="rgb(98 149 232)"
             @click="movePage"
+            ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn>
+            
+            <v-btn v-if="$store.state.userinfo.id==''"
+            style=" border-color: transparent; float: left; color: #0000007a; font-weight: bold;font-size: small;"
+            type="button"
+            id="mvWriteBtn"
+            class="btn btn-sm"
+            data-backdrop="static"
+            @click="nologin"
             ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn>
 
         <v-spacer></v-spacer>
@@ -48,6 +57,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "boardlist",
   data() {
@@ -101,6 +111,9 @@ export default {
     },
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
+    },
+    nologin(){
+      alert("로그인이 필요한 서비스입니다.");
     }
   }
 };
