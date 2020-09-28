@@ -1,71 +1,75 @@
 <template>
-  <div class="app">
-    <div class="large-12 medium-12 small-12 cell">
-      <label>File
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-      </label>
-      <v-btn @click="submitFile()">Submit</v-btn>
-    </div>
+  <div id="upload">
+    <file-pond
+      name="bin"
+      ref="pond"
+      allow-multiple="true"
+      max-files="3"
+      accepted-file-types="image/jpeg, image/png, video/mp4, video/webm"
+      :server="server"
+      v-bind:files="myFiles"
+      v-on:init="handleFilePondInit"
+      v-on:processfile="onload"
+      />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-  export default {
-    /*
-      Defines the data used by the component
-    */
-    data(){
-      return {
-        file: ''
-      }
-    },
+// Import Vue FilePond
+import vueFilePond from 'vue-filepond'
 
-    methods: {
-      /*
-        Submits the file to the server
-      */
-      submitFile(){
-        /*
-                Initialize the form data
-            */
-            let formData = new FormData();
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css'
 
-            /*
-                Add the form data we need to submit
-            */
-            formData.append('file', this.file);
+// Import FilePond plugins
+// Please note that you need to install these plugins separately
 
-        /*
-          Make the request to the POST /single-file URL
-        */
-            axios.post( '/single-file',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-              }
-            ).then(function(){
-          console.log('SUCCESS!!');
-        })
-        .catch(function(){
-          console.log('FAILURE!!');
-        });
-      },
+// Import image preview plugin styles
 
-      /*
-        Handles a change on the file upload
-      */
-      handleFileUpload(){
-        this.file = this.$refs.file.files[0];
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+
+// Import image preview and file type validation plugins
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+
+// Create component
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview)
+
+export default {
+  name: 'app',
+  data () {
+    return {
+      myFiles: [],
+      server: {
+        url: `https://j3b105.p.ssafy.io/video/upload`,
+        process: {
+          headers: {
+            Authorization: localStorage.getItem('token')
+          }
+        }
       }
     }
+  },
+  methods: {
+    handleFilePondInit () {
+      console.log('FilePond has initialized')
+      // FilePond instance methods are available on `this.$refs.pond`
+    },
+    onload (e, r) {
+      console.log(r)
+    }
+  },
+  components: {
+    FilePond
   }
-</script>
-<style lang="scss" scoped>
- #app {
-  text-align: center;
 }
+</script>
 
+<style lang="scss" scoped>
+.upload {
+  width: 50%;
+  height: 50%;
+  padding: 0px;
+  box-sizing: border-box;
+}
 </style>
