@@ -61,6 +61,29 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
+        <div v-if="$store.state.userinfo.id==''" style="height:150px;width:100%; text-align:center;">
+          <v-btn @click="kakaoLogin" color="#ffe812" style="display:table-col;vertical-align:middle;width:90%;max-width:250px; height:100px;">
+             <div>
+               <div style="display:table-col;vertical-align:middle; width:100%; height:50%;"><img style="width:50%; height:auto;" src="../assets/btn/kakao.png"></div><div class="loginBtn">로그인하기</div>
+               </div></v-btn>
+        </div>
+        <v-card v-if="$store.state.userinfo.id!=''" style="height:150px;width:100%; text-align:center;">
+          <!-- <div style="width:40%; height:100%; display:inline-block;">
+            <div style="width:70px; height;70px;border-radius:35px;">
+              <img :src="$store.state.userinfo.">
+            </div>
+          </div> -->
+          <div style="width:100%; height:70%; padding: 33px; display:inline-block; background: linear-gradient(0, rgb(240 245 253), rgb(197 220 255));padding: 33px;">
+            <h4 style="font-weight: bold; color: #000000b3;">{{$store.state.userinfo.nickname}}님</h4>
+            <h5 style="    font-size: medium; font-weight: bold; color: #0000009e;">안녕하세요!</h5>
+          </div>
+          <div style="width:100%; height:30%">
+            <v-btn  @click="kakaoLogout" color="#acdc95" style="width: 100%; height: 100%; color: white; font-size: 18px; font-weight: bold; text-shadow: 1px 1px 7px #00000063;">
+              로그아웃하기
+            </v-btn>
+          </div>
+        </v-card>
+
         <router-link to="/toHandLan">
           <v-list-item>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
@@ -79,22 +102,8 @@
           </v-list-item>
         </router-link>
 
-        <router-link to="/video">
-          <v-list-item>
-            <v-list-item-title>비디오</v-list-item-title>
-          </v-list-item>
-        </router-link>
-
-          <v-list-item @click="kakaoLogin">
-            <v-list-item-title>로그인</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="kakaoLogout">
-            <v-list-item-title>로그아웃</v-list-item-title>
-          </v-list-item>
-
           <router-link to="/myNote">
-          <v-list-item>
+          <v-list-item v-if="$store.state.userinfo.id!=''">
             <v-list-item-title>내 단어장</v-list-item-title>
           </v-list-item>
           </router-link>
@@ -107,6 +116,8 @@
 
 <script>
 import axios from 'axios'
+import store from '../store'
+
 export default {
   data() {
     return {
@@ -136,6 +147,7 @@ export default {
         url: "/v1/user/unlink",
         success: res => {
           console.log("logout", res);
+          store.commit('logout');
         }
       });
     },
@@ -177,6 +189,7 @@ export default {
               console.log("로그인 성공");
               alert("로그인 성공!");
               console.log(res.data);
+              store.commit('login',res.data);
             })
             .catch(err => {
               console.log(err);
@@ -227,5 +240,14 @@ export default {
     padding: 0px 30px;
     box-shadow: 1px 1px 10px #e0e0e0 inset;
     margin-bottom:10px;
+}
+.loginBtn{
+  vertical-align: middle; width: 100%;
+    height: 55%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3b1e1e;
+    margin-bottom: 9px;
+    margin-top: -9px;
 }
 </style>
