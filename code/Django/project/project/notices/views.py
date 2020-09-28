@@ -8,6 +8,8 @@ from .models import Notice, Reply
 from .serializers import NoticeSerializer, ReplySerializer
 import datetime
 import json
+import base64
+from .forms import UploadFileForm
 
 @api_view(['GET','POST'])
 def notice_list(request):
@@ -72,3 +74,16 @@ def reply_detail(request, reply_pk):
         reply = get_object_or_404(Reply, pk=reply_pk)
         reply.delete()
         return Response({'message': '성공적으로 삭제되었습니다.'})
+
+@api_view(['POST'])
+def upload(request):
+    request = json.loads(request.body)
+    # print(request)
+
+    videodata = base64.b64decode(request['data'])
+    # print(videodata)
+    path = 'upload/1.mp4'  # I assume you have a way of picking unique filenames
+    with open(path, 'wb') as f:
+        f.write(videodata)
+    f.close()
+    return Response('success')
