@@ -22,9 +22,9 @@
               ref="subject"
             ></v-text-field>
   </tr>
-  <tr width ="500" height="300">
+  <tr width ="500" height="200">
             <v-textarea
-              style= "width:100%; height:100%;"
+              style= "width:100%; height:70%;"
               no-resize
               v-model="content"
               solo
@@ -43,26 +43,6 @@
     <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
     <v-btn @click="removeImage">Remove video</v-btn>
   </tr>
-  <tr style="width:80%; margin-left:10%;">
-            <v-text-field
-            style="width:38%;float:left"
-              v-model="email"
-              :counter="20"
-              label="아이디를 적어주세요."
-              required
-              id="email"
-              ref="email"
-            ></v-text-field><div style="float: left; width: 4%; font-size: xx-large; font-weight: 700; color: #00000078;">@</div>
-            <v-col class="d-flex" cols="12" sm="6">
-        <v-select
-        style="width:58%;float:left; margin:0px; padding:0px;"
-          :items="items"
-          v-model="emailDomain"
-          label="이메일을 선택해주세요."
-          Standard
-        ></v-select>
-      </v-col>
-          </tr>
           <!-- </v-card-text> -->
         </table>        
           <div style="height:10%;" class="form-group" align="center">
@@ -122,7 +102,7 @@ export default {
     createHandler() {
       console.log(this.email+'@'+this.emailDomain);
       axios
-        .post(`http://j3b105.p.ssafy.io/api/notices/notice/create`, {
+        .post(`https://j3b105.p.ssafy.io/api/notices/notice/create`, {
           subject: this.subject,
           content: this.content,
           email: this.email+'@'+this.emailDomain,
