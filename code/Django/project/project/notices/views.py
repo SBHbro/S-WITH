@@ -18,9 +18,10 @@ def notice_list(request):
         serializer = NoticeSerializer(notices, many=True)
         return Response(serializer.data)
     else:
+        req = json.loads(request.body)
         serializer = NoticeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(user_id=req['user_id'])
         return Response(serializer.data)
 
 @api_view(['GET','PUT','DELETE'])
@@ -78,11 +79,12 @@ def reply_detail(request, reply_pk):
 @api_view(['POST'])
 def upload(request):
     request = json.loads(request.body)
-    # print(request)
+    print(request)
 
     videodata = base64.b64decode(request['data'])
+    fileName = request['filename'] + '.mp4'
     # print(videodata)
-    path = 'upload/1.mp4'  # I assume you have a way of picking unique filenames
+    path = 'upload/'+fileName  # I assume you have a way of picking unique filenames
     with open(path, 'wb') as f:
         f.write(videodata)
     f.close()

@@ -40,7 +40,7 @@
   <tr>
     <input style="width:50%; margin-left:0%; margin-top:0%; " type="file" @change="onChange($event)">
     <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
-    <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
+    <v-btn @click="uploadImage">Upload video</v-btn>
     <v-btn @click="removeImage">Remove video</v-btn>
   </tr>
           <!-- </v-card-text> -->
@@ -74,6 +74,7 @@ export default {
     email: "",
     emailDomain:"",
     image: '',
+    fileData:'',
   }),
 
   methods: {
@@ -90,11 +91,11 @@ export default {
         ((msg = "내용 입력해주세요"),
         (err = false),
         this.$refs.content.focus());
-      err &&
-        !this.email &&
-        ((msg = "이메일을 입력해주세요"),
-        (err = false),
-        this.$refs.email.focus());
+      // err &&
+      //   !this.email &&
+      //   ((msg = "이메일을 입력해주세요"),
+      //   (err = false),
+      //   this.$refs.email.focus());
 
       if (!err) alert(msg);
       else this.createHandler();
@@ -102,7 +103,7 @@ export default {
     createHandler() {
       console.log(this.email+'@'+this.emailDomain);
       axios
-        .post(`http://j3b105.p.ssafy.io/api/notices/notice/create`, {
+        .post(`https://j3b105.p.ssafy.io/api/notices/notice/create`, {
           subject: this.subject,
           content: this.content,
           email: this.email+'@'+this.emailDomain,
@@ -124,10 +125,10 @@ export default {
     uploadImage(){
       var reader = new FileReader();
       reader.readAsDataURL(this.fileData);
+      var fileName = this.$store.state.userinfo.id +"" +this.$route.params.number;
       reader.onloadend = function() {
-          var base64data = reader.result;
-          console.log(base64data);
-          axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result}).then(response=>{
+          console.log(fileName);
+          axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
               console.log(response);
             }).catch(e=>{
               console.log(e)
@@ -139,9 +140,10 @@ export default {
       const file = e.target.files[0];
       //   this.item.imageUrl = URL.createObjectURL(file);
       this.image = URL.createObjectURL(file);
+      this.fileData = file;
       // this.$set(this.items[index], "file", file);
     }
-  }
+  },
 };
 </script>
 
