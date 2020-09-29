@@ -38,7 +38,8 @@ padding:10px 10px 10px 30px;">
       두 손가락을 마주보게하고 오른쪽 손이 위로 오게 한다.
     </v-card-subtitle>
     <div style="width:100%; height: 50px; text-align: center;">
-      <v-btn @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+      <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+      <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
     </div>
     </div>
       </div>
@@ -77,6 +78,9 @@ export default {
     }
   },
   methods: {
+    nologin(){
+      alert("로그인이 필요한 서비스입니다.");
+    },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};
     },

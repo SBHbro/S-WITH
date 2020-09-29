@@ -9,7 +9,7 @@
             </div>
             <div style="height:10%;border-bottom:1px solid rgba(0, 0, 0, 0.12);" align="center">
               <h3>{{subject}}</h3>
-              <div style=" margin-top:-25px; float:right;">
+              <div v-if="$store.state.userinfo.id==this.id" style=" margin-top:-25px; float:right;">
                <div class="modify btn" style="" @click="moveUpdate">수정</div>
                <div class="delete btn" @click="Delete">삭제</div>
               </div>
@@ -19,6 +19,11 @@
               <div style="width:50%; float:right;text-align:right;">{{date}} 작성</div>              
             </div>
             <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
+           
+            <div>
+              
+            </div>
+
             <div class="replyinput">
               <input v-model="thisReply" style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
               <v-btn @click="addReply"
@@ -40,7 +45,7 @@
 </template>
 
 <script>
-
+import store from '../../store'
 import axios from "axios";
 export default {
   name: "boarddetail",
@@ -65,12 +70,7 @@ export default {
         this.id = data.id;
         this.subject = data.subject;
         this.content = data.content;
-        this.email = data.email;
-          var dateBefore = data.date;
-          var date = dateBefore.split("T")[0];
-          date = date + " ";
-          date = date + dateBefore.split("T")[1].split(".")[0];
-        this.date = date;
+        this.email = store.state.userinfo.email;
       });
   },
 
