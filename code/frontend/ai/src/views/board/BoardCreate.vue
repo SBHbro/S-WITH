@@ -22,9 +22,9 @@
               ref="subject"
             ></v-text-field>
   </tr>
-  <tr width ="500" height="300">
+  <tr width ="500" height="200">
             <v-textarea
-              style= "width:100%; height:100%;"
+              style= "width:100%; height:70%;"
               no-resize
               v-model="content"
               solo
@@ -102,7 +102,7 @@ export default {
     createHandler() {
       console.log(this.email+'@'+this.emailDomain);
       axios
-        .post(`http://j3b105.p.ssafy.io/api/notices/notice/create`, {
+        .post(`https://j3b105.p.ssafy.io/api/notices/notice/create`, {
           subject: this.subject,
           content: this.content,
           email: this.email+'@'+this.emailDomain,
