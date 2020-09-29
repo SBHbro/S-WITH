@@ -10,4 +10,4 @@ class ReplySerializer(serializers.ModelSerializer):
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
-        fields = ['id','subject','content','email','date']
+        fields = ['id','user_id','subject','content','email','date','url']
