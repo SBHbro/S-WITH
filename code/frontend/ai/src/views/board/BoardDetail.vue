@@ -69,7 +69,7 @@ export default {
     // this.selectNoticeReply();
     axios
       .get(
-        `http://localhost:8000/api/notices/notice/${id}`)
+        `https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
         console.log(data);
         this.id = data.id;
