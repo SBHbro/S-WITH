@@ -1,6 +1,6 @@
 <template>
   <v-card class="overflow-hidden">
-    <div style="width:100%; height:100%; background-color:#0000005c; position:fixed; z-index:2;" :style="{display:openLogin}" @click="closeLogin"></div>
+    <div style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%;" src="../assets/tutorial.png"></div>
     <v-app-bar
       absolute
       color="transparent"
@@ -108,6 +108,10 @@
           </v-list-item>
           </router-link>
 
+          <v-list-item @click="showTutorial">
+            <v-list-item-title>서비스 설명</v-list-item-title>
+          </v-list-item>
+
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -127,7 +131,7 @@ export default {
       },
       drawer: false,
       group: null,
-      openLogin:'none',
+      openTutorial:'block',
       id:'',
       password:''
     }
@@ -136,11 +140,11 @@ export default {
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};      
     },
-    login(){
-      this.openLogin = 'block';
+    showTutorial(){
+      this.openTutorial = 'block';
     },
-    closeLogin(){
-      this.openLogin = 'none';
+    closeTutorial(){
+      this.openTutorial = 'none';
     },
     kakaoLogout() {
       window.Kakao.API.request({
