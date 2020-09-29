@@ -86,7 +86,7 @@ export default {
       var id = this.$route.params.id;
       axios
       .delete(
-        `http://j3b105.p.ssafy.io/api/notices/notice/delete/${id}`
+        `https://j3b105.p.ssafy.io/api/notices/notice/delete/${id}`
       )
       .then(() => {
         alert("게시글이 삭제되었습니다");
