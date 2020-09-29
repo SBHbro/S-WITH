@@ -107,7 +107,7 @@ export default {
         url = "static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
       }
       axios
-        .post(`http://localhost:8000/api/notices/notice`, {
+        .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
           subject: this.subject,
           content: this.content,
           email: this.$store.state.userinfo.email,
@@ -134,7 +134,7 @@ export default {
       var fileName = this.$store.state.userinfo.id +"" +this.$route.params.number;
       reader.onloadend = function() {
           console.log(fileName);
-          axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
               console.log(response);
             }).catch(e=>{
               console.log(e)
