@@ -29,6 +29,8 @@ def notice_detail(request, notice_pk):
     if request.method == 'GET':
         notice = get_object_or_404(Notice, pk=notice_pk)
         serializer = NoticeSerializer(notice)
+        print(notice)
+        print("serial",serializer)
         return Response(serializer.data)
     elif request.method == 'PUT':
         notice = get_object_or_404(Notice, pk=notice_pk)
@@ -79,12 +81,11 @@ def reply_detail(request, reply_pk):
 @api_view(['POST'])
 def upload(request):
     request = json.loads(request.body)
-    print(request)
 
     videodata = base64.b64decode(request['data'])
-    fileName = request['filename'] + '.mp4'
+    fileName = request['filename'] + '.webm'
     # print(videodata)
-    path = 'upload/'+fileName  # I assume you have a way of picking unique filenames
+    path = 'static/upload/'+fileName  # I assume you have a way of picking unique filenames
     with open(path, 'wb') as f:
         f.write(videodata)
     f.close()

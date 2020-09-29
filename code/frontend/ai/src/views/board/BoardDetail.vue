@@ -9,7 +9,7 @@
             </div>
             <div style="height:10%;border-bottom:1px solid rgba(0, 0, 0, 0.12);" align="center">
               <h3>{{subject}}</h3>
-              <div v-if="$store.state.userinfo.id==this.id" style=" margin-top:-25px; float:right;">
+              <div v-if="$store.state.userinfo.id==user_id" style=" margin-top:-25px; float:right;">
                <div class="modify btn" style="" @click="moveUpdate">수정</div>
                <div class="delete btn" @click="Delete">삭제</div>
               </div>
@@ -18,7 +18,10 @@
               <div style=" width:50%; float:left;">글쓴이 : {{email}}</div> 
               <div style="width:50%; float:right;text-align:right;">{{date}} 작성</div>              
             </div>
-            <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
+            <div style="width:100%; height:68%; padding:15px;"><div>{{content}}</div>
+              <video style="width:50%; height:50%;" id="preview" controls autoplay :src="url"></video>
+            </div>
+            
            
             <div>
               
@@ -45,7 +48,7 @@
 </template>
 
 <script>
-import store from '../../store'
+// import store from '../../store'
 import axios from "axios";
 export default {
   name: "boarddetail",
@@ -57,20 +60,24 @@ export default {
     email:"",
     date: "",
     reply:[],
-    thisReply:""
+    thisReply:"",
+    url:'',
   }),
 
   created() {
     var id = this.$route.params.id;
-    this.selectNoticeReply();
+    // this.selectNoticeReply();
     axios
       .get(
-        `https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
+        `http://localhost:8000/api/notices/notice/${id}`)
       .then(({ data }) => {
+        console.log(data);
         this.id = data.id;
         this.subject = data.subject;
         this.content = data.content;
-        this.email = store.state.userinfo.email;
+        this.email = data.email;
+        this.user_id = data.user_id;
+        this.url = data.url;
       });
   },
 
@@ -86,7 +93,7 @@ export default {
       var id = this.$route.params.id;
       axios
       .delete(
-        `https://j3b105.p.ssafy.io/api/notices/notice/delete/${id}`
+        `https://j3b105.p.ssafy.io/api/notices/notice/${id}`
       )
       .then(() => {
         alert("게시글이 삭제되었습니다");
