@@ -102,11 +102,17 @@ export default {
     },
     createHandler() {
       console.log(this.email+'@'+this.emailDomain);
+      var url = '';
+      if(this.fileData){
+        url = "static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
+      }
       axios
-        .post(`https://j3b105.p.ssafy.io/api/notices/notice/create`, {
+        .post(`http://localhost:8000/api/notices/notice`, {
           subject: this.subject,
           content: this.content,
-          email: this.email+'@'+this.emailDomain,
+          email: this.$store.state.userinfo.email,
+          user_id: this.$store.state.userinfo.id,
+          url : url,
         })
         .then(() => {
           alert("등록이 완료되었습니다.");
@@ -133,7 +139,7 @@ export default {
             }).catch(e=>{
               console.log(e)
               // this.task = true
-          })
+          });
       }
     },
     onChange(e) {
