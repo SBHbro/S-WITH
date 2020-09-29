@@ -43,26 +43,6 @@
     <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
     <v-btn @click="removeImage">Remove video</v-btn>
   </tr>
-  <tr style="width:80%; margin-left:10%;">
-            <v-text-field
-            style="width:38%;float:left"
-              v-model="email"
-              :counter="20"
-              label="아이디를 적어주세요."
-              required
-              id="email"
-              ref="email"
-            ></v-text-field><div style="float: left; width: 4%; font-size: xx-large; font-weight: 700; color: #00000078;">@</div>
-            <v-col class="d-flex" cols="12" sm="6">
-        <v-select
-        style="width:58%;float:left; margin:0px; padding:0px;"
-          :items="items"
-          v-model="emailDomain"
-          label="이메일을 선택해주세요."
-          Standard
-        ></v-select>
-      </v-col>
-          </tr>
           <!-- </v-card-text> -->
         </table>        
           <div style="height:10%;" class="form-group" align="center">
@@ -91,7 +71,6 @@ export default {
     id: "",
     subject: "",
     content: "",
-    email: "",
     image: '',
     date: "",
     reply:[],
@@ -108,7 +87,6 @@ export default {
         this.id = data.id;
         this.subject = data.subject;
         this.content = data.content;
-        this.email = data.email;
           var dateBefore = data.date;
           var date = dateBefore.split("T")[0];
           date = date + " ";
@@ -131,11 +109,6 @@ export default {
         ((msg = "내용 입력해주세요"),
         (err = false),
         this.$refs.content.focus());
-      err &&
-        !this.email &&
-        ((msg = "이메일을 입력해주세요"),
-        (err = false),
-        this.$refs.email.focus());
 
       if (!err) alert(msg);
       else this.updateHandler();

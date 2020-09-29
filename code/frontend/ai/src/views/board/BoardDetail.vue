@@ -18,11 +18,14 @@
               <div style=" width:50%; float:left;">글쓴이 : {{email}}</div> 
               <div style="width:50%; float:right;text-align:right;">{{date}} 작성</div>              
             </div>
-            <div style="width:100%; height:68%; padding:15px;">{{content}}</div>
-           
-            <div>
-              
-            </div>
+            <!-- <div style="width:100%; height:68%; padding:15px;">{{content}}</div> -->
+
+            <div style="height:68%; width:100%; border-bottom:1px solid rgba(0, 0, 0, 0.12);     padding: 8px 0px;">     
+              <div style=" width:50%; float:left;"> 
+                   <video autoplay :src="image" />
+              </div> 
+              <div style="width:50%; float:right;text-align:right;">{{content}}</div>              
+            </div>            
 
             <div class="replyinput">
               <input v-model="thisReply" style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;" placeholder="댓글을 입력해주세요.">
@@ -56,6 +59,7 @@ export default {
     content: "",
     email:"",
     date: "",
+    image: '',
     reply:[],
     thisReply:""
   }),
@@ -86,7 +90,7 @@ export default {
       var id = this.$route.params.id;
       axios
       .delete(
-        `http://j3b105.p.ssafy.io/api/notices/notice/delete/${id}`
+        `https://j3b105.p.ssafy.io/api/notices/notice/delete/${id}`
       )
       .then(() => {
         alert("게시글이 삭제되었습니다");
