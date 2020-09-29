@@ -117,7 +117,7 @@ export default {
     updateHandler() {
       var id = this.$route.params.id;
       axios
-        .put(`https://j3b105.p.ssafy.io/api/notices/notice/update/${id}`, {
+        .put(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`, {
           subject: this.subject,
           content: this.content,
           email: this.email

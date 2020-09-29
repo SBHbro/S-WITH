@@ -96,7 +96,8 @@ export default {
   },
   methods: {
     movePage() {
-      this.$router.push("/board/create");
+      // this.$router.push("/board/create");
+      this.$router.push({name : 'BoardCreate', params : {number : this.boards[0].id}});
     },
     moveRead(value) {
       // console.log(value.id);
