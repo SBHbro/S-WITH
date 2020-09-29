@@ -67,12 +67,9 @@ import axios from "axios";
 export default {
   name: "boardcreate",
   data: () => ({
-    items: ['naver.com', 'gmail.com', 'nate.com', 'daum.net','kakao.com'],
     notice: [],
     subject: "",
     content: "",
-    email: "",
-    emailDomain:"",
     image: '',
   }),
 
@@ -90,22 +87,15 @@ export default {
         ((msg = "내용 입력해주세요"),
         (err = false),
         this.$refs.content.focus());
-      err &&
-        !this.email &&
-        ((msg = "이메일을 입력해주세요"),
-        (err = false),
-        this.$refs.email.focus());
 
       if (!err) alert(msg);
       else this.createHandler();
     },
     createHandler() {
-      console.log(this.email+'@'+this.emailDomain);
       axios
-        .post(`https://j3b105.p.ssafy.io/api/notices/notice/create`, {
+        .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
           subject: this.subject,
           content: this.content,
-          email: this.email+'@'+this.emailDomain,
         })
         .then(() => {
           alert("등록이 완료되었습니다.");
