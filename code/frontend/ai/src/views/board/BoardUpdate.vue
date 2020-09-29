@@ -79,7 +79,7 @@ export default {
     var id = this.$route.params.id;
     axios
       .get(
-        `http://j3b105.p.ssafy.io/api/notices/notice/${id}`)
+        `https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
         this.id = data.id;
         this.subject = data.subject;
