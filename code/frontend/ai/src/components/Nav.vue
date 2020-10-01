@@ -1,8 +1,12 @@
 <template>
   <v-card class="overflow-hidden">
+<<<<<<< HEAD
     <div v-if="frameSize.x>1000" style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%;" src="../assets/tutorial.png"></div>
     <div v-if="frameSize.x<=1000" style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%;" src="../assets/tutorial_mobile.png"></div>
     
+=======
+    <div style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%;" src="../assets/tutorial.png"></div>
+>>>>>>> d3c8640037d7fce661775fa1a6950601bcef6611
     <v-app-bar
       absolute
       color="transparent"

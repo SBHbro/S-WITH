@@ -45,11 +45,8 @@ export default {
       reader.onloadend = function() {
           var base64data = reader.result;
           console.log(base64data);
-          axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result}).then(response=>{
+          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result}).then(response=>{
               console.log(response);
-              // this.answer = response.data[0].answer
-              // this.accuracy = response.data[0].accuracy
-              // this.task = true
             }).catch(e=>{
               console.log(e)
               // this.task = true
@@ -58,12 +55,9 @@ export default {
     },
     onChange(e) {
       const file = e.target.files[0];
-      //   this.item.imageUrl = URL.createObjectURL(file);
       this.image = URL.createObjectURL(file);
       this.fileData = file;
-      // this.$set(this.items[index], "file", file);
     }
-
    }
 }
 </script>
