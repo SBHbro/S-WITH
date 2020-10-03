@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'notices',
     'ai',
     'users',
+    'crawling',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
