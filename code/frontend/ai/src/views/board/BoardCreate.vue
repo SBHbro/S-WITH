@@ -143,10 +143,8 @@ export default {
     clear() {
       this.$refs.form.reset();
     },
-    removeImage: function() {
-      this.image = "";
-    },
     uploadImage() {
+      var reader = new FileReader();
       var formData = new FormData();
       // console.log(this.fileData);
       var strArr = this.fileData.name.split("."); // 파일 확장자 가져오기 위해 자르기
@@ -170,6 +168,17 @@ export default {
           console.log(e);
           // this.task = true
         });
+
+      reader.readAsDataURL(this.fileData);
+      reader.onloadend = function() {
+        console.log(fileName);
+        // axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+        //     console.log(response);
+        //   }).catch(e=>{
+        //     console.log(e)
+        //     // this.task = true
+        // });
+      };
     },
     onChange(e) {
       const file = e.target.files[0];
