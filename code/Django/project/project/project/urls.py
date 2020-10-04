@@ -27,6 +27,7 @@ schema_url_patterns = [
     path('api/notices/', include('notices.urls')),
     path('api/ai/', include('ai.urls')),
     path('api/users/', include('users.urls')),
+    path('api/crawling/', include('crawling.urls')),
 ]
 
 schema_view = get_schema_view(
@@ -45,6 +46,7 @@ urlpatterns = [
     path('api/notices/', include('notices.urls')),
     path('api/ai/', include('ai.urls')),
     path('api/users/', include('users.urls')),
+    path('api/crawling/', include('crawling.urls')),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
