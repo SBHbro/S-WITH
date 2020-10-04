@@ -104,7 +104,7 @@ export default {
       console.log(this.email+'@'+this.emailDomain);
       var url = '';
       if(this.fileData){
-        url = "/static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
+        url = "https://j3b105.p.ssafy.io/media/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
       }
       axios
         .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
@@ -130,16 +130,33 @@ export default {
     },
     uploadImage(){
       var reader = new FileReader();
-      reader.readAsDataURL(this.fileData);
-      var fileName = this.$store.state.userinfo.id +"" +this.$route.params.number;
-      reader.onloadend = function() {
-          console.log(fileName);
-          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+      var formData = new FormData();
+      // console.log(this.fileData);
+      var strArr = this.fileData.name.split('.'); // 파일 확장자 가져오기 위해 자르기
+      
+      var fileName = this.$store.state.userinfo.id +"" +this.$route.params.number+"."+strArr[1];
+      formData.append('file',this.fileData);
+      formData.append('filename',fileName);
+      axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,formData,
+      {
+        headers: {'Content-Type' : 'multipart/form-data'}
+      }
+      ).then(response=>{
               console.log(response);
             }).catch(e=>{
               console.log(e)
               // this.task = true
           });
+        
+      reader.readAsDataURL(this.fileData);
+      reader.onloadend = function() {
+          console.log(fileName);
+          // axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+          //     console.log(response);
+          //   }).catch(e=>{
+          //     console.log(e)
+          //     // this.task = true
+          // });
       }
     },
     onChange(e) {
