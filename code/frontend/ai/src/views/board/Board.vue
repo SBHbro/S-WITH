@@ -1,34 +1,39 @@
 <template>
-    <div class="container" align="center">
-      <div>
-        <h3 style="    font-size: x-large; color: #000000b8; margin: 15px 0px;">문의 게시판</h3>
+  <div class="container" align="center">
+    <div>
+      <h3 style="    font-size: x-large; color: #000000b8; margin: 15px 0px;">
+        문의 게시판
+      </h3>
       <div style="height:50px;">
-          <v-btn v-if="$store.state.userinfo.id!=''"
-            style="border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-            type="button"
-            id="mvWriteBtn"
-            class="btn btn-sm"
-            data-backdrop="static"
-            color="rgb(98 149 232)"
-            @click="movePage"
-            ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn>
-            
-            <v-btn v-if="$store.state.userinfo.id==''"
-            style=" border-color: transparent; float: left; color: #0000007a; font-weight: bold;font-size: small;"
-            type="button"
-            id="mvWriteBtn"
-            class="btn btn-sm"
-            data-backdrop="static"
-            @click="nologin"
-            ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn>
+        <v-btn
+          v-if="$store.state.userinfo.id != ''"
+          style="border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+          type="button"
+          id="mvWriteBtn"
+          class="btn btn-sm"
+          data-backdrop="static"
+          color="rgb(98 149 232)"
+          @click="movePage"
+          ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn
+        >
+
+        <v-btn
+          v-if="$store.state.userinfo.id == ''"
+          style=" border-color: transparent; float: left; color: #0000007a; font-weight: bold;font-size: small;"
+          type="button"
+          id="mvWriteBtn"
+          class="btn btn-sm"
+          data-backdrop="static"
+          @click="nologin"
+          ><v-icon size="19px">mdi-pencil</v-icon>새글쓰기</v-btn
+        >
 
         <v-spacer></v-spacer>
-          <input
-            style="border:0px solid transparent;float: right; width: 301px; height: 39px; background-color: #80808017; font-size: small; padding: 0px 10px; border-radius: 20px;"
-            v-model="search"
-            placeholder="제목, 내용을 검색해주세요"
-            
-          >
+        <input
+          style="border:0px solid transparent;float: right; width: 301px; height: 39px; background-color: #80808017; font-size: small; padding: 0px 10px; border-radius: 20px;"
+          v-model="search"
+          placeholder="제목, 내용을 검색해주세요"
+        />
       </div>
 
       <div style="height:400px;">
@@ -39,7 +44,7 @@
           :search="search"
           item-key="id"
           :items-per-page="5"
-          :hide-default-footer=false
+          :hide-default-footer="false"
           @click:row="moveRead"
         ></v-data-table>
         <!-- <div>
@@ -50,9 +55,9 @@
             <button aria-label="Next page" class="v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default" @click="nextPage()"><v-icon>mdi-chevron-right</v-icon></button>
           </div>
          </div> -->
-      </div> 
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -65,20 +70,19 @@ export default {
       search: "",
       headers: [
         { text: "NO.", value: "id" },
-        { text: "제 목", value: "subject" },       
+        { text: "제 목", value: "subject" },
         { text: "작 성 자", value: "email" },
         { text: "작 성 일", value: "date" }
       ],
-      boards: [
-      ],
-      selected: [],
+      boards: [],
+      selected: []
     };
   },
   created() {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice`)
       .then(({ data }) => {
-        console.log(data)
+        console.log(data);
         this.boards = data;
         for (let index = 0; index < data.length; index++) {
           var dateBefore = data[index].date;
@@ -97,7 +101,14 @@ export default {
   methods: {
     movePage() {
       // this.$router.push("/board/create");
-      this.$router.push({name : 'BoardCreate', params : {number : this.boards[0].id}});
+      var boardNum = 1;
+      if (this.board) {
+        boardNum = this.boards[0].id;
+      }
+      this.$router.push({
+        name: "BoardCreate",
+        params: { number: boardNum }
+      });
     },
     moveRead(value) {
       // console.log(value.id);
@@ -113,7 +124,7 @@ export default {
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
     },
-    nologin(){
+    nologin() {
       alert("로그인이 필요한 서비스입니다.");
     }
   }
@@ -128,27 +139,25 @@ table th {
   font-size: 1.2rem;
   text-align: center;
 }
-thead{
+thead {
   box-shadow: 0px 1px 9px #6c757d6b;
 }
 table td:first-of-type {
   border-top: 0px solid white;
-
 }
 table tr {
   height: 2rem;
   text-align: center;
-  border-bottom:0px solid white;;
+  border-bottom: 0px solid white;
 }
 table tr:first-of-type {
-  border-top: 0px solid white;;
-
+  border-top: 0px solid white;
 }
 table tr td {
   padding: 1rem 0;
   font-size: 1.1rem;
 }
-container{
+container {
   border-bottom: 0px solid white;
 }
 .btn-cover {
@@ -164,32 +173,32 @@ container{
   padding: 0 1rem;
 }
 
-.btn btn-sm btn-primary{
+.btn btn-sm btn-primary {
   margin-left: 250px;
 }
-.v-data-table__wrapper{
-  height:290px;
+.v-data-table__wrapper {
+  height: 290px;
 }
-.v-data-footer__select{
+.v-data-footer__select {
   display: none;
-  color:white;
+  color: white;
 }
 input:focus {
-    outline:none !important;
-    outline-width: 0 !important;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
+  outline: none !important;
+  outline-width: 0 !important;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
-.v-menu__content{
+.v-menu__content {
   display: none;
 }
 .v-data-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.75rem;
-    padding: 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 0 8px;
 }
 </style>

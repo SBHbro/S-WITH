@@ -1,19 +1,26 @@
 <template>
- <div style="width:100%; height:100%;">
-    <v-row style="width: 100%; height: 100%; padding: 0px 2%; margin: 0px; " justify="center">
+  <div style="width:100%; height:100%;">
+    <v-row
+      style="width: 100%; height: 100%; padding: 0px 2%; margin: 0px; "
+      justify="center"
+    >
       <v-col cols="30" sm="20" md="10" lg="20">
         <!-- <v-card ref="form" cols="12" sm="10" md="8" lg="6"> -->
-          <!-- <v-card-text> -->
-            <div style="height:5%;" align="center">
-              <router-link to="/board"><div style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;">
-                <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
-              </div></router-link>
-            </div>
+        <!-- <v-card-text> -->
+        <div style="height:5%;" align="center">
+          <router-link to="/board"
+            ><div
+              style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;"
+            >
+              <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+            </div></router-link
+          >
+        </div>
 
-    <table style="width:100%; height:85%;">
-      <tr>
+        <table style="width:100%; height:85%;">
+          <tr>
             <v-text-field
-            style="margin:12px;"
+              style="margin:12px;"
               v-model="subject"
               :counter="20"
               label="제목을 입력해주세요"
@@ -21,10 +28,10 @@
               id="subject"
               ref="subject"
             ></v-text-field>
-  </tr>
-  <tr width ="500" height="200">
+          </tr>
+          <tr width="500" height="200">
             <v-textarea
-              style= "width:100%; height:70%;"
+              style="width:100%; height:70%;"
               no-resize
               v-model="content"
               solo
@@ -36,26 +43,32 @@
               id="content"
               ref="content"
             ></v-textarea>
-  </tr>
-  <tr>
-    <input style="width:50%; margin-left:0%; margin-top:0%; " type="file" @change="onChange($event)">
-    <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
-    <v-btn @click="uploadImage">Upload video</v-btn>
-    <v-btn @click="removeImage">Remove video</v-btn>
-  </tr>
+          </tr>
+          <tr>
+            <input
+              style="width:50%; margin-left:0%; margin-top:0%; "
+              type="file"
+              @change="onChange($event)"
+            />
+            <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
+            <v-btn @click="uploadImage">Upload video</v-btn>
+            <v-btn @click="removeImage">Remove video</v-btn>
+          </tr>
           <!-- </v-card-text> -->
-        </table>        
-          <div style="height:10%;" class="form-group" align="center">
-            <v-btn 
-            align = "left"
-            type="button" 
+        </table>
+
+        <div style="height:10%;" class="form-group" align="center">
+          <v-btn
+            align="left"
+            type="button"
             color="rgb(46 179 103)"
             style=" color: white; width: 150px; height: 90%; font-size: large; font-weight: bold; text-shadow:#343a40d4 1px 1px 4px;"
-    
-            @click="checkHandler">등록하기</v-btn>
+            @click="checkHandler"
+            >등록하기</v-btn
+          >
 
-            <!-- <v-btn @click="clear">초기화</v-btn> -->
-          </div>
+          <!-- <v-btn @click="clear">초기화</v-btn> -->
+        </div>
         <!-- </v-card> -->
       </v-col>
     </v-row>
@@ -67,14 +80,14 @@ import axios from "axios";
 export default {
   name: "boardcreate",
   data: () => ({
-    items: ['naver.com', 'gmail.com', 'nate.com', 'daum.net','kakao.com'],
+    items: ["naver.com", "gmail.com", "nate.com", "daum.net", "kakao.com"],
     notice: [],
     subject: "",
     content: "",
     email: "",
-    emailDomain:"",
-    image: '',
-    fileData:'',
+    emailDomain: "",
+    image: "",
+    fileData: ""
   }),
 
   methods: {
@@ -101,10 +114,15 @@ export default {
       else this.createHandler();
     },
     createHandler() {
-      console.log(this.email+'@'+this.emailDomain);
-      var url = '';
-      if(this.fileData){
-        url = "static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
+      console.log(this.email + "@" + this.emailDomain);
+      var url = "";
+      if (this.fileData) {
+        url =
+          "https://j3b105.p.ssafy.io/media/" +
+          this.$store.state.userinfo.id +
+          "" +
+          this.$route.params.number +
+          ".webm";
       }
       axios
         .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
@@ -112,7 +130,7 @@ export default {
           content: this.content,
           email: this.$store.state.userinfo.email,
           user_id: this.$store.state.userinfo.id,
-          url : url,
+          url: url
         })
         .then(() => {
           alert("등록이 완료되었습니다.");
@@ -124,23 +142,34 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
-    },    
-    removeImage: function () {
-      this.image = '';
     },
-    uploadImage(){
-      var reader = new FileReader();
-      reader.readAsDataURL(this.fileData);
-      var fileName = this.$store.state.userinfo.id +"" +this.$route.params.number;
-      reader.onloadend = function() {
-          console.log(fileName);
-          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
-              console.log(response);
-            }).catch(e=>{
-              console.log(e)
-              // this.task = true
-          });
-      }
+    removeImage: function() {
+      this.image = "";
+    },
+    uploadImage() {
+      var formData = new FormData();
+      // console.log(this.fileData);
+      var strArr = this.fileData.name.split("."); // 파일 확장자 가져오기 위해 자르기
+
+      var fileName =
+        this.$store.state.userinfo.id +
+        "" +
+        this.$route.params.number +
+        "." +
+        strArr[1];
+      formData.append("file", this.fileData);
+      formData.append("filename", fileName);
+      axios
+        .post(`https://j3b105.p.ssafy.io/api/notices/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(e => {
+          console.log(e);
+          // this.task = true
+        });
     },
     onChange(e) {
       const file = e.target.files[0];
@@ -149,13 +178,17 @@ export default {
       this.fileData = file;
       // this.$set(this.items[index], "file", file);
     }
-  },
+  }
 };
 </script>
 
 <style>
-.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
-    min-height: 200px;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) inset, 0px 2px 2px 0px rgba(0, 0, 0, 0.14) inset, 0px 1px 5px 0px rgba(0, 0, 0, 0.12) inset;
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+  > .v-input__control
+  > .v-input__slot {
+  min-height: 200px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) inset,
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14) inset,
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12) inset;
 }
 </style>
