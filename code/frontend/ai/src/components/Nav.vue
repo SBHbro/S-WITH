@@ -75,6 +75,8 @@
               <img :src="$store.state.userinfo.">
             </div>
           </div> -->
+          <div v-if="userEmerPhonebook.length == 0" style="position:absolute; padding: 12px 8px;width:100%;height:100%;background-color:rgb(0 0 0 / 72%); font-size: 15px;
+    font-weight: bold;"><h5 style="font-size:15px; font-weight: bold; color:#fbb8b8;">긴급연락처 등록이 안되어있어요!</h5><h5 style="font-size:15px; font-weight: bold; color:#fbb8b8;">아래 긴급연락처에서<br>긴급연락처 등록을 해 주세요.</h5></div>
           <div style="width:100%; height:70%; padding: 33px; display:inline-block; background: linear-gradient(0, rgb(240 245 253), rgb(197 220 255));padding: 33px;">
             <h4 style="font-weight: bold; color: #000000b3;">{{$store.state.userinfo.nickname}}님</h4>
             <h5 style="    font-size: medium; font-weight: bold; color: #0000009e;">안녕하세요!</h5>
@@ -110,6 +112,13 @@
           </v-list-item>
           </router-link>
 
+          <router-link to="/myPhoneBook">
+          <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-list-item-title v-if="userEmerPhonebook.length == 0" style="color:red;">긴급연락처 관리</v-list-item-title>
+            <v-list-item-title v-if="userEmerPhonebook.length != 0" >긴급연락처 관리</v-list-item-title>
+          </v-list-item>
+          </router-link>
+
           <router-link to="/">
           <v-list-item @click="showTutorial">
             <v-list-item-title>서비스 설명</v-list-item-title>
@@ -139,10 +148,26 @@ export default {
       group: null,
       openTutorial:'block',
       id:'',
-      password:''
+      password:'',
+      userEmerPhonebook:[]
     }
   },
   methods: {
+     selectPhone() {
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: res => {
+          axios
+            .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
+            .then(response => {
+              console.log(response);
+              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              this.userEmerPhonebook = response.data;
+            });
+        }
+      });
+    },
+
     noshow1d(){
       VueCookies.set("noshow","true",'1d');
       console.log(VueCookies.keys());
@@ -227,6 +252,7 @@ export default {
   mounted(){
     this.isCookie = VueCookies.isKey('noshow');
     this.onResize();
+    this.selectPhone();
       window.onresize=()=>{
           this.onResize();
         }
