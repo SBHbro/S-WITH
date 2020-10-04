@@ -104,7 +104,7 @@ export default {
       console.log(this.email+'@'+this.emailDomain);
       var url = '';
       if(this.fileData){
-        url = "static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
+        url = "/static/upload/" + this.$store.state.userinfo.id + "" +this.$route.params.number + ".webm";
       }
       axios
         .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
