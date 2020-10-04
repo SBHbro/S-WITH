@@ -97,7 +97,11 @@ export default {
   methods: {
     movePage() {
       // this.$router.push("/board/create");
-      this.$router.push({name : 'BoardCreate', params : {number : this.boards[0].id}});
+      var boardNum = 1;
+      if(this.boards){
+        boardNum = this.boards[0].id;
+      }
+      this.$router.push({name : 'BoardCreate', params : {number : boardNum}});
     },
     moveRead(value) {
       // console.log(value.id);
