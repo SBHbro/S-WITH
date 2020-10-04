@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="width:100%; padding-top:150px;">
+  <div class="note_container" style="width:100%; padding-top:150px;">
         <div style="width:100%;height:470px; position:relative;">
             <div v-for="(word,index) in paginatedData" :key="index" style="position:relative;height:50px; width:100%; margin-bottom:10px;">
         <v-row justify="center" style="width:100%; ">
@@ -91,7 +91,7 @@ data () {
 </script>
 
 <style>
-.container{
+.note_container{
     position:relative;
     background-image: url("../assets/note.png");
     background-position: center;
