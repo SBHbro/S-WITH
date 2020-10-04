@@ -14,3 +14,7 @@ class Voca(models.Model):
     word = models.CharField(max_length=100)
     video = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now=True)
+
+class Phone(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.CharField(max_length=50)
