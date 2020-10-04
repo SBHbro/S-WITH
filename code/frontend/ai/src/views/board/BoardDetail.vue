@@ -59,6 +59,7 @@ export default {
     content: "",
     email:"",
     date: "",
+    image: '',
     reply:[],
     thisReply:"",
     url:'',
