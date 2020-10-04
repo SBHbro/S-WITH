@@ -8,14 +8,13 @@ from .models import Notice, Reply
 from .serializers import NoticeSerializer, ReplySerializer
 import datetime
 import json
-import base64
-from .forms import UploadFileForm
-from django.core.files.storage import default_storage
+
+from django.core.files.storage import FileSystemStorage
 
 @api_view(['GET','POST'])
 def notice_list(request):
     if request.method == 'GET':
-        notices = Notice.objects.all()
+        notices = Notice.objects.order_by('-date')
         serializer = NoticeSerializer(notices, many=True)
         return Response(serializer.data)
     else:
@@ -30,11 +29,10 @@ def notice_detail(request, notice_pk):
     if request.method == 'GET':
         notice = get_object_or_404(Notice, pk=notice_pk)
         serializer = NoticeSerializer(notice)
-        print(notice)
-        print("serial",serializer)
         return Response(serializer.data)
     elif request.method == 'PUT':
         notice = get_object_or_404(Notice, pk=notice_pk)
+        print('notice', notice)
         notice.date = datetime.datetime.now()
         serializer = NoticeSerializer(data=request.data, instance=notice)
         if serializer.is_valid(raise_exception=True):
@@ -79,7 +77,19 @@ def reply_detail(request, reply_pk):
         reply.delete()
         return Response({'message': '성공적으로 삭제되었습니다.'})
 
+
+
 @api_view(['POST'])
 def upload(request):
+
+    if request.method == 'POST':
+
+        filename = request.POST['filename']
+        file = request.FILES['file']
+        fs = FileSystemStorage()
+
+        fs.save(filename, file)
+
+
 
     return Response('success')
