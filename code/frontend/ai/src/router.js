@@ -16,6 +16,7 @@ import ToHandLanChoice from './views/HandLan/ToHandLanChoice.vue'
 import ToHandLanDic from './views/HandLan/ToHandLanDic.vue'
 import Upload from './views/Upload.vue'
 import MyNote from './views/myNote/myNote.vue'
+import MyPhoneBook from './views/myNote/myPhoneBook.vue'
 
 Vue.use(Router) //플러그인 등록
 
@@ -101,6 +102,11 @@ export default new Router({
             path:'/myNote',
             name: 'MyNote',
             component : MyNote
+        },
+        {
+            path : '/myPhoneBook',
+            name : 'MyPhoneBook',
+            component : MyPhoneBook
         }
     ]
 })
