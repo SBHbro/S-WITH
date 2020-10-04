@@ -23,19 +23,19 @@ padding:10px 10px 10px 30px;">
     <div  style="height:100%; width:100%; padding-top:1%;">
       <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
       <div  style=" height:100%; width:100%;">
-        <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
+        <!-- <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay loop></video> -->
+        <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
         <!-- <v-img
       src="../../assets/HandLan/result.png"
       width="100%"
       height="50%"
       style="background-size: contain;"
     ></v-img> -->
-    <div style="width:100%; height:50%;">
-      <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{attr}}에 대한 수어</div>
+    <div style="width:100%; height:50%;" align="center">
+      <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}에 대한 수어</div>
 
-    <v-card-subtitle style="overflow:auto; text-align:center;     height: 117px; ">
-      왼쪽 검지와 오른쪽 검지를 뻗는다.<br>
-      두 손가락을 마주보게하고 오른쪽 손이 위로 오게 한다.
+    <v-card-subtitle style="overflow:auto; text-align:center; width: 50%;height: 117px;">
+      {{descUrl}}
     </v-card-subtitle>
     <div style="width:100%; height: 50px; text-align: center;">
       <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
@@ -56,6 +56,7 @@ padding:10px 10px 10px 30px;">
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 // import Camera from '../../components/Camera.vue'
 export default {
   // components:{Camera},
@@ -74,7 +75,11 @@ export default {
       searchMargin:0,
       search:'close',
       isopened : 'none',
-      videoSrc : ''
+      videoSrc : '',
+      result: '',
+      descUrl: '',
+      imageUrl: '',
+      videoUrl: '',
     }
   },
   methods: {
@@ -92,9 +97,57 @@ export default {
         this.search = 'open';
         this.isopened = 'block';
 
-        axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
-          console.log(res)
-          this.videoSrc = res.data;
+        // axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
+        //   console.log(res)
+        //   this.videoSrc = res.data;
+        //   this.result = this.attr;
+        // });
+        let timerInterval;
+        Swal.fire({
+          title: '검색중...',
+          // html: '전송까지 <b></b> 초 남았습니다.',
+          timer: 3000,
+          timerProgressBar: true,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            
+            Swal.color= 'green';
+            timerInterval = setInterval(() => {
+              const content = Swal.getContent()
+              if (content) {
+                const b = content.querySelector('b')
+                if (b) {
+                  b.textContent = Swal.getTimerLeft()
+                }
+              }
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+            Swal.fire(
+              '검색완료!',
+              '',
+              'success'
+            )
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // // console.log('I was closed by the timer')
+          }
+        });
+
+        axios
+        .post(`https://j3b105.p.ssafy.io/api/crawling/word`, {
+          word: this.attr // 검색할 단어
+        })
+        .then(response => {
+          console.log(response);
+          console.log("단어 검색 완료");
+          this.result = this.attr;
+          this.descUrl = response.data.descUrl;
+          this.imageUrl = response.data.imageUrl1;
+          this.videoUrl = response.data.videoUrl;
         });
 
       }
