@@ -4,10 +4,11 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response  # 응답하는 메서드
 from rest_framework.decorators import api_view  # 요청 방식을 필터링
-from .models import Notice, Reply, UploadFileModel
+from .models import Notice, Reply
 from .serializers import NoticeSerializer, ReplySerializer
 import datetime
 import json
+
 from django.core.files.storage import FileSystemStorage
 
 @api_view(['GET','POST'])
@@ -80,6 +81,7 @@ def reply_detail(request, reply_pk):
 
 @api_view(['POST'])
 def upload(request):
+
     if request.method == 'POST':
 
         filename = request.POST['filename']
@@ -87,6 +89,7 @@ def upload(request):
         fs = FileSystemStorage()
 
         fs.save(filename, file)
+
 
 
     return Response('success')
