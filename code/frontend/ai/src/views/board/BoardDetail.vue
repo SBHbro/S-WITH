@@ -162,10 +162,15 @@ export default {
               console.log("댓글 등록 완료");
               this.selectNoticeReply();
             });
+        },
+        fail: () => {
+          alert('로그인 해주세요.');
         }
       });
     },
     selectNoticeReply() {
+      // console.log(this.$router.state.userinfo.id);
+
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: () => {
@@ -179,7 +184,12 @@ export default {
               console.log(this.reply);
               console.log("한 게시글에 대한 댓글 가져오기 완료");
             });
+        },
+        fail: () => {
+          // alert('로그인 해주세요');
+          console.log('로그인 안함');
         }
+      
       });
     }
   }
