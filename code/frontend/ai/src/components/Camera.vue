@@ -145,7 +145,7 @@ export default {
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/objectDetection`,{image : image.src}).then(response=>{
+      axios.post(`https://j3b105.p.ssafy.io/api/ai/objectDetection`,{image : image.src}).then(response=>{
         // console.log(response);
         this.oList = response.data;
         this.objectImage += response.data.image;
@@ -156,7 +156,7 @@ export default {
       var image = new Image();
       image.src = this.canvas.toDataURL();
 
-      axios.post(`http://localhost:8000/api/ai/textDetection`,{image : image.src}).then(response=>{
+      axios.post(`https://j3b105.p.ssafy.io/api/ai/textDetection`,{image : image.src}).then(response=>{
         this.tList = response.data;
         this.textImage += response.data.image;
       })
