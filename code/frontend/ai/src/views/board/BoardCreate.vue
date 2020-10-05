@@ -48,6 +48,7 @@
             <input
               style="width:50%; margin-left:0%; margin-top:0%; "
               type="file"
+              ref="fileInput"
               @change="onChange($event)"
             />
             <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
@@ -77,6 +78,8 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
+
 export default {
   name: "boardcreate",
   data: () => ({
@@ -87,7 +90,8 @@ export default {
     email: "",
     emailDomain: "",
     image: "",
-    fileData: ""
+    fileData: "",
+    isFile: false,
   }),
 
   methods: {
@@ -114,28 +118,40 @@ export default {
       else this.createHandler();
     },
     createHandler() {
-      console.log(this.email + "@" + this.emailDomain);
-      var url = "";
-      if (this.fileData) {
-        url =
-          "https://j3b105.p.ssafy.io/media/" +
-          this.$store.state.userinfo.id +
-          "" +
-          this.$route.params.number +
-          ".webm";
-      }
-      axios
-        .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
-          subject: this.subject,
-          content: this.content,
-          email: this.$store.state.userinfo.email,
-          user_id: this.$store.state.userinfo.id,
-          url: url
+      console.log(this.fileData);
+      if(this.fileData && !this.isFile){
+        Swal.fire({
+          icon: 'error',
+          title: '파일 업로드를 완료해주세요',
+          text: '',
         })
-        .then(() => {
-          alert("등록이 완료되었습니다.");
-          this.moveList();
-        });
+      }
+      else{
+        var url = "null";
+        console.log(url);
+        if (this.fileData) {
+          var strArr = this.fileData.name.split(".");
+          url =
+            "https://j3b105.p.ssafy.io/media/" +
+            this.$store.state.userinfo.id +
+            "" +
+            this.$route.params.number +
+            "." + strArr[1];
+        }
+        axios
+          .post(`http://localhost:8000/api/notices/notice`, {
+            subject: this.subject,
+            content: this.content,
+            email: this.$store.state.userinfo.email,
+            user_id: this.$store.state.userinfo.id,
+            url: url
+          })
+          .then(() => {
+            alert("등록이 완료되었습니다.");
+            this.moveList();
+          });
+
+      }
     },
     moveList() {
       this.$router.push("/board");
@@ -179,6 +195,42 @@ export default {
         //     // this.task = true
         // });
       };
+
+      let timerInterval;
+      Swal.fire({
+        title: '업로드중...',
+        // html: '전송까지 <b></b> 초 남았습니다.',
+        timer: 2000,
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+          Swal.showLoading()
+          
+          Swal.color= 'green';
+          timerInterval = setInterval(() => {
+            const content = Swal.getContent()
+            if (content) {
+              const b = content.querySelector('b')
+              if (b) {
+                b.textContent = Swal.getTimerLeft()
+              }
+            }
+          }, 100)
+        },
+        onClose: () => {
+          clearInterval(timerInterval)
+          Swal.fire(
+            '업로드완료!',
+            '',
+            'success'
+          )
+          this.isFile = true;
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          // // console.log('I was closed by the timer')
+        }
+      });
     },
     onChange(e) {
       const file = e.target.files[0];
@@ -186,6 +238,13 @@ export default {
       this.image = URL.createObjectURL(file);
       this.fileData = file;
       // this.$set(this.items[index], "file", file);
+    },
+    removeImage(){
+      this.fileData = "";
+      this.isFile = false;
+      const input = this.$refs.fileInput
+      input.type = 'text'
+      input.type = 'file'
     }
   }
 };
