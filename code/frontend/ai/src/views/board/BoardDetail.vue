@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%; height:100%;">
+  <div style="width:100%; height:100%;overflow:hidden;">
     <v-row
       style="width:100%; height:100%;overflow-y:scroll; overflow-x:hidden;"
       justify="center"
@@ -55,11 +55,20 @@
             placeholder="댓글을 입력해주세요."
           />
           <v-btn
+            v-if="$store.state.userinfo.id!=''"
             @click="addReply"
             style="height:45px; width:9%;border-color: transparent; float: left; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
             type="button"
             class="btn btn-sm"
             color="rgb(98 149 232)"
+            >등록</v-btn
+          >
+          <v-btn
+            v-if="$store.state.userinfo.id==''"
+            @click="alertlogin"
+            style="height:45px; width:9%;border-color: transparent; float: left; color: gray; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+            type="button"
+            class="btn btn-sm"
             >등록</v-btn
           >
         </div>
@@ -123,6 +132,9 @@ export default {
     },
     moveUpdate() {
       this.$router.push("/board/update/" + this.id);
+    },
+    alertlogin(){
+      alert('로그인이 필요한 서비스입니다.');
     },
     Delete() {
       // this.$router.push("/board/delete/" + this.id);
