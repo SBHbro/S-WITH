@@ -139,7 +139,7 @@ export default {
             "." + strArr[1];
         }
         axios
-          .post(`http://localhost:8000/api/notices/notice`, {
+          .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
             subject: this.subject,
             content: this.content,
             email: this.$store.state.userinfo.email,
