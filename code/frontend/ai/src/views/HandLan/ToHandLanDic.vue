@@ -20,34 +20,39 @@ padding:10px 10px 10px 30px;">
   </div>
   <div style="width:100%;height:80%;">
     <v-row  style="width:100%; height:100%; margin:0px;" justify="center">
-    <div  style="height:100%; width:100%; padding-top:1%;">
+    <div style="height:100%; width:100%; padding-top:1%;" v-if="isWord">
       <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
-      <div  style=" height:100%; width:100%;">
-        <!-- <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay loop></video> -->
-        <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
-        <!-- <v-img
-      src="../../assets/HandLan/result.png"
-      width="100%"
-      height="50%"
-      style="background-size: contain;"
-    ></v-img> -->
-    <div style="width:100%; height:50%;" align="center">
-      <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}에 대한 수어</div>
+        <div  style=" height:100%; width:100%;">
+          <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
+          <div style="width:100%; height:50%;" align="center">
+            <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}에 대한 수어</div>
 
-    <v-card-subtitle style="overflow:auto; text-align:center; width: 50%;height: 117px;">
-      {{descUrl}}
-    </v-card-subtitle>
-    <div style="width:100%; height: 50px; text-align: center;">
-      <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-      <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+            <v-card-subtitle style="overflow:auto; text-align:center; width: 50%;height: 117px;">
+              {{descUrl}}
+            </v-card-subtitle>
+            <div style="width:100%; height: 50px; text-align: center;">
+              <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+            </div>
+          </div>
+        </div>
+      </v-row>
+      <v-row style="height:100%;" justify="center">
+      <img style="height:100%;z-index:0;" :src="require('../../assets/dictionary_'+this.search+'.png')">
+      </v-row>
     </div>
-    </div>
+
+    <div style="height:100%; width:100%; padding-top:1%;" v-if="!isWord">
+      <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:65px;;height:5%; min-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
+      <div style="width:100%; height:50%;" align="center">
+        <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}</div>
       </div>
       </v-row>
       <v-row style="height:100%;" justify="center">
       <img style="height:100%;z-index:0;" :src="require('../../assets/dictionary_'+this.search+'.png')">
       </v-row>
     </div>
+
   </v-row>
   </div>
     <!-- <camera id="camera" style="height:80%; max-width:500px; max-height:800px; display:fixed; max-width:550px;" :style="{'margin-left':searchMargin+'px','margin-top':(frameSize.y*0.9-cameraHeight)/2+'px'}"></camera> -->
@@ -80,6 +85,7 @@ export default {
       descUrl: '',
       imageUrl: '',
       videoUrl: '',
+      isWord: false,
     }
   },
   methods: {
@@ -97,16 +103,30 @@ export default {
         this.search = 'open';
         this.isopened = 'block';
 
-        // axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
-        //   console.log(res)
-        //   this.videoSrc = res.data;
-        //   this.result = this.attr;
-        // });
+        axios
+        .post(`https://j3b105.p.ssafy.io/api/crawling/word`, {
+          word: this.attr // 검색할 단어
+        })
+        .then(response => {
+          console.log(response);
+          // console.log("단어 검색 완료");
+            this.result = this.attr;
+            this.descUrl = response.data.descUrl;
+            this.imageUrl = response.data.imageUrl1;
+            this.videoUrl = response.data.videoUrl;
+            this.isWord = true;
+            
+        }).catch(error =>{
+          console.log(error);
+          this.result = '검색된 단어가 없습니다.'
+          this.isWord = false;
+        });
+
         let timerInterval;
         Swal.fire({
           title: '검색중...',
           // html: '전송까지 <b></b> 초 남았습니다.',
-          timer: 3000,
+          timer: 3800,
           timerProgressBar: true,
           onBeforeOpen: () => {
             Swal.showLoading()
@@ -137,18 +157,7 @@ export default {
           }
         });
 
-        axios
-        .post(`https://j3b105.p.ssafy.io/api/crawling/word`, {
-          word: this.attr // 검색할 단어
-        })
-        .then(response => {
-          console.log(response);
-          console.log("단어 검색 완료");
-          this.result = this.attr;
-          this.descUrl = response.data.descUrl;
-          this.imageUrl = response.data.imageUrl1;
-          this.videoUrl = response.data.videoUrl;
-        });
+        
 
       }
     },
