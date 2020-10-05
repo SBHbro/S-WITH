@@ -32,7 +32,7 @@
         >
           <div style=" width:50%; float:left;">글쓴이 : {{ email }}</div>
           <div style="width:50%; float:right;text-align:right;">
-            {{ date }} 작성
+            작성일 : {{ date }}
           </div>
         </div>
         <div style="width:100%; height:68%; padding:15px;">
@@ -43,6 +43,7 @@
             controls
             autoplay
             :src="url"
+            v-if="isVideo"
           ></video>
         </div>
 
@@ -98,7 +99,8 @@ export default {
     image: "",
     reply: [],
     thisReply: "",
-    url: ""
+    url: "",
+    isVideo: false,
   }),
 
   created() {
@@ -114,6 +116,14 @@ export default {
         this.email = data.email;
         this.user_id = data.user_id;
         this.url = data.url;
+        this.date = data.date;
+        var date = data.date.split("T")[0];
+        date = date + " ";
+        date = date + data.date.split("T")[1].split(".")[0];
+        this.date = date;
+        if(this.url != 'null'){
+          this.isVideo = true;
+        }
       });
   },
 
