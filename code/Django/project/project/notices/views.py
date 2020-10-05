@@ -20,7 +20,10 @@ def notice_list(request):
     else:
         req = json.loads(request.body)
         serializer = NoticeSerializer(data=request.data)
+        print(serializer)
+        print(serializer.is_valid)
         if serializer.is_valid(raise_exception=True):
+            print("hey")
             serializer.save(user_id=req['user_id'])
         return Response(serializer.data)
 
