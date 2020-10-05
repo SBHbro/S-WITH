@@ -1,7 +1,9 @@
 <template>
   <v-card class="overflow-hidden">
-    <div v-if="frameSize.x>1000&&$route.name=='Home'&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%; " src="../assets/tutorial.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
-    <div v-if="frameSize.x<=1000&&$route.name=='Home'&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn> <img style="width:100%;height:100%;" src="../assets/tutorial_mobile.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white; right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
+    <div v-if="frameSize.x>1000&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%; " src="../assets/tutorial.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
+    <div v-if="frameSize.x<=1000&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openTutorial}" @click="closeTutorial"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn> <img style="width:100%;height:100%;" src="../assets/tutorial_mobile.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white; right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
+    <div v-if="frameSize.x>1000" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openNavTutorial}" @click="closeTutorial"><img style="width:100%;height:100%; " src="../assets/tutorial.png"></div>
+    <div v-if="frameSize.x<=1000" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openNavTutorial}" @click="closeTutorial"></div>
     
     <v-app-bar
       absolute
@@ -119,11 +121,11 @@
           </v-list-item>
           </router-link>
 
-          <router-link to="/">
+        <router-link to="/">
           <v-list-item @click="showTutorial">
-            <v-list-item-title>서비스 설명</v-list-item-title>
+            <v-list-item-title>서비스 설명(홈으로 이동)</v-list-item-title>
           </v-list-item>
-          </router-link>
+        </router-link>
 
         </v-list-item-group>
       </v-list>
@@ -149,7 +151,8 @@ export default {
       openTutorial:'block',
       id:'',
       password:'',
-      userEmerPhonebook:[]
+      userEmerPhonebook:[],
+      openNavTutorial:'none'
     }
   },
   methods: {
@@ -180,10 +183,11 @@ export default {
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};      
     },
     showTutorial(){
-      this.openTutorial = 'block';
+      this.openNavTutorial = 'block';
     },
     closeTutorial(){
       this.openTutorial = 'none';
+      this.openNavTutorial = 'none';
     },
     kakaoLogout() {
       window.Kakao.API.request({
