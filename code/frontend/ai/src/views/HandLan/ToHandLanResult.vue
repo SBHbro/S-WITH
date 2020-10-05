@@ -259,8 +259,8 @@ export default {
     window.onresize=()=>{
       this.onResize();
     }
-    console.log(this.$route.params.oList);
-    console.log(this.$route.params.tList);
+    // console.log(this.$route.params.oList);
+    // console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
       // console.log(object);
       this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
@@ -271,7 +271,7 @@ export default {
     // });
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
-        console.log(letter);
+        // console.log(letter);
         this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {
