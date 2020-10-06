@@ -64,7 +64,7 @@ export default {
     beforeUpdate(){
         this.textWidth = document.getElementById('textbox').offsetWidth;
         this.textHeight = document.getElementById('textbox').offsetHeight;
-        console.log(this.textHeight);
+        //console.log(this.textHeight);
     },
     mounted(){
     this.onResize();
@@ -74,7 +74,7 @@ export default {
       },
     methods:{
         sendMessage() {
-            console.log('들어옴')
+            //console.log('들어옴')
             window.Kakao.API.request({
                 url: "/v1/user/access_token_info",
                 success: () => {
@@ -84,9 +84,9 @@ export default {
                     nickname: this.$store.state.userinfo.nickname,
                     word:this.inputText
                     })
-                    .then(response => {
-                    console.log(response);
-                    console.log("문자보내기");
+                    .then(() => {
+                    //console.log(response);
+                    //console.log("문자보내기");
                     });
                 }
             });
@@ -97,7 +97,7 @@ export default {
             this.quickStart()
         },
         speak(opt_prop) {
-      console.log("test", this.inputText);
+      //console.log("test", this.inputText);
       if (
         typeof SpeechSynthesisUtterance === "undefined" ||
         typeof window.speechSynthesis === "undefined"
