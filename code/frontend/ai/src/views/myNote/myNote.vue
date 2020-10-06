@@ -69,6 +69,7 @@ selectVocaList() {
       });
     },
     deleteVoca(voca_id) {
+      console.log('보카',voca_id)
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: () => {
