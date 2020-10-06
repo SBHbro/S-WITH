@@ -75,18 +75,16 @@
         </div>
         <div class="reply" v-for="(re, index) in reply" :key="index">
           <div style="width:100%; height:40%;">
-            <div
-              style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;"
-            >
+            <div style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;">
               {{ re.nickname }}
             </div>
-            <div
-              style="float: right; width: 50%; text-align: right; font-size: 12px; color: #00000082; padding: 6px 31px;"
-            >
+            <div style="float: right; width: 50%; text-align: right; font-size: 12px; color: #00000082; padding: 6px 31px;">
               {{ re.date }}
             </div>
           </div>
-          <div style="width:100%; height:60%;">{{ re.content }}</div>
+          <div>
+            <div style="width:100%; height:60%; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == user_id">삭제</button></div>
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -172,6 +170,7 @@ export default {
             .then(res => {
               console.log(res);
               console.log("댓글 등록 완료");
+              this.thisReply = "";
               this.selectNoticeReply();
             });
         },
@@ -181,27 +180,33 @@ export default {
       });
     },
     selectNoticeReply() {
-      // console.log(this.$router.state.userinfo.id);
-
-      window.Kakao.API.request({
-        url: "/v1/user/access_token_info",
-        success: () => {
-          axios
-            .get(
-              `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.id}`
-            )
-            .then(response => {
-              console.log(response);
-              this.reply = response.data;
-              console.log(this.reply);
-              console.log("한 게시글에 대한 댓글 가져오기 완료");
-            });
-        },
-        fail: () => {
-          // alert('로그인 해주세요');
-          console.log('로그인 안함');
-        }
-      
+      console.log(this.$route.params.id);
+      axios
+      .get(
+        `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.$route.params.id}`
+      )
+      .then(response => {
+        console.log(response);
+        this.reply = response.data;
+        
+        this.reply.forEach(re => {
+          var date = re.date.split("T")[0];
+          date = date + " ";
+          date = date + re.date.split("T")[1].split(".")[0];
+          re.date = date;
+        });
+        
+        console.log(this.reply);
+        console.log("한 게시글에 대한 댓글 가져오기 완료");
+      });
+    },
+    deleteReply(reply_id){
+      axios
+      .delete(`https://j3b105.p.ssafy.io/api/notices/reply/${reply_id}`)
+      .then(res => {
+        console.log(res);
+        console.log("댓글 삭제 완료");
+        this.selectNoticeReply();
       });
     }
   }
