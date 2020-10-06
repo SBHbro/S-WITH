@@ -90,32 +90,37 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLanChoice">
+        <router-link to="/toHandLan">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-camera</v-icon>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
           </v-list-item>
         </router-link>
 
         <router-link to="/fromHandLan">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-video</v-icon>
             <v-list-item-title>수어를 번역하기</v-list-item-title>
           </v-list-item>
           </router-link>
 
         <router-link to="/board">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-comment-question-outline</v-icon>
             <v-list-item-title>게시판</v-list-item-title>
           </v-list-item>
         </router-link>
 
           <router-link to="/myNote">
           <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-tag-multiple</v-icon>
             <v-list-item-title>내 단어장</v-list-item-title>
           </v-list-item>
           </router-link>
 
           <router-link to="/myPhoneBook">
           <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-icon medium color="red darken-2" style="margin-right : 8px;">mdi-alarm-light</v-icon>
             <v-list-item-title v-if="userEmerPhonebook.length == 0" style="color:red;">긴급연락처 관리</v-list-item-title>
             <v-list-item-title v-if="userEmerPhonebook.length != 0" >긴급연락처 관리</v-list-item-title>
           </v-list-item>
@@ -123,6 +128,7 @@
 
         <router-link to="/">
           <v-list-item @click="showTutorial">
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-information-outline</v-icon>
             <v-list-item-title>서비스 설명(홈으로 이동)</v-list-item-title>
           </v-list-item>
         </router-link>

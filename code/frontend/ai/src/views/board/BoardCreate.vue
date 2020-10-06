@@ -83,13 +83,7 @@ import Swal from 'sweetalert2';
 export default {
   name: "boardcreate",
   data: () => ({
-<<<<<<< HEAD
-    notice: [],
-    subject: "",
-    content: "",
-    image: '',
-    fileData:'',
-=======
+    
     items: ["naver.com", "gmail.com", "nate.com", "daum.net", "kakao.com"],
     notice: [],
     subject: "",
@@ -99,7 +93,6 @@ export default {
     image: "",
     fileData: "",
     isFile: false,
->>>>>>> f61b29bc81e8524c268dcae34f972973afc7655c
   }),
 
   methods: {
