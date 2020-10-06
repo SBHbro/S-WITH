@@ -84,7 +84,6 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice`)
       .then(({ data }) => {
-        console.log(data);
         this.boards = data;
         for (let index = 0; index < data.length; index++) {
           var dateBefore = data[index].date;

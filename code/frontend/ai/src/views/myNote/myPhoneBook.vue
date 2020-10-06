@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%; width:100%; padding-top: 5%;">
       <v-row style="height:20%; margin:0px;" justify="center">
-      <div class="inputPhonediv" ><input class="inputPhone" v-model="phone" placeholder="긴급 연락처 추가하기(01012345678 형식으로 적어주세요)"><div @click="insertPhone" style="height:40px;width:40px;border-radius:20px; box-shadow:1px 1px 3px rgb(0,0,0,53%);float:right; padding:3.5px; background-color:white; margin:5px 5px"><v-icon size="35px" color="green">mdi-plus</v-icon></div></div>
+      <div class="inputPhonediv" ><input v-on:keyup.enter="insertPhone" type="number" class="inputPhone" v-model="phone" placeholder="긴급 연락처 추가하기(01012345678 형식으로 적어주세요)"><div @click="insertPhone" style="height:40px;width:40px;border-radius:20px; box-shadow:1px 1px 3px rgb(0,0,0,53%);float:right; padding:3.5px; background-color:white; margin:5px 5px"><v-icon size="35px" color="green">mdi-plus</v-icon></div></div>
       </v-row>
 
       <v-card style="height:80%;">
@@ -54,6 +54,12 @@ export default {
     }
   },
     methods:{
+      isNumberKey(evt) {
+          var charCode = (evt.which) ? evt.which : event.keyCode;
+          if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+              return false;
+          return true;
+      },
       sendMessage() {
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
