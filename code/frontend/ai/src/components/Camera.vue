@@ -135,7 +135,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         })
       
@@ -146,7 +146,7 @@ export default {
       image.src = this.canvas.toDataURL();
 
       axios.post(`https://j3b105.p.ssafy.io/api/ai/objectDetection`,{image : image.src}).then(response=>{
-        // console.log(response);
+        // //console.log(response);
         this.oList = response.data;
         this.objectImage += response.data.image;
         this.roiList = response.data.roi;
@@ -169,8 +169,8 @@ export default {
   beforeUpdated(){
     this.sendWidth = document.getElementById('send').offsetWidth*2+5;
     this.buttonMargin = (document.getElementById('camera').offsetWidth -100)/2;
-    console.log(this.buttonMargin);
-    console.log(document.getElementById('camera').offsetWidth);
+    //console.log(this.buttonMargin);
+    //console.log(document.getElementById('camera').offsetWidth);
   },
   mounted(){
     window.onresize=()=>{
