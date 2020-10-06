@@ -62,6 +62,7 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 export default {
   name: "boardlist",
@@ -125,7 +126,13 @@ export default {
       this.itemsPerPage = number;
     },
     nologin() {
-      alert("로그인이 필요한 서비스입니다.");
+      // alert("로그인이 필요한 서비스입니다.");
+      Swal.fire({
+          icon: 'error',
+          title: '로그인이 필요한 서비스입니다.',
+          text: '',
+          footer: ' '
+      })
     }
   }
 };

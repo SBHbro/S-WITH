@@ -5,7 +5,9 @@
 </template>
 
 <script>
-import Camera from '../../components/Camera.vue'
+import Camera from '../../components/Camera.vue';
+import Swal from 'sweetalert2';
+
 export default {
   components:{Camera},
   data() {
@@ -29,7 +31,13 @@ export default {
     },
     transButton(){
       if(this.attr ==''){
-        alert('검색할 단어를 입력해주세요');
+        // alert('검색할 단어를 입력해주세요');
+        Swal.fire({
+            icon: 'error',
+            title: '검색할 단어를 입력해주세요.',
+            text: ' ',
+            footer: ' '
+          })
       }else{
         this.showSearchResult = 'block';
       }

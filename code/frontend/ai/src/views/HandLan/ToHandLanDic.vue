@@ -90,14 +90,26 @@ export default {
   },
   methods: {
     nologin(){
-      alert("로그인이 필요한 서비스입니다.");
+      // alert("로그인이 필요한 서비스입니다.");
+      Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 서비스입니다.',
+            text: ' ',
+            footer: ' '
+          })
     },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};
     },
     transButton(){
       if(this.attr ==''){
-        alert('검색할 단어를 입력해주세요');
+        // alert('검색할 단어를 입력해주세요');
+        Swal.fire({
+            icon: 'error',
+            title: '검색할 단어를 입력해주세요.',
+            text: ' ',
+            footer: ' '
+          })
       }else{
         this.showSearchResult = 'block';
         this.search = 'open';
@@ -176,7 +188,13 @@ export default {
               video: "test"
             })
             .then(() => {
-              alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+              // alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+              Swal.fire({
+                icon: 'success',
+                title: '추가 완료',
+                text: '내 단어장에서 확인해주세요.',
+                footer: ' '
+              })
             });
         }
       });
