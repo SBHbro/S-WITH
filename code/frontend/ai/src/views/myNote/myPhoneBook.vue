@@ -64,9 +64,9 @@ export default {
               nickname: this.$store.state.userinfo.nickname
               // word:
             })
-            .then(response => {
-              console.log(response);
-              console.log("문자보내기");
+            .then(() => {
+              //console.log(response);
+              //console.log("문자보내기");
             });
         }
       });
@@ -86,9 +86,9 @@ export default {
         success: () => {
           axios
             .delete(`https://j3b105.p.ssafy.io/api/users/phone/${id}`)
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 삭제하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 삭제하기");
                 this.selectPhone();
             });
         }
@@ -103,9 +103,9 @@ export default {
               user_id: res.id,
               number: this.modifyInput
             })
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 수정하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 수정하기");
                 this.closeModify();
                 this.selectPhone();
             });
@@ -119,8 +119,8 @@ export default {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
             .then(response => {
-              console.log(response);
-              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              //console.log(response);
+              //console.log("로그인 아이디가 등록한 모든번호 불러오기");
               this.phoneList = response.data;
             });
         }
@@ -136,9 +136,9 @@ export default {
               user_id: res.id,
               number: this.phone
             })
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 등록하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 등록하기");
               this.phone = '';
                 this.selectPhone();
             });

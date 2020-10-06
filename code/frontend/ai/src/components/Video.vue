@@ -62,7 +62,7 @@ export default {
             // this.video = document.querySelector("video");
 
             // this.video = document.getElementById("my-preview");
-            // // console.log(this.videoPlayer)
+            // // //console.log(this.videoPlayer)
             // this.video.srcObject = stream;
             // this.video.play();
             // video.muted = true;
@@ -74,11 +74,11 @@ export default {
 
             var recordArr = [];
             var recordedVideo = document.getElementById("preview");
-            console.log(recordedVideo);
+            //console.log(recordedVideo);
             this.recorder.onstop = function(e) {
-              console.log("Recorder stopped: ");
+              //console.log("Recorder stopped: ");
               var superBuffer = new Blob(recordArr, { type: "video/webm" });
-              console.log(superBuffer)
+              //console.log(superBuffer)
               var reader = new FileReader();
               var test;
 
@@ -108,12 +108,12 @@ export default {
               }
             };
             this.recorder.start(10); // collect 10ms of data
-            console.log("MediaRecorder started", this.recorder)
+            //console.log("MediaRecorder started", this.recorder)
         });
       },
       stop(){
           this.recorder.stop();
-          console.log('멈춰잇')
+          //console.log('멈춰잇')
          }
       },
       // init(){
@@ -132,15 +132,15 @@ export default {
   beforeUpdated(){
     this.sendWidth = document.getElementById('send').offsetWidth*2+5;
     this.buttonMargin = (document.getElementById('camera').offsetWidth -100)/2;
-    console.log(this.buttonMargin);
-    console.log(document.getElementById('camera').offsetWidth);
+    //console.log(this.buttonMargin);
+    //console.log(document.getElementById('camera').offsetWidth);
   },
 
   destroy(){
     this.videoPlayer.stop();
   }, 
     mounted() {
-      // console.log(router);
+      // //console.log(router);
       navigator.mediaDevices.getUserMedia({
             // audio: true, 
             video: true,

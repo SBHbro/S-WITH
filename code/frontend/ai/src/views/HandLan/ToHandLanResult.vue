@@ -211,7 +211,7 @@ export default {
         this.descUrl = '';
         this.imageUrl = '';
         this.videoUrl = '';
-        // console.log(nowTrans);
+        // //console.log(nowTrans);
         let timerInterval;
         Swal.fire({
           title: '로딩중...',
@@ -243,7 +243,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         });
 
@@ -252,8 +252,8 @@ export default {
           word: nowTrans.transResultLetter // 검색할 단어
         })
         .then(response => {
-          console.log(response);
-          console.log("단어 검색 완료");
+          //console.log(response);
+          //console.log("단어 검색 완료");
           this.descUrl = response.data.descUrl;
           this.imageUrl = response.data.imageUrl1;
           this.videoUrl = response.data.videoUrl;
@@ -272,19 +272,19 @@ export default {
     window.onresize=()=>{
       this.onResize();
     }
-    // console.log(this.$route.params.oList);
-    // console.log(this.$route.params.tList);
+    // //console.log(this.$route.params.oList);
+    // //console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
-      // console.log(object);
+      // //console.log(object);
       this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
     });
     // this.$route.params.roiList.forEach(roi => {
-    //   // console.log(object);
+    //   // //console.log(object);
     //   this.objects.push({src : 'data:image/jpeg;base64,'+ ,transResultLetter: object})
     // });
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
-        // console.log(letter);
+        // //console.log(letter);
         this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {

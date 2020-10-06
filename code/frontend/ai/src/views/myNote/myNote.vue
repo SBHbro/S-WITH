@@ -48,7 +48,7 @@ this.showHandLanModal = 'none';
     },
     showHandLanModalmethod(results){
       this.showHandLanModal = 'block';
-      console.log(results);
+      //console.log(results);
       this.results = results;
     },
     onResize(){
@@ -61,23 +61,23 @@ selectVocaList() {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/voca/${res.id}`)
             .then(response => {
-              console.log(response);
+              //console.log(response);
               this.mywords = response.data;
-              console.log("유저의 단어 전부 가져오기 완료");
+              //console.log("유저의 단어 전부 가져오기 완료");
             });
         }
       });
     },
     deleteVoca(voca_id) {
-      console.log('보카',voca_id)
+      //console.log('보카',voca_id)
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: () => {
           axios
             .delete(`https://j3b105.p.ssafy.io/api/users/voca/${voca_id}`)
-            .then(res => {
-              console.log(res);
-              console.log("단어 삭제 완료");
+            .then(() => {
+              //console.log(res);
+              //console.log("단어 삭제 완료");
               this.selectVocaList();
             });
         }

@@ -96,7 +96,7 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
-        console.log(data);
+        //console.log(data);
         this.id = data.id;
         this.email = data.email;
         this.subject = data.subject;
@@ -130,8 +130,8 @@ export default {
 
     updateHandler() {
       var id = this.$route.params.id;
-      console.log("id", id);
-      console.log(this.subject + " " + this.content);
+      //console.log("id", id);
+      //console.log(this.subject + " " + this.content);
       axios
         .put(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`, {
           subject: this.subject,
