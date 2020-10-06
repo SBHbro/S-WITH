@@ -58,7 +58,7 @@ export default {
         Swal.fire({
           title: '검색중...',
           // html: '전송까지 <b></b> 초 남았습니다.',
-          timer: 3000,
+          timer: 4000,
           timerProgressBar: true,
           onBeforeOpen: () => {
             Swal.showLoading()
@@ -96,7 +96,7 @@ export default {
               Swal.fire(
                 '아직 분석중이에요!',
                 '조금만 더 기다려주세요',
-                'error'
+                'info'
               ).then(()=>{
                 this.onClickGo()
               })

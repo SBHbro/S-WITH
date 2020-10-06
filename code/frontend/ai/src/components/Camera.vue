@@ -1,5 +1,14 @@
 <template>
   <div id="camera" class="camera" >
+    <div style="height:5%; margin-left:5px" align="center">
+        <router-link to="/toHandLanChoice">
+            <div
+              style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;"
+             >
+              <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+            </div>
+            </router-link>
+        </div>
     <video style="width:100%; height:100%;" autoplay ref="video" id="video" class="video" v-if="ok"></video>
     <!-- <button class="snap" v-on:click="capture()">SNAP</button> -->
     <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>

@@ -2,6 +2,15 @@
   <div style="width:100%; height:100%;">
     <div style="width:100%; height:20%;">
     <div style="width:100%; height:50%"></div>
+    <div style="height:5%; margin-left:50px" align="center">
+        <router-link to="/toHandLanChoice">
+            <div
+              style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;"
+             >
+              <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+            </div>
+            </router-link>
+        </div>
       <div id="search" :style="{'margin-left':searchMargin+'px'}" style="width: 100%; 
 height: 50px; 
 max-width:550px; 
