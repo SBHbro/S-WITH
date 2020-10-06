@@ -20,27 +20,26 @@ padding:10px 10px 10px 30px;">
   </div>
   <div style="width:100%;height:80%;">
     <v-row  style="width:100%; height:100%; margin:0px;" justify="center">
-    <div  style="height:100%; width:100%; padding-top:0.5%;">
+    <div  style="height:100%; width:100%; padding-top:0.5%;" v-if="isWord">
       <v-row :style="{display:isopened,width:frameSize.x*0.9+'px'}" style="margin-left:0px; margin-top:3%; height:100%; max-height:500px; min-width:300px; position: fixed; z-index:2;" justify="center">
-      <div  style=" height:100%; width:100%;">
-        <!-- <video :src="`/video/${videoSrc}`" style="width:100%; height:50%; background-size: contain;" autoplay loop></video> -->
-        <video :src="videoUrl" style="width:100%; height:40%; background-size: contain;" autoplay loop></video>
-        <!-- <v-img
-      src="../../assets/HandLan/result.png"
-      width="100%"
-      height="50%"
-      style="background-size: contain;"
-    ></v-img> -->
-    <div style="width:100%; height:50%;" align="center">
-      <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}에 대한 수어</div>
+        <div  style=" height:100%; width:100%;">
+          <video :src="videoUrl" style="width:100%; height:40%; background-size: contain;" autoplay loop></video>
+          <div style="width:100%; height:50%;" align="center">
+            <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{result}}에 대한 수어</div>
 
-    <v-card-subtitle style="overflow:auto; text-align:center; width: 40%;">
-      {{descUrl}}
-    </v-card-subtitle>
-    <div style="width:100%; text-align: center;">
-      <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-      <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-    </div>
+            <v-card-subtitle style="overflow:auto; text-align:center; width: 40%;">
+              {{descUrl}}
+            </v-card-subtitle>
+            <div style="width:100%; text-align: center;">
+              <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+            </div>
+          </div>
+        </div>
+      </v-row>
+      <v-row style="height:100%;" justify="center">
+        <img style="height:100%;z-index:0;" :src="require('../../assets/dictionary_'+this.search+'.png')">
+      </v-row>
     </div>
 
     <div style="height:100%; width:100%; padding-top:1%;" v-if="!isWord">
