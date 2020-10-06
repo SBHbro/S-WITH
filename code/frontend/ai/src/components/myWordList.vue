@@ -62,9 +62,9 @@ data () {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/voca/${res.id}`)
             .then(response => {
-              console.log(response);
-              this.mywords = response.data;
-              console.log("유저의 단어 전부 가져오기 완료");
+              //console.log(response);
+              this.listArray = response.data;
+              //console.log("유저의 단어 전부 가져오기 완료");
             });
         }
       });
@@ -75,9 +75,9 @@ data () {
         success: () => {
           axios
             .delete(`https://j3b105.p.ssafy.io/api/users/voca/${voca_id}`)
-            .then(res => {
-              console.log(res);
-              console.log("단어 삭제 완료");
+            .then(() => {
+              //console.log(res);
+              //console.log("단어 삭제 완료?");
               this.selectVocaList();
             });
         }
@@ -89,7 +89,7 @@ data () {
       }else{
 
         // axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{
-        //   console.log(res)
+        //   //console.log(res)
         //   this.videoSrc = res.data;
         //   this.result = this.attr;
         // });
@@ -124,7 +124,7 @@ data () {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         });
 
@@ -133,8 +133,8 @@ data () {
           word: data // 검색할 단어
         })
         .then(response => {
-          console.log(response);
-          console.log("단어 검색 완료");
+          //console.log(response);
+          //console.log("단어 검색 완료");
           var results = { result:data,descUrl:response.data.descUrl,imageUrl : response.data.imageUrl1,videoUrl : response.data.videoUrl};
           // this.results.result = this.data;
           // this.results.descUrl = response.data.descUrl;
