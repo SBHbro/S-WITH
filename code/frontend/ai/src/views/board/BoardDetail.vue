@@ -32,7 +32,7 @@
         >
           <div style=" width:50%; float:left;">글쓴이 : {{ email }}</div>
           <div style="width:50%; float:right;text-align:right;">
-            {{ date }} 작성
+            작성일 : {{ date }}
           </div>
         </div>
         <div style="width:100%; height:68%; padding:15px;">
@@ -43,6 +43,7 @@
             controls
             autoplay
             :src="url"
+            v-if="isVideo"
           ></video>
         </div>
 
@@ -107,7 +108,8 @@ export default {
     image: "",
     reply: [],
     thisReply: "",
-    url: ""
+    url: "",
+    isVideo: false,
   }),
 
   created() {
@@ -123,6 +125,14 @@ export default {
         this.email = data.email;
         this.user_id = data.user_id;
         this.url = data.url;
+        this.date = data.date;
+        var date = data.date.split("T")[0];
+        date = date + " ";
+        date = date + data.date.split("T")[1].split(".")[0];
+        this.date = date;
+        if(this.url != 'null'){
+          this.isVideo = true;
+        }
       });
   },
 
@@ -164,10 +174,15 @@ export default {
               console.log("댓글 등록 완료");
               this.selectNoticeReply();
             });
+        },
+        fail: () => {
+          alert('로그인 해주세요.');
         }
       });
     },
     selectNoticeReply() {
+      // console.log(this.$router.state.userinfo.id);
+
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: () => {
@@ -181,7 +196,12 @@ export default {
               console.log(this.reply);
               console.log("한 게시글에 대한 댓글 가져오기 완료");
             });
+        },
+        fail: () => {
+          // alert('로그인 해주세요');
+          console.log('로그인 안함');
         }
+      
       });
     }
   }
