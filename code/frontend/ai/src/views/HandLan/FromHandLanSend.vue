@@ -38,17 +38,17 @@ export default {
     methods:{
       onResize(){
           this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-          console.log(this.frameSize.x)
+          //console.log(this.frameSize.x)
       },
 
       videoDetection(){
         axios.post(`https://j3b105.p.ssafy.io/api/ai/videoDetection`,{data : this.$route.params.data}).then(response=>{
-          console.log(response);
+          //console.log(response);
           this.answer = response.data[0].answer
           this.accuracy = response.data[0].accuracy
           this.task = true
-        }).catch(e=>{
-          console.log(e)
+        }).catch(()=>{
+          //console.log(e)
           this.task = true
         })
       },
@@ -105,7 +105,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         })
       }

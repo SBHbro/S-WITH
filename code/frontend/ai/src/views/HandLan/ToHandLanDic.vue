@@ -8,7 +8,7 @@ max-width:550px;
 background-color: rgb(243, 242, 242); border-radius: 45px; 
 padding:10px 10px 10px 30px;">
         <v-icon size="30" style="float:left;margin-right:20px;">mdi-magnify</v-icon>
-        <input v-model="attr" placeholder="수어로 번역할 한글을 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
+        <input v-on:keyup.enter="transButton" v-model="attr" placeholder="수어로 번역할 한글을 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
         
         <v-btn
         style="float:right; text-align:center;width:30px; height:30px; background-color:white; border-radius:15px;"
@@ -108,16 +108,16 @@ export default {
           word: this.attr // 검색할 단어
         })
         .then(response => {
-          console.log(response);
-          // console.log("단어 검색 완료");
+          //console.log(response);
+          // //console.log("단어 검색 완료");
             this.result = this.attr;
             this.descUrl = response.data.descUrl;
             this.imageUrl = response.data.imageUrl1;
             this.videoUrl = response.data.videoUrl;
             this.isWord = true;
             
-        }).catch(error =>{
-          console.log(error);
+        }).catch(() =>{
+          //console.log(error);
           this.result = '검색된 단어가 없습니다.'
           this.isWord = false;
         });
@@ -153,7 +153,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         });
 
@@ -165,26 +165,21 @@ export default {
       this.showSearchResult = 'none';
     },
     addVoca() {
-      axios
-        .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
-          user_id: this.$store.state.userinfo.id,
-          word: this.attr,
-          video: "test"
-        })
-        .then(res => {
-          console.log(res);
-          console.log("단어 등록 완료");
-          alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
-        });
-      // var user_id;
-      // window.Kakao.API.request({
-      //   url: "/v1/user/access_token_info",
-      //   success: res => {
-      //     user_id = res.id;
-      //     console.log("token", user_id);
-          
-      //   }
-      // });
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: res => {
+          //console.log("token", user_id);
+          axios
+            .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
+              user_id: res.id,
+              word: this.attr,
+              video: "test"
+            })
+            .then(() => {
+              alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+            });
+        }
+      });
     },
   },
   beforeMount() {
@@ -192,12 +187,12 @@ export default {
      window.onresize=()=>{
       this.onResize();
       this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-      console.log(document.getElementById('search'));
+      //console.log(document.getElementById('search'));
       this.cameraWidth = document.getElementById('camera').offsetWidth;
       this.cameraHeight = document.getElementById('camera').offsetHeight;
       this.searchMargin = document.getElementById('search').offsetWidth;
-      console.log(this.cameraWidth);
-      console.log(this.searchSize);
+      //console.log(this.cameraWidth);
+      //console.log(this.searchSize);
         }
   },
   
@@ -211,11 +206,11 @@ export default {
         this.searchSize = this.frameSize.x*0.9;
       }
       this.searchMargin = (this.frameSize.x*0.9-this.searchSize)/2;
-      console.log(this.searchMargin+" "+this.searchSize);
+      //console.log(this.searchMargin+" "+this.searchSize);
     window.onresize=()=>{
       this.onResize();
       this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-      console.log(document.getElementById('search'));
+      //console.log(document.getElementById('search'));
       if(this.frameSize.x>550){
         this.searchSize = 550;   
       }else{
@@ -224,9 +219,9 @@ export default {
       this.searchMargin = (this.frameSize.x*0.9-this.searchSize)/2; 
       this.cameraWidth = document.getElementById('camera').offsetWidth;
       this.cameraHeight = document.getElementById('camera').offsetHeight;
-      console.log(this.cameraWidth);
-      console.log(this.searchSserachMarginize);
-      console.log(this.frameSize.x+"곱하기"+this.serachMargin+" "+this.serachMargin);
+      //console.log(this.cameraWidth);
+      //console.log(this.searchSserachMarginize);
+      //console.log(this.frameSize.x+"곱하기"+this.serachMargin+" "+this.serachMargin);
         }
   },
 }
