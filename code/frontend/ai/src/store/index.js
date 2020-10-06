@@ -23,7 +23,7 @@ export default new Vuex.Store({
       state.userinfo.gender = logininfo.gender;
       state.userinfo.id = logininfo.id;
       state.userinfo.nickname = logininfo.nickname;
-      console.log("스토어저장", state.userinfo);
+      //console.log("스토어저장", state.userinfo);
     },
     logout(state) {
       state.userinfo = {
@@ -34,7 +34,7 @@ export default new Vuex.Store({
         id: "",
         nickname: "",
       };
-      console.log("스토어저장", state.userinfo);
+      //console.log("스토어저장", state.userinfo);
     },
   },
   actions: {},

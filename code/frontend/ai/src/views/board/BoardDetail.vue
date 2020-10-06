@@ -53,6 +53,7 @@
           <input
             v-model="thisReply"
             style="border:1px solid rgba(0, 0, 0, 0.12); height:45px; width:90%; background-color:white; float:left;"
+            v-on:keyup.enter="addReply"
             placeholder="댓글을 입력해주세요."
           />
           <v-btn
@@ -70,22 +71,20 @@
             style="height:45px; width:9%;border-color: transparent; float: left; color: gray; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
             type="button"
             class="btn btn-sm"
-            >등록</v-btn
-          >
+            >등록</v-btn>
         </div>
         <div class="reply" v-for="(re, index) in reply" :key="index">
           <div style="width:100%; height:40%;">
-            <div style="float: left; width: 50%; padding: 2px 5px; font-weight: 500; color: #000000ad; font-size: 18px;">
-              {{ re.nickname }}
-            </div>
-            <div style="float: right; width: 50%; text-align: right; font-size: 12px; color: #00000082; padding: 6px 31px;">
-              {{ re.date }}
+            <div style="float: left; width: 50%; padding: 2px 2px; font-weight: 500; color: #000000ad; font-size: 22px;">
+              <b-badge class="badge-lg">{{ re.nickname }}</b-badge>
+                <span style="white-space: pre; margin-left: 10px; font-size: 12px; color: #00000082;"> {{ re.date }} </span>
             </div>
           </div>
           <div>
-            <div style="width:100%; height:60%; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id">삭제</button></div>
+            <div style="width:100%; height:60%; margin-left: 5px; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id"><v-icon medium color="red darken-2">mdi-delete</v-icon></button></div>
           </div>
         </div>
+
       </v-col>
     </v-row>
   </div>

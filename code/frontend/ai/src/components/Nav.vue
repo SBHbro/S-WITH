@@ -90,32 +90,37 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLanChoice">
+        <router-link to="/toHandLan">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-camera</v-icon>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
           </v-list-item>
         </router-link>
 
         <router-link to="/fromHandLan">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-video</v-icon>
             <v-list-item-title>수어를 번역하기</v-list-item-title>
           </v-list-item>
           </router-link>
 
         <router-link to="/board">
           <v-list-item>
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-comment-question-outline</v-icon>
             <v-list-item-title>게시판</v-list-item-title>
           </v-list-item>
         </router-link>
 
           <router-link to="/myNote">
           <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-tag-multiple</v-icon>
             <v-list-item-title>내 단어장</v-list-item-title>
           </v-list-item>
           </router-link>
 
           <router-link to="/myPhoneBook">
           <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-icon medium color="red darken-2" style="margin-right : 8px;">mdi-alarm-light</v-icon>
             <v-list-item-title v-if="userEmerPhonebook.length == 0" style="color:red;">긴급연락처 관리</v-list-item-title>
             <v-list-item-title v-if="userEmerPhonebook.length != 0" >긴급연락처 관리</v-list-item-title>
           </v-list-item>
@@ -123,6 +128,7 @@
 
         <router-link to="/">
           <v-list-item @click="showTutorial">
+            <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-information-outline</v-icon>
             <v-list-item-title>서비스 설명(홈으로 이동)</v-list-item-title>
           </v-list-item>
         </router-link>
@@ -163,8 +169,8 @@ export default {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
             .then(response => {
-              console.log(response);
-              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              //console.log(response);
+              //console.log("로그인 아이디가 등록한 모든번호 불러오기");
               this.userEmerPhonebook = response.data;
             });
         }
@@ -173,11 +179,11 @@ export default {
 
     noshow1d(){
       VueCookies.set("noshow","true",'1d');
-      console.log(VueCookies.keys());
+      //console.log(VueCookies.keys());
     },
     noshow7d(){
       VueCookies.set("noshow","true",'7d');
-      console.log(VueCookies.keys());
+      //console.log(VueCookies.keys());
     },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};      
@@ -192,27 +198,27 @@ export default {
     kakaoLogout() {
       window.Kakao.API.request({
         url: "/v1/user/unlink",
-        success: res => {
-          console.log("logout", res);
+        success: () => {
+          //console.log("logout", res);
           store.commit('logout');
         }
       });
     },
     kakaoLogin() {
-      // console.log(window.Kakao);
+      // //console.log(window.Kakao);
       window.Kakao.Auth.login({
         success: this.GetMe
       });
     },
-    GetMe(authObj) {
-      console.log("authObj", authObj);
+    GetMe() {
+      //console.log("authObj", authObj);
       // 토큰 확인: 사용자의 id값 뽑아낼 때 쓰면 될듯
       window.Kakao.API.request({
         url: "/v2/user/me",
         success: res => {
-          console.log("body", res);
+          //console.log("body", res);
           const kakao_account = res.kakao_account;
-          console.log("카", kakao_account);
+          //console.log("카", kakao_account);
           const userInfo = {
             id: res.id,
             nickname: kakao_account.profile.nickname,
@@ -232,23 +238,23 @@ export default {
               age_range: userInfo.age_range
             })
             .then(res => {
-              console.log(res);
-              console.log("로그인 성공");
+              //console.log(res);
+              //console.log("로그인 성공");
               alert("로그인 성공!");
-              console.log(res.data);
+              //console.log(res.data);
               store.commit('login',res.data);
             })
-            .catch(err => {
-              console.log(err);
-              console.log("로그인 실패");
+            .catch(() => {
+              //console.log(err);
+              //console.log("로그인 실패");
             });
 
-          console.log(userInfo);
+          //console.log(userInfo);
           this.$bvModal.hide("bv-modal-example");
         },
-        fail: error => {
+        fail: () => {
           this.$router.push("/errorPage");
-          console.log(error);
+          //console.log(error);
         }
       });
     }
