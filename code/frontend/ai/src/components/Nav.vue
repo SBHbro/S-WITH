@@ -90,7 +90,7 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLan">
+        <router-link to="/toHandLanChoice">
           <v-list-item>
             <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-camera</v-icon>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
@@ -249,6 +249,7 @@ export default {
                 // footer: ' '
               });
               //console.log(res.data);
+              this.selectPhone();
               store.commit('login',res.data);
             })
             .catch(() => {
@@ -269,7 +270,6 @@ export default {
   mounted(){
     this.isCookie = VueCookies.isKey('noshow');
     this.onResize();
-    this.selectPhone();
       window.onresize=()=>{
           this.onResize();
         }
