@@ -116,7 +116,6 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
-        console.log(data);
         this.id = data.id;
         this.subject = data.subject;
         this.content = data.content;
@@ -182,7 +181,6 @@ export default {
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: res => {
-          console.log("nic", res);
           axios
             .post(`https://j3b105.p.ssafy.io/api/notices/reply`, {
               user_id: res.id,
@@ -190,9 +188,7 @@ export default {
               content: this.thisReply,
               nickname: this.$store.state.userinfo.nickname
             })
-            .then(res => {
-              console.log(res);
-              console.log("댓글 등록 완료");
+            .then(() => {
               this.thisReply = "";
               this.selectNoticeReply();
             });
@@ -209,13 +205,11 @@ export default {
       });
     },
     selectNoticeReply() {
-      console.log(this.$route.params.id);
       axios
       .get(
         `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.$route.params.id}`
       )
       .then(response => {
-        console.log(response);
         this.reply = response.data;
         
         this.reply.forEach(re => {
@@ -225,8 +219,6 @@ export default {
           re.date = date;
         });
         
-        console.log(this.reply);
-        console.log("한 게시글에 대한 댓글 가져오기 완료");
       });
     },
     deleteReply(reply_id){
@@ -246,9 +238,7 @@ export default {
           );
           axios
             .delete(`https://j3b105.p.ssafy.io/api/notices/reply/${reply_id}`)
-            .then(res => {
-              console.log(res);
-              console.log("댓글 삭제 완료");
+            .then(() => {
               this.selectNoticeReply();
             });
         }
