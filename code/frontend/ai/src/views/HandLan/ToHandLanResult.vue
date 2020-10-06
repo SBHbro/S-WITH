@@ -57,10 +57,11 @@
                 <v-card
                 :style="{width:frameSize.x*0.8+'px'}"
                 >
-              <v-img
+              <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
+              <!-- <v-img
                 src="../../assets/HandLan/result.png"
                 height="200px"
-              ></v-img>
+              ></v-img> -->
               <!-- <video :src="`/video/${nowTransLate.videoSrc}`" autoplay></video> -->
 
               <v-card-title>
@@ -68,11 +69,9 @@
               </v-card-title>
 
               <v-card-subtitle>
-                왼쪽 검지와 오른쪽 검지를 뻗는다.<br>
-                두 손가락을 마주보게하고 오른쪽 손이 위로 오게 한다.
+                {{descUrl}}
               </v-card-subtitle>
-                
-
+            
             </v-card>
               </v-dialog>
             </v-card>
@@ -97,24 +96,46 @@
               padding:6px 8px;
               font-weight: bold;
               font-size: large;">
-    <div style="float:left;width:70%;text-align:center;">
+            <div style="float:left;width:70%;text-align:center;">
               {{result.transResultLetter}}
-              </div>
+            </div>
+            <!-- <v-dialog v-model="dialog" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }"> -->
               <v-btn
                   style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
 
-          v-bind="attrs"
-          v-on="on"
-          color="rgb(98 149 232)"
-          @click="transButton(result)"
-        >
+                v-bind="attrs"
+                v-on="on"
+                color="rgb(98 149 232)"
+                @click="transButton(result)"
+              >
                     <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
 
           <!-- <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
           <div style="width:100%; text-align:center;">수화 보기</div>
           <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div> -->
         </v-btn>
+        <!-- </template>
+    
+            <v-card
+                :style="{width:frameSize.x*0.8+'px'}"
+                >
+              <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
+              <v-card-title>
+                <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+              </v-card-title>
+
+              <v-card-subtitle>
+                {{descUrl}}
+              </v-card-subtitle>
+            
             </v-card>
+              </v-dialog> -->
+            </v-card>
+
+
+
+
             <!-- </div> -->
             <!-- <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
               검출된 글자가 없습니다.
@@ -139,7 +160,8 @@
 </template>
 
 <script>
-
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -161,7 +183,9 @@ export default {
         objectImage : '',
         textImage : '',
         change : true,
-
+        descUrl:'',
+        imageUrl:'',
+        videoUrl:'',
     }
         
     },
@@ -171,7 +195,56 @@ export default {
       },
       transButton(nowTrans){
         this.nowTransLate = nowTrans;
-        console.log(nowTrans)
+        this.descUrl = '';
+        this.imageUrl = '';
+        this.videoUrl = '';
+        // console.log(nowTrans);
+        let timerInterval;
+        Swal.fire({
+          title: '로딩중...',
+          // html: '전송까지 <b></b> 초 남았습니다.',
+          timer: 3000,
+          timerProgressBar: true,
+          onBeforeOpen: () => {
+            Swal.showLoading()
+            
+            Swal.color= 'green';
+            timerInterval = setInterval(() => {
+              const content = Swal.getContent()
+              if (content) {
+                const b = content.querySelector('b')
+                if (b) {
+                  b.textContent = Swal.getTimerLeft()
+                }
+              }
+            }, 100)
+          },
+          onClose: () => {
+            clearInterval(timerInterval)
+            Swal.fire(
+              '로딩완료!',
+              '',
+              'success'
+            )
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // // console.log('I was closed by the timer')
+          }
+        });
+
+        axios
+        .post(`https://j3b105.p.ssafy.io/api/crawling/word`, {
+          word: nowTrans.transResultLetter // 검색할 단어
+        })
+        .then(response => {
+          console.log(response);
+          console.log("단어 검색 완료");
+          this.descUrl = response.data.descUrl;
+          this.imageUrl = response.data.imageUrl1;
+          this.videoUrl = response.data.videoUrl;
+        });
       },
       tabChange(type){
         if(type == 1){
@@ -186,8 +259,8 @@ export default {
     window.onresize=()=>{
       this.onResize();
     }
-    console.log(this.$route.params.oList);
-    console.log(this.$route.params.tList);
+    // console.log(this.$route.params.oList);
+    // console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
       // console.log(object);
       this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
@@ -198,7 +271,7 @@ export default {
     // });
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
-        console.log(letter);
+        // console.log(letter);
         this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {

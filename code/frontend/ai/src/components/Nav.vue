@@ -1,6 +1,10 @@
 <template>
   <v-card class="overflow-hidden">
-    <div style="width:100%; height:100%; position:fixed; z-index:2;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%;" src="../assets/tutorial.png"></div>
+    <div v-if="frameSize.x>1000&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openTutorial}" @click="closeTutorial"><img style="width:100%;height:100%; " src="../assets/tutorial.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
+    <div v-if="frameSize.x<=1000&&!isCookie" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openTutorial}" @click="closeTutorial"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white;right: 182px; bottom: 0; margin: 16px;" @click="noshow1d">오늘 하루 보지 않기</v-btn> <img style="width:100%;height:100%;" src="../assets/tutorial_mobile.png"><v-btn color="#c55858" style="position:absolute; font-weight: bold; color: white; right: 0; bottom: 0; margin: 16px;" @click="noshow7d">일주일간 보지 않기</v-btn></div>
+    <div v-if="frameSize.x>1000" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openNavTutorial}" @click="closeTutorial"><img style="width:100%;height:100%; " src="../assets/tutorial.png"></div>
+    <div v-if="frameSize.x<=1000" style="width:100%; height:100%; position:fixed; z-index:200;" :style="{display:openNavTutorial}" @click="closeTutorial"></div>
+    
     <v-app-bar
       absolute
       color="transparent"
@@ -73,6 +77,8 @@
               <img :src="$store.state.userinfo.">
             </div>
           </div> -->
+          <div v-if="userEmerPhonebook.length == 0" style="position:absolute; padding: 12px 8px;width:100%;height:100%;background-color:rgb(0 0 0 / 72%); font-size: 15px;
+    font-weight: bold;"><h5 style="font-size:15px; font-weight: bold; color:#fbb8b8;">긴급연락처 등록이 안되어있어요!</h5><h5 style="font-size:15px; font-weight: bold; color:#fbb8b8;">아래 긴급연락처에서<br>긴급연락처 등록을 해 주세요.</h5></div>
           <div style="width:100%; height:70%; padding: 33px; display:inline-block; background: linear-gradient(0, rgb(240 245 253), rgb(197 220 255));padding: 33px;">
             <h4 style="font-weight: bold; color: #000000b3;">{{$store.state.userinfo.nickname}}님</h4>
             <h5 style="    font-size: medium; font-weight: bold; color: #0000009e;">안녕하세요!</h5>
@@ -84,7 +90,7 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLan">
+        <router-link to="/toHandLanChoice">
           <v-list-item>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
           </v-list-item>
@@ -108,9 +114,18 @@
           </v-list-item>
           </router-link>
 
-          <v-list-item @click="showTutorial">
-            <v-list-item-title>서비스 설명</v-list-item-title>
+          <router-link to="/myPhoneBook">
+          <v-list-item v-if="$store.state.userinfo.id!=''">
+            <v-list-item-title v-if="userEmerPhonebook.length == 0" style="color:red;">긴급연락처 관리</v-list-item-title>
+            <v-list-item-title v-if="userEmerPhonebook.length != 0" >긴급연락처 관리</v-list-item-title>
           </v-list-item>
+          </router-link>
+
+        <router-link to="/">
+          <v-list-item @click="showTutorial">
+            <v-list-item-title>서비스 설명(홈으로 이동)</v-list-item-title>
+          </v-list-item>
+        </router-link>
 
         </v-list-item-group>
       </v-list>
@@ -121,10 +136,12 @@
 <script>
 import axios from 'axios'
 import store from '../store'
+import VueCookies from "vue-cookies"
 
 export default {
   data() {
     return {
+      isCookie:null,
       frameSize:{
         x:0,
         y:0,
@@ -133,18 +150,44 @@ export default {
       group: null,
       openTutorial:'block',
       id:'',
-      password:''
+      password:'',
+      userEmerPhonebook:[],
+      openNavTutorial:'none'
     }
   },
   methods: {
+     selectPhone() {
+      window.Kakao.API.request({
+        url: "/v1/user/access_token_info",
+        success: res => {
+          axios
+            .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
+            .then(response => {
+              console.log(response);
+              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              this.userEmerPhonebook = response.data;
+            });
+        }
+      });
+    },
+
+    noshow1d(){
+      VueCookies.set("noshow","true",'1d');
+      console.log(VueCookies.keys());
+    },
+    noshow7d(){
+      VueCookies.set("noshow","true",'7d');
+      console.log(VueCookies.keys());
+    },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};      
     },
     showTutorial(){
-      this.openTutorial = 'block';
+      this.openNavTutorial = 'block';
     },
     closeTutorial(){
       this.openTutorial = 'none';
+      this.openNavTutorial = 'none';
     },
     kakaoLogout() {
       window.Kakao.API.request({
@@ -211,7 +254,9 @@ export default {
     }
   },
   mounted(){
+    this.isCookie = VueCookies.isKey('noshow');
     this.onResize();
+    this.selectPhone();
       window.onresize=()=>{
           this.onResize();
         }

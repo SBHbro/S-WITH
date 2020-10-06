@@ -157,7 +157,6 @@ export default {
       image.src = this.canvas.toDataURL();
 
       axios.post(`https://j3b105.p.ssafy.io/api/ai/textDetection`,{image : image.src}).then(response=>{
-        // console.log(response);
         this.tList = response.data;
         this.textImage += response.data.image;
       })
