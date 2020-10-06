@@ -8,7 +8,7 @@ max-width:550px;
 background-color: rgb(243, 242, 242); border-radius: 45px; 
 padding:10px 10px 10px 30px;">
         <v-icon size="30" style="float:left;margin-right:20px;">mdi-magnify</v-icon>
-        <input v-model="attr" placeholder="수어로 번역할 한글을 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
+        <input v-on:keyup.enter="transButton" v-model="attr" placeholder="수어로 번역할 한글을 입력해주세요." type="text" style="height:100%; overflow:hidden;float:left;" :style="{width:'50%'}">
         
         <v-btn
         style="float:right; text-align:center;width:30px; height:30px; background-color:white; border-radius:15px;"
