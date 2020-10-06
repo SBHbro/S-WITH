@@ -172,6 +172,7 @@ export default {
             .then(res => {
               console.log(res);
               console.log("댓글 등록 완료");
+              this.thisReply = "";
               this.selectNoticeReply();
             });
         },
@@ -181,27 +182,16 @@ export default {
       });
     },
     selectNoticeReply() {
-      // console.log(this.$router.state.userinfo.id);
-
-      window.Kakao.API.request({
-        url: "/v1/user/access_token_info",
-        success: () => {
-          axios
-            .get(
-              `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.id}`
-            )
-            .then(response => {
-              console.log(response);
-              this.reply = response.data;
-              console.log(this.reply);
-              console.log("한 게시글에 대한 댓글 가져오기 완료");
-            });
-        },
-        fail: () => {
-          // alert('로그인 해주세요');
-          console.log('로그인 안함');
-        }
-      
+      console.log(this.$route.params.id);
+      axios
+      .get(
+        `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.$route.params.id}`
+      )
+      .then(response => {
+        console.log(response);
+        this.reply = response.data;
+        console.log(this.reply);
+        console.log("한 게시글에 대한 댓글 가져오기 완료");
       });
     }
   }
