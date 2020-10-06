@@ -77,6 +77,8 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
+
 export default {
   name: "boardupdate",
   data: () => ({
@@ -124,7 +126,15 @@ export default {
         (err = false),
         this.$refs.content.focus());
 
-      if (!err) alert(msg);
+      if (!err) {
+        // alert(msg);
+        Swal.fire({
+            icon: 'error',
+            title: msg,
+            text: '',
+            footer: ' '
+        })
+      }
       else this.updateHandler();
     },
 
@@ -139,7 +149,13 @@ export default {
           email: this.email
         })
         .then(() => {
-          alert("수정이 완료되었습니다.");
+          // alert("수정이 완료되었습니다.");
+          Swal.fire({
+            icon: 'success',
+            title: '수정 완료!',
+            text: ' ',
+            footer: ' '
+          })
           this.moveList();
         });
     },
