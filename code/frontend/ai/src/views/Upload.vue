@@ -43,13 +43,8 @@ export default {
       var reader = new FileReader();
       reader.readAsDataURL(this.fileData);
       reader.onloadend = function() {
-          var base64data = reader.result;
-          console.log(base64data);
-          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result}).then(response=>{
-              console.log(response);
-            }).catch(e=>{
-              console.log(e)
-              // this.task = true
+          axios.post(`https://j3b105.p.ssafy.io/api/notices/upload`,{data : reader.result}).then(()=>{
+            }).catch(()=>{
           })
       }
     },
