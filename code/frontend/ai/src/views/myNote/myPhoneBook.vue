@@ -5,7 +5,7 @@
       </v-row>
 
       <v-card style="height:80%;">
-        <v-btn @click="sendMessage">메세지보내기</v-btn>
+        <!-- <v-btn @click="sendMessage">메세지보내기</v-btn> -->
           <div style="height:100%; width:100%;" v-if="phoneList.length==0">
               <v-row justify="center" style="margin:0px; width:100%; text-align:center;">
                   <h4>위급상황시 긴급 메세지를 보낼 번호가 없습니다.</h4>
@@ -62,6 +62,7 @@ export default {
             .post(`https://j3b105.p.ssafy.io/api/users/send`,{
               user_id: this.$store.state.userinfo.id,
               nickname: this.$store.state.userinfo.nickname
+              // word:
             })
             .then(response => {
               console.log(response);
