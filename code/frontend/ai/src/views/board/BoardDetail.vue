@@ -83,7 +83,7 @@
             </div>
           </div>
           <div>
-            <div style="width:100%; height:60%; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == user_id">삭제</button></div>
+            <div style="width:100%; height:60%; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id">삭제</button></div>
           </div>
         </div>
       </v-col>
@@ -94,6 +94,7 @@
 <script>
 // import store from '../../store'
 import axios from "axios";
+import Swal from 'sweetalert2';
 export default {
   name: "boarddetail",
   data: () => ({
@@ -201,12 +202,28 @@ export default {
       });
     },
     deleteReply(reply_id){
-      axios
-      .delete(`https://j3b105.p.ssafy.io/api/notices/reply/${reply_id}`)
-      .then(res => {
-        console.log(res);
-        console.log("댓글 삭제 완료");
-        this.selectNoticeReply();
+      Swal.fire({
+        title: '삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '네!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '삭제완료!',
+            ' ',
+            'success'
+          );
+          axios
+            .delete(`https://j3b105.p.ssafy.io/api/notices/reply/${reply_id}`)
+            .then(res => {
+              console.log(res);
+              console.log("댓글 삭제 완료");
+              this.selectNoticeReply();
+            });
+        }
       });
     }
   }

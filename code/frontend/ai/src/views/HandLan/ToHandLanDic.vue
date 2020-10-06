@@ -165,25 +165,26 @@ export default {
       this.showSearchResult = 'none';
     },
     addVoca() {
-      var user_id;
-      window.Kakao.API.request({
-        url: "/v1/user/access_token_info",
-        success: res => {
-          user_id = res.id;
-          console.log("token", user_id);
-          axios
-            .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
-              user_id: res.id,
-              word: this.attr,
-              video: "test"
-            })
-            .then(res => {
-              console.log(res);
-              console.log("단어 등록 완료");
-              alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
-            });
-        }
-      });
+      axios
+        .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
+          user_id: this.$store.state.userinfo.id,
+          word: this.attr,
+          video: "test"
+        })
+        .then(res => {
+          console.log(res);
+          console.log("단어 등록 완료");
+          alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+        });
+      // var user_id;
+      // window.Kakao.API.request({
+      //   url: "/v1/user/access_token_info",
+      //   success: res => {
+      //     user_id = res.id;
+      //     console.log("token", user_id);
+          
+      //   }
+      // });
     },
   },
   beforeMount() {
