@@ -1,7 +1,8 @@
 <template>
   <div class="container" align="center">
     <div>
-      <h3 style="    font-size: x-large; color: #000000b8; margin: 15px 0px;">
+      <h3 style="font-weight: bold;font-size: 24px;
+    color: #495057;">
         문의 게시판
       </h3>
       <div style="height:50px;">
