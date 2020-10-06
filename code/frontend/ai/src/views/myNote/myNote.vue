@@ -16,7 +16,8 @@
       </v-card>
     </v-row>
     <v-row justify="center" style="width:100%; height:10%;  margin:0px;">
-    <h2>내 단어장</h2>
+    <div style = "font-weight: bold;font-size: 24px;
+    color: #495057;">내 단어장</div>
     </v-row>
     <v-row justify="center" style="width:100%; height:90%; margin:0px;">
       <div style="height:100%; width:100%; position:relative;"><my-word-list @show-handLan="showHandLanModalmethod" style="height:100%;width:100%;" :list-array="mywords"></my-word-list></div>
