@@ -115,7 +115,14 @@ export default {
       //   (err = false),
       //   this.$refs.email.focus());
 
-      if (!err) alert(msg);
+      if (!err){
+        Swal.fire({
+          icon: 'error',
+          title: msg,
+          text: '',
+          footer: ' '
+        })
+      } 
       else this.createHandler();
     },
     createHandler() {
@@ -148,7 +155,13 @@ export default {
             url: url
           })
           .then(() => {
-            alert("등록이 완료되었습니다.");
+            // alert("등록이 완료되었습니다.");
+            Swal.fire({
+                icon: 'success',
+                title: '등록 완료',
+                text: '',
+                footer: ' '
+            })
             this.moveList();
           });
 

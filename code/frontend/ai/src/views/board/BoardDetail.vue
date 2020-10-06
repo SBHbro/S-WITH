@@ -23,8 +23,8 @@
             v-if="$store.state.userinfo.id == user_id"
             style=" margin-top:-25px; float:right;"
           >
-            <div class="modify btn" style="" @click="moveUpdate">수정</div>
-            <div class="delete btn" @click="Delete">삭제</div>
+            <div class="modify btn"><v-icon color="#72d69a" style="margin-right:8px;" @click="moveUpdate">mdi-wrench</v-icon></div>
+            <div class="delete btn" ><v-icon size="30px" color="#ef746b" @click="Delete">mdi-delete</v-icon></div>
           </div>
         </div>
         <div
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div>
-            <div style="width:100%; height:60%; margin-left: 5px; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id"><v-icon medium color="red darken-2">mdi-delete</v-icon></button></div>
+            <div style="width:100%; height:60%; margin-left: 5px; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id"><v-icon medium color="#ef746b">mdi-delete</v-icon></button></div>
           </div>
         </div>
 
@@ -142,17 +142,40 @@ export default {
       this.$router.push("/board/update/" + this.id);
     },
     alertlogin(){
-      alert('로그인이 필요한 서비스입니다.');
+      // alert('로그인이 필요한 서비스입니다.');
+      Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 서비스입니다.',
+            text: '',
+            footer: ' '
+        })
     },
     Delete() {
       // this.$router.push("/board/delete/" + this.id);
-      var id = this.$route.params.id;
-      axios
-        .delete(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
-        .then(() => {
-          alert("게시글이 삭제되었습니다");
-          this.$router.push("/board");
-        });
+      Swal.fire({
+        title: '삭제하시겠습니까?',
+        text: " ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '네!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '삭제 완료!',
+            ' ',
+            'success'
+          )
+          var id = this.$route.params.id;
+          axios
+            .delete(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
+            .then(() => {       
+              this.$router.push("/board");
+          });
+        }
+      })
+      
     },
     addReply() {
       // var notice_num = 8;
@@ -175,7 +198,13 @@ export default {
             });
         },
         fail: () => {
-          alert('로그인 해주세요.');
+          // alert('로그인 해주세요.');
+          Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 서비스입니다.',
+            text: ' ',
+            footer: ' '
+          })
         }
       });
     },

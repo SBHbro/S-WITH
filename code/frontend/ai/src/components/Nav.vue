@@ -143,6 +143,7 @@
 import axios from 'axios'
 import store from '../store'
 import VueCookies from "vue-cookies"
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -240,7 +241,13 @@ export default {
             .then(res => {
               //console.log(res);
               //console.log("로그인 성공");
-              alert("로그인 성공!");
+              // alert("로그인 성공!");
+              Swal.fire({
+                icon: 'success',
+                title: '로그인 성공',
+                text: '',
+                // footer: ' '
+              });
               //console.log(res.data);
               store.commit('login',res.data);
             })

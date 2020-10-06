@@ -85,7 +85,13 @@ data () {
     },
     showHandLan(data){
       if(data ==''){
-        alert('검색할 단어를 입력해주세요');
+        // alert('검색할 단어를 입력해주세요');
+        Swal.fire({
+          icon: 'error',
+          title: '검색할 단어를 입력해주세요',
+          text: '',
+          footer: ' '
+        })
       }else{
 
         // axios.get(`https://j3b105.p.ssafy.io/api/ai/word`,{ params : {text : this.attr}}).then(res=>{

@@ -29,7 +29,8 @@
 
 <script>
 // import Vue2Tts from 'vue2-tts'
-import axios from 'axios'
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     components: {
@@ -102,7 +103,13 @@ export default {
         typeof SpeechSynthesisUtterance === "undefined" ||
         typeof window.speechSynthesis === "undefined"
       ) {
-        alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+        // alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+        Swal.fire({
+            icon: 'error',
+            title: '이 브라우저는 음성 합성을 지원하지 않습니다.',
+            text: ' ',
+            footer: ' '
+          })
         return;
       }
 
