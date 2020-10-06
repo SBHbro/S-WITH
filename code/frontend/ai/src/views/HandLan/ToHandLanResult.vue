@@ -94,14 +94,44 @@
             <v-card v-for="(result,index) in letters" :key="index" style="width:100%; height: 50px;
               margin: 5px 0px;
               padding:6px 8px;
+              display : inline-block;
               font-weight: bold;
               font-size: large;">
             <div style="float:left;width:70%;text-align:center;">
               {{result.transResultLetter}}
             </div>
-            <!-- <v-dialog v-model="dialog" scrollable max-width="300px">
-                <template v-slot:activator="{ on, attrs }"> -->
-              <v-btn
+                  
+               <v-dialog v-model="dialog" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                style="float:right; width:20%;height:30px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+                color="rgb(98 149 232)"
+
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="transButton(result)"
+                  >
+                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+                  </v-btn>
+                </template>
+                
+                <v-card
+                  :style="{width:frameSize.x*0.8+'px'}"
+                  >
+                <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
+
+                <v-card-title>
+                  <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                </v-card-title>
+
+                <v-card-subtitle>
+                  {{descUrl}}
+                </v-card-subtitle>
+              
+              </v-card>
+              </v-dialog>
+
+              <!-- <v-btn
                   style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
 
                 v-bind="attrs"
@@ -110,27 +140,10 @@
                 @click="transButton(result)"
               >
                     <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
-
-          <!-- <div style="width:100%; text-align:right;"><v-icon size="15px">mdi-hand-pointing-right</v-icon></div>
-          <div style="width:100%; text-align:center;">수화 보기</div>
-          <div style="width:100%; text-align:left;"><v-icon size="15px">mdi-hand-pointing-left</v-icon></div> -->
-        </v-btn>
-        <!-- </template>
-    
-            <v-card
-                :style="{width:frameSize.x*0.8+'px'}"
-                >
-              <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
-              <v-card-title>
-                <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
-              </v-card-title>
-
-              <v-card-subtitle>
-                {{descUrl}}
-              </v-card-subtitle>
+                  
             
-            </v-card>
-              </v-dialog> -->
+        </v-btn> -->
+  
             </v-card>
 
 

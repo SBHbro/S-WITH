@@ -90,7 +90,7 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLanChoice">
+        <router-link to="/toHandLan">
           <v-list-item>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
           </v-list-item>
