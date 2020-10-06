@@ -1,10 +1,25 @@
 <template>
   <div style="width:100%; height:100%;">
+    <v-row justify="center" >
+      <v-card :style="{display:showHandLanModal}"  style="margin-top:10%; z-index:3; position:absolute; width:50%; height:50%; overflow:hidden;">
+        <div style="width:100%; height:10%;"><v-icon style="float:right" @click="closeModal">mdi-close</v-icon></div>
+        <div style="width:100%; height:90%">
+          <div style="margin:10px 0px; font-weight:bold; font-size:larger; text-align:center;">{{results.result}}에 대한 수어</div>
+          <video :src="results.videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>
+    <div style="width:100%; height:50%; overflow:hidden;" align="center">
+
+    <v-card-subtitle style="overflow:auto; text-align:center; width: 80%; height: 117px;">     
+      {{results.descUrl}}
+    </v-card-subtitle>
+        </div>
+        </div>
+      </v-card>
+    </v-row>
     <v-row justify="center" style="width:100%; height:10%;  margin:0px;">
     <h2>내 단어장</h2>
     </v-row>
     <v-row justify="center" style="width:100%; height:90%; margin:0px;">
-      <div style="height:100%; width:100%; position:relative;"><my-word-list style="height:100%;width:100%;" :list-array="mywords"></my-word-list></div>
+      <div style="height:100%; width:100%; position:relative;"><my-word-list @show-handLan="showHandLanModalmethod" style="height:100%;width:100%;" :list-array="mywords"></my-word-list></div>
     </v-row>
       
   </div>
@@ -22,10 +37,20 @@ data() {
         x:0,
         y:0,
       },
-      mywords:[]
+      mywords:[],
+      showHandLanModal:'none',
+      results:{}
     }
   },
   methods: {
+    closeModal(){
+this.showHandLanModal = 'none';
+    },
+    showHandLanModalmethod(results){
+      this.showHandLanModal = 'block';
+      console.log(results);
+      this.results = results;
+    },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};
     },
