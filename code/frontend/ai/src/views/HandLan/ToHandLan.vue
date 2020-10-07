@@ -5,7 +5,9 @@
 </template>
 
 <script>
-import Camera from '../../components/Camera.vue'
+import Camera from '../../components/Camera.vue';
+import Swal from 'sweetalert2';
+
 export default {
   components:{Camera},
   data() {
@@ -29,7 +31,13 @@ export default {
     },
     transButton(){
       if(this.attr ==''){
-        alert('검색할 단어를 입력해주세요');
+        // alert('검색할 단어를 입력해주세요');
+        Swal.fire({
+            icon: 'error',
+            title: '검색할 단어를 입력해주세요.',
+            text: ' ',
+            footer: ' '
+          })
       }else{
         this.showSearchResult = 'block';
       }
@@ -43,12 +51,12 @@ export default {
      window.onresize=()=>{
       this.onResize();
       this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-      console.log(document.getElementById('search'));
+      //console.log(document.getElementById('search'));
       this.cameraWidth = document.getElementById('camera').offsetWidth;
       this.cameraHeight = document.getElementById('camera').offsetHeight;
       this.searchMargin = document.getElementById('search').offsetWidth;
-      console.log(this.cameraWidth);
-      console.log(this.searchSize);
+      //console.log(this.cameraWidth);
+      //console.log(this.searchSize);
         }
   },
   
@@ -62,11 +70,11 @@ export default {
         this.searchSize = this.frameSize.x*0.9;
       }
       this.searchMargin = (this.frameSize.x*0.9-this.searchSize)/2;
-      console.log(this.searchMargin+" "+this.searchSize);
+      //console.log(this.searchMargin+" "+this.searchSize);
     window.onresize=()=>{
       this.onResize();
       this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-      console.log(document.getElementById('search'));
+      //console.log(document.getElementById('search'));
       if(this.frameSize.x>550){
         this.searchSize = 550;   
       }else{
@@ -75,9 +83,9 @@ export default {
       this.searchMargin = (this.frameSize.x*0.9-this.searchSize)/2; 
       this.cameraWidth = document.getElementById('camera').offsetWidth;
       this.cameraHeight = document.getElementById('camera').offsetHeight;
-      console.log(this.cameraWidth);
-      console.log(this.searchSserachMarginize);
-      console.log(this.frameSize.x+"곱하기"+this.serachMargin+" "+this.serachMargin);
+      //console.log(this.cameraWidth);
+      //console.log(this.searchSserachMarginize);
+      //console.log(this.frameSize.x+"곱하기"+this.serachMargin+" "+this.serachMargin);
         }
   },
 }

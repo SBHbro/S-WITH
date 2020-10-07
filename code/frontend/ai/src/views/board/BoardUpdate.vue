@@ -77,6 +77,8 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
+
 export default {
   name: "boardupdate",
   data: () => ({
@@ -96,7 +98,7 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
-        console.log(data);
+        //console.log(data);
         this.id = data.id;
         this.email = data.email;
         this.subject = data.subject;
@@ -124,14 +126,22 @@ export default {
         (err = false),
         this.$refs.content.focus());
 
-      if (!err) alert(msg);
+      if (!err) {
+        // alert(msg);
+        Swal.fire({
+            icon: 'error',
+            title: msg,
+            text: '',
+            footer: ' '
+        })
+      }
       else this.updateHandler();
     },
 
     updateHandler() {
       var id = this.$route.params.id;
-      console.log("id", id);
-      console.log(this.subject + " " + this.content);
+      //console.log("id", id);
+      //console.log(this.subject + " " + this.content);
       axios
         .put(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`, {
           subject: this.subject,
@@ -139,7 +149,13 @@ export default {
           email: this.email
         })
         .then(() => {
-          alert("수정이 완료되었습니다.");
+          // alert("수정이 완료되었습니다.");
+          Swal.fire({
+            icon: 'success',
+            title: '수정 완료!',
+            text: ' ',
+            footer: ' '
+          })
           this.moveList();
         });
     },
