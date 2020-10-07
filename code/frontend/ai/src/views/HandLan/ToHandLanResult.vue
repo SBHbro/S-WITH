@@ -70,8 +70,11 @@
 
               <v-card-subtitle>
                 {{descUrl}}
+                <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
               </v-card-subtitle>
-            
+              <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              
             </v-card>
               </v-dialog>
             </v-card>
@@ -126,7 +129,11 @@
 
                 <v-card-subtitle>
                   {{descUrl}}
+                  <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
                 </v-card-subtitle>
+                <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+              
               
               </v-card>
               </v-dialog>
@@ -203,6 +210,62 @@ export default {
         
     },
     methods: {
+      kakaolink(data){
+            window.Kakao.Link.sendDefault({
+            objectType: 'feed',
+            content: {
+              title: '수어 번역기',
+              description: '친구가 보낸 메세지 : '+data+'\n 수어번역기에서 확인해보세요!',
+              imageUrl:
+                'https://j3b105.p.ssafy.io/img/title.6d9ffb95.png',
+              link: {
+                mobileWebUrl: 'https://j3b105.p.ssafy.io',
+                androidExecParams: 'test',
+              },
+            },
+            buttons: [
+              {
+                title: '웹으로 이동',
+                link: {
+                  mobileWebUrl: 'https://j3b105.p.ssafy.io',
+                },
+              },
+            ]
+          });
+
+      },
+       nologin(){
+        // alert("로그인이 필요한 서비스입니다.");
+        Swal.fire({
+              icon: 'error',
+              title: '로그인이 필요한 서비스입니다.',
+              text: ' ',
+              footer: ' '
+            })
+      },
+      addVoca() {
+        window.Kakao.API.request({
+          url: "/v1/user/access_token_info",
+          success: res => {
+            //console.log("token", user_id);
+            axios
+              .post(`https://j3b105.p.ssafy.io/api/users/voca`, {
+                user_id: res.id,
+                word: this.attr,
+                video: "test"
+              })
+              .then(() => {
+                // alert("내 단어장에 추가가 완료되었습니다. 내 단어장에서 확인해주세요.")
+                Swal.fire({
+                  icon: 'success',
+                  title: '추가 완료',
+                  text: '내 단어장에서 확인해주세요.',
+                  footer: ' '
+                })
+              });
+          }
+        });
+      },
       onResize(){
           this.frameSize = {x:window.innerWidth, y:window.innerHeight};
       },
@@ -276,7 +339,10 @@ export default {
     // //console.log(this.$route.params.tList);
     this.$route.params.oList.data.forEach(object => {
       // //console.log(object);
+      if(object.label == '포장 된 상품')
+        object.label = '상품'
       this.objects.push({src : 'data:image/jpeg;base64,'+object.src,transResultLetter: object.label, videoSrc : object.videoname})
+
     });
     // this.$route.params.roiList.forEach(roi => {
     //   // //console.log(object);
@@ -285,6 +351,7 @@ export default {
     if(this.$route.params.tList.data){
       this.$route.params.tList.data.forEach(letter => {
         // //console.log(letter);
+
         this.letters.push({transResultLetter: letter.label, videoSrc: letter.videoname});
       });
     } else {

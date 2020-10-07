@@ -69,6 +69,7 @@ export default {
 
             // Initialize the recorder
             this.recorder = new MediaRecorder(stream, {
+              videoBitsPerSecond : 250000000,
                 mimeType: 'video/webm',
             });
 
