@@ -81,7 +81,7 @@
             </div>
           </div>
           <div>
-            <div style="width:100%; height:60%; margin-left: 5px; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id"><v-icon medium color="red darken-2">mdi-delete</v-icon></button></div>
+            <div style="width:100%; height:60%; margin-left: 5px; float: left;">{{ re.content }} <button type="button" style="float: right; color: red;" @click="deleteReply(re.id)" v-if="$store.state.userinfo.id == re.user_id"><v-icon medium color="#ef746b">mdi-delete</v-icon></button></div>
           </div>
         </div>
 
