@@ -56,6 +56,7 @@
                 
                 <v-card
                 :style="{width:frameSize.x*0.8+'px'}"
+                style="overflow:hidden;"
                 >
               <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
               <!-- <v-img
@@ -68,13 +69,13 @@
                 <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
               </v-card-title>
 
-              <v-card-subtitle>
+              <v-card-subtitle style="overflow-y:scroll;">
                 {{descUrl}}
                 <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
+                     <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                     <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
               </v-card-subtitle>
-              <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-              
+               
             </v-card>
               </v-dialog>
             </v-card>
@@ -120,6 +121,7 @@
                 
                 <v-card
                   :style="{width:frameSize.x*0.8+'px'}"
+                  style="overflow:hidden;"
                   >
                 <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
 
@@ -127,46 +129,17 @@
                   <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
                 </v-card-title>
 
-                <v-card-subtitle>
+                <v-card-subtitle style="overflow-y:scroll;">
                   {{descUrl}}
                   <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
+                     <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                     <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
                 </v-card-subtitle>
-                <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-              <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-              
-              
+                      
               </v-card>
               </v-dialog>
 
-              <!-- <v-btn
-                  style="float:right; width:28%; border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-
-                v-bind="attrs"
-                v-on="on"
-                color="rgb(98 149 232)"
-                @click="transButton(result)"
-              >
-                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
-                  
-            
-        </v-btn> -->
-  
             </v-card>
-
-
-
-
-            <!-- </div> -->
-            <!-- <div v-if="letters[0].transResultLetter=='단어를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
-              검출된 글자가 없습니다.
-              <br>
-              죄송합니다. 데이터를 추가해달라고 요청해주세요.
-              <div style="width:100%;">
-                <router-link to="/board">
-                    <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
-                </router-link>
-            </div>
-            </div> -->
           </div>
         </v-card>
       </v-tab-item>
