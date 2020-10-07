@@ -66,7 +66,8 @@
               <!-- <video :src="`/video/${nowTransLate.videoSrc}`" autoplay></video> -->
 
               <v-card-title>
-                <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의하세요</div>  
               </v-card-title>
 
               <v-card-subtitle style="overflow-y:scroll;">
@@ -115,7 +116,7 @@
                     v-on="on"
                     @click="transButton(result)"
                   >
-                    <v-icon style="transform: rotate(-28deg);">mdi-hand-pointing-right</v-icon>수화 보기<v-icon style="transform: rotate(-46deg);">mdi-hand-pointing-left</v-icon>
+                    <v-icon style="transform: rotate(-28deg);">mdi-hand-pointing-right</v-icon>수어 보기<v-icon style="transform: rotate(-46deg);">mdi-hand-pointing-left</v-icon>
                   </v-btn>
                 </template>
                 
@@ -126,7 +127,8 @@
                 <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
 
                 <v-card-title>
-                  <div style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                  <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의하세요</div> 
                 </v-card-title>
 
                 <v-card-subtitle style="overflow-y:scroll;">
@@ -290,9 +292,17 @@ export default {
         .then(response => {
           //console.log(response);
           //console.log("단어 검색 완료");
-          this.descUrl = response.data.descUrl;
+          if(response.data.imageUrl==''){
+            this.imageUrl = '';
+          }else{
+            this.descUrl = response.data.descUrl;
           this.imageUrl = response.data.imageUrl1;
           this.videoUrl = response.data.videoUrl;
+          }
+          
+        }).catch(()=>{
+          console.log('결과없음');
+          this.descUrl = '';
         });
       },
       tabChange(type){

@@ -268,6 +268,14 @@ export default {
     }
   },
   mounted(){
+    if (!window.Kakao.Auth.getAccessToken()) {
+      console.log('Not logged in.');
+      this.kakaoLogout();
+      return;
+    }
+    else{
+      this.selectPhone();
+    }
     this.isCookie = VueCookies.isKey('noshow');
     this.onResize();
       window.onresize=()=>{
