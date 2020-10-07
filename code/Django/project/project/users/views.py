@@ -83,9 +83,13 @@ def phone_detail(request, phone_pk):
         phone.delete()
         return Response({'message':'성공적으로 삭제'})
 
-@api_view(['GET'])
-def send_message(request,user_pk):
-    if request.method == 'GET':
+@api_view(['POST'])
+def send_message(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        user_pk = req['user_id']
+        nickname = req['nickname']
+        word = req['word']
         data = Phone.objects.filter(user_id=user_pk)
         dataList = data.values()
         print('list',dataList.values())
@@ -103,7 +107,7 @@ def send_message(request,user_pk):
         params['type'] = 'sms'  # Message type ( sms, lms, mms, ata )
         params['to'] = convertList  # Recipients Number '01000000000,01000000001'
         params['from'] = '01064103518'  # Sender number
-        params['text'] = '살려주세요 S:with'  # Message
+        params['text'] = nickname + '님이 "'+word+'"라고 보냈습니다. 도와주세요. S:with'  # Message
         cool = Message(api_key, api_secret)
         try:
             response = cool.send(params)
