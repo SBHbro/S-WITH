@@ -83,7 +83,7 @@ import Swal from 'sweetalert2';
 export default {
   name: "boardcreate",
   data: () => ({
-    
+
     items: ["naver.com", "gmail.com", "nate.com", "daum.net", "kakao.com"],
     notice: [],
     subject: "",
