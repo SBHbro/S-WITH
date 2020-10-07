@@ -51,7 +51,7 @@
               @change="onChange($event)"
             />
             <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
-            <!-- <v-btn @click="uploadImage">Upload video</v-btn> -->
+            <v-btn @click="uploadImage">Upload video</v-btn>
             <v-btn @click="removeImage">Remove video</v-btn>
           </tr>
           <!-- </v-card-text> -->
@@ -90,7 +90,8 @@ export default {
     date: "",
     reply: [],
     thisReply: "",
-    email: ""
+    email: "",
+    fileData: "",
   }),
 
   created() {
@@ -142,11 +143,23 @@ export default {
       var id = this.$route.params.id;
       //console.log("id", id);
       //console.log(this.subject + " " + this.content);
+      var url = "null";
+        //console.log(url);
+        if (this.fileData) {
+          var strArr = this.fileData.name.split(".");
+          url =
+            "https://j3b105.p.ssafy.io/media/" +
+            this.$store.state.userinfo.id +
+            "" +
+            this.$route.params.number +
+            "." + strArr[1];
+        }
       axios
         .put(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`, {
           subject: this.subject,
           content: this.content,
-          email: this.email
+          email: this.email,
+          url: url
         })
         .then(() => {
           // alert("수정이 완료되었습니다.");
@@ -165,17 +178,91 @@ export default {
     clear() {
       this.$refs.form.reset();
     },
-    removeImage: function() {
-      this.image = "";
+    removeImage(){
+      this.fileData = "";
+      this.isFile = false;
+      const input = this.$refs.fileInput
+      input.type = 'text'
+      input.type = 'file'
     },
     uploadImage() {
-      // var reader = new FileReader();
-      // reader.readAsDataURL(superBuffer);
+      var reader = new FileReader();
+      var formData = new FormData();
+      // //console.log(this.fileData);
+      var strArr = this.fileData.name.split("."); // 파일 확장자 가져오기 위해 자르기
+
+      var fileName =
+        this.$store.state.userinfo.id +
+        "" +
+        this.$route.params.number +
+        "." +
+        strArr[1];
+      formData.append("file", this.fileData);
+      formData.append("filename", fileName);
+      axios
+        .post(`https://j3b105.p.ssafy.io/api/notices/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(() => {
+          //console.log(response);
+        })
+        .catch(() => {
+          //console.log(e);
+          // this.task = true
+        });
+
+      reader.readAsDataURL(this.fileData);
+      reader.onloadend = function() {
+        //console.log(fileName);
+        // axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+        //     //console.log(response);
+        //   }).catch(e=>{
+        //     //console.log(e)
+        //     // this.task = true
+        // });
+      };
+
+      let timerInterval;
+      Swal.fire({
+        title: '업로드중...',
+        // html: '전송까지 <b></b> 초 남았습니다.',
+        timer: 2000,
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+          Swal.showLoading()
+          
+          Swal.color= 'green';
+          timerInterval = setInterval(() => {
+            const content = Swal.getContent()
+            if (content) {
+              const b = content.querySelector('b')
+              if (b) {
+                b.textContent = Swal.getTimerLeft()
+              }
+            }
+          }, 100)
+        },
+        onClose: () => {
+          clearInterval(timerInterval)
+          Swal.fire(
+            '업로드완료!',
+            '',
+            'success'
+          )
+          this.isFile = true;
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          // // //console.log('I was closed by the timer')
+        }
+      });
     },
     onChange(e) {
       const file = e.target.files[0];
       //   this.item.imageUrl = URL.createObjectURL(file);
       this.image = URL.createObjectURL(file);
+      this.fileData = file;
       // this.$set(this.items[index], "file", file);
     }
   }
