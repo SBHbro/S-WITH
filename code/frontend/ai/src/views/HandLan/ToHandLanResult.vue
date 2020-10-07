@@ -42,10 +42,8 @@
               <div style="display:inline-block;">{{result.transResultLetter}}</div>
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-          style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-          color="rgb(136 182 226)"
-
+                  <v-btn style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+                    color="rgb(136 182 226)"
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
@@ -55,63 +53,44 @@
                 </template>
                 
                 <v-card
-                :style="{width:frameSize.x*0.8+'px'}"
-                style="overflow:hidden;"
+                  :style="{width:frameSize.x*0.8+'px'}"
+                  style="overflow:hidden;"
                 >
-              <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
-              <!-- <v-img
-                src="../../assets/HandLan/result.png"
-                height="200px"
-              ></v-img> -->
-              <!-- <video :src="`/video/${nowTransLate.videoSrc}`" autoplay></video> -->
+                  <video v-if="imageUrl != ''" :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
+           
+                  <v-card-title>
+                    <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                    <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의해주세요</div>  
+                  </v-card-title>
 
-              <v-card-title>
-                <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
-                <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의하세요</div>  
-              </v-card-title>
-
-              <v-card-subtitle style="overflow-y:scroll;">
-                {{descUrl}}
-                <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
-                     <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-                     <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-              </v-card-subtitle>
+                  <v-card-subtitle style="overflow-y:scroll;">
+                    {{descUrl}}
+                    <img v-if="imageUrl != ''" src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
+                    <v-btn v-if="$store.state.userinfo.id!=''&&imageUrl != ''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                    <v-btn v-if="$store.state.userinfo.id==''&&imageUrl != ''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                    <router-link v-if="imageUrl == ''" to="/board">
+                        <v-btn class="btnText" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
+                    </router-link>
+                  </v-card-subtitle>
                
-            </v-card>
+                 </v-card>
               </v-dialog>
             </v-card>
-            <!-- </div> -->
-            <!-- <div v-if="objects[0].transResultLetter=='물체를 찾을 수 없습니다.'" style="text-align:center; padding-top:15px;">
-              검출된 물체가 없습니다.
-              <br>
-              죄송합니다. 데이터를 추가해달라고 요청해주세요.
-              <div style="width:100%;">
-                <router-link to="/board">
-                    <v-btn class="btnText" style="width:50%; height: 46px; margin:10px 0px; max-width:500px; font-size: large; min-width: 250px; color:white;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
-                </router-link>
-            </div>
-            </div> -->
           </div>
           
-          
           <div v-if="i==2" >
-            <!-- <div v-if="letters[0].transResultLetter!='단어를 찾을 수 없습니다.'"> -->
             <v-card v-for="(result,index) in letters" :key="index" style="width:100%; height: 50px;
               margin: 5px 0px;
               padding:6px 8px;
               display : inline-block;
               font-weight: bold;
               font-size: large;">
-            <div style="float:left;width:70%;text-align:center;">
-              {{result.transResultLetter}}
-            </div>
-                  
-               <v-dialog v-model="dialog" scrollable max-width="300px">
+              <div style="float:left;width:70%;text-align:center;">{{result.transResultLetter}}</div>   
+              <v-dialog scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                style="float:right; width:20%;height:30px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-                color="rgb(136 182 226)"
-
+                    style="float:right; width:20%;height:30px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
+                    color="rgb(136 182 226)"
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
@@ -123,19 +102,22 @@
                 <v-card
                   :style="{width:frameSize.x*0.8+'px'}"
                   style="overflow:hidden;"
-                  >
-                <video :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
+                >
+                  <video v-if="imageUrl != ''" :src="videoUrl" style="width:100%; height:50%; background-size: contain;" autoplay loop></video>  
 
-                <v-card-title>
-                  <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
-                <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의하세요</div> 
-                </v-card-title>
+                  <v-card-title>
+                    <div v-if="imageUrl != ''" style="margin:10px 0px; font-weight:bold; font-size:larger;">{{nowTransLate.transResultLetter}}에 대한 수어</div>   
+                  <div v-if="imageUrl == ''" style="margin:10px 0px; font-weight:bold; font-size:medium;">{{nowTransLate.transResultLetter}}에 대한 결과가 없습니다.<br>게시판에 문의해주세요</div> 
+                  </v-card-title>
 
                 <v-card-subtitle style="overflow-y:scroll;">
                   {{descUrl}}
-                  <img src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
-                     <v-btn v-if="$store.state.userinfo.id!=''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
-                     <v-btn v-if="$store.state.userinfo.id==''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                  <img v-if="imageUrl != ''" src="../../assets/btn/kakaobtn.png" v-on:click="kakaolink(nowTransLate.transResultLetter)" />
+                  <v-btn v-if="$store.state.userinfo.id!=''&&imageUrl != ''" @click="addVoca"  color="rgb(57 181 111)" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                  <v-btn v-if="$store.state.userinfo.id==''&&imageUrl != ''" @click="nologin"  style="width:100%;color:#6c757d91; font-size:45px; font-weight:bold; font-size:small;"><v-icon>mdi-plus</v-icon>내 노트에 추가하기</v-btn>
+                  <router-link v-if="imageUrl == ''" to="/board">
+                      <v-btn class="btnText" style="width:100%;color:white; font-size:45px; font-weight:bold; font-size:small;" color="rgb(232, 107, 94)"><v-icon color="white">mdi-lead-pencil</v-icon>요청 글쓰러 가기</v-btn>
+                  </router-link>
                 </v-card-subtitle>
                       
               </v-card>
@@ -194,7 +176,7 @@ export default {
               imageUrl:
                 'https://j3b105.p.ssafy.io/img/title.6d9ffb95.png',
               link: {
-                mobileWebUrl: 'https://j3b105.p.ssafy.io',
+                webUrl: 'https://j3b105.p.ssafy.io',
                 androidExecParams: 'test',
               },
             },
@@ -202,7 +184,7 @@ export default {
               {
                 title: '웹으로 이동',
                 link: {
-                  mobileWebUrl: 'https://j3b105.p.ssafy.io',
+                  webUrl: 'https://j3b105.p.ssafy.io',
                 },
               },
             ]

@@ -268,12 +268,11 @@ export default {
     }
   },
   mounted(){
+    //로그인 돼있을 때
     if (!window.Kakao.Auth.getAccessToken()) {
-      console.log('Not logged in.');
-      this.kakaoLogout();
-      return;
+      store.commit('logout');
     }
-    else{
+    else {
       this.selectPhone();
     }
     this.isCookie = VueCookies.isKey('noshow');
