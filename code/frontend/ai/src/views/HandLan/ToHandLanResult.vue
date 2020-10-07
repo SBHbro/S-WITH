@@ -44,13 +44,13 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
           style="float:right; width:20%;height:80px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-          color="rgb(98 149 232)"
+          color="rgb(136 182 226)"
 
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
                   >
-                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+                    <v-icon style="transform: rotate(-28deg);">mdi-hand-pointing-right</v-icon>수화 보기<v-icon style="transform: rotate(-46deg);">mdi-hand-pointing-left</v-icon>
                   </v-btn>
                 </template>
                 
@@ -105,13 +105,13 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                 style="float:right; width:20%;height:30px; margin:5px;border-color: transparent; color: white; font-weight: bold; font-size: small; text-shadow: 1px 1px 5px #0000006b;"
-                color="rgb(98 149 232)"
+                color="rgb(136 182 226)"
 
                     v-bind="attrs"
                     v-on="on"
                     @click="transButton(result)"
                   >
-                    <v-icon>mdi-hand-pointing-right</v-icon>수화 보기<v-icon>mdi-hand-pointing-left</v-icon>
+                    <v-icon style="transform: rotate(-28deg);">mdi-hand-pointing-right</v-icon>수화 보기<v-icon style="transform: rotate(-46deg);">mdi-hand-pointing-left</v-icon>
                   </v-btn>
                 </template>
                 
