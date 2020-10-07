@@ -115,11 +115,18 @@ export default {
       //   (err = false),
       //   this.$refs.email.focus());
 
-      if (!err) alert(msg);
+      if (!err){
+        Swal.fire({
+          icon: 'error',
+          title: msg,
+          text: '',
+          footer: ' '
+        })
+      } 
       else this.createHandler();
     },
     createHandler() {
-      console.log(this.fileData);
+      //console.log(this.fileData);
       if(this.fileData && !this.isFile){
         Swal.fire({
           icon: 'error',
@@ -129,7 +136,7 @@ export default {
       }
       else{
         var url = "null";
-        console.log(url);
+        //console.log(url);
         if (this.fileData) {
           var strArr = this.fileData.name.split(".");
           url =
@@ -148,7 +155,13 @@ export default {
             url: url
           })
           .then(() => {
-            alert("등록이 완료되었습니다.");
+            // alert("등록이 완료되었습니다.");
+            Swal.fire({
+                icon: 'success',
+                title: '등록 완료',
+                text: '',
+                footer: ' '
+            })
             this.moveList();
           });
 
@@ -163,7 +176,7 @@ export default {
     uploadImage() {
       var reader = new FileReader();
       var formData = new FormData();
-      // console.log(this.fileData);
+      // //console.log(this.fileData);
       var strArr = this.fileData.name.split("."); // 파일 확장자 가져오기 위해 자르기
 
       var fileName =
@@ -178,21 +191,21 @@ export default {
         .post(`https://j3b105.p.ssafy.io/api/notices/upload`, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
-        .then(response => {
-          console.log(response);
+        .then(() => {
+          //console.log(response);
         })
-        .catch(e => {
-          console.log(e);
+        .catch(() => {
+          //console.log(e);
           // this.task = true
         });
 
       reader.readAsDataURL(this.fileData);
       reader.onloadend = function() {
-        console.log(fileName);
+        //console.log(fileName);
         // axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
-        //     console.log(response);
+        //     //console.log(response);
         //   }).catch(e=>{
-        //     console.log(e)
+        //     //console.log(e)
         //     // this.task = true
         // });
       };
@@ -229,7 +242,7 @@ export default {
       }).then((result) => {
         /* Read more about handling dismissals below */
         if (result.dismiss === Swal.DismissReason.timer) {
-          // // console.log('I was closed by the timer')
+          // // //console.log('I was closed by the timer')
         }
       });
     },

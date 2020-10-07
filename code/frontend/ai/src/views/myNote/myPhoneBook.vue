@@ -1,11 +1,11 @@
 <template>
   <div style="height:100%; width:100%; padding-top: 5%;">
       <v-row style="height:20%; margin:0px;" justify="center">
-      <div class="inputPhonediv" ><input class="inputPhone" v-model="phone" placeholder="긴급 연락처 추가하기(01012345678 형식으로 적어주세요)"><div @click="insertPhone" style="height:40px;width:40px;border-radius:20px; box-shadow:1px 1px 3px rgb(0,0,0,53%);float:right; padding:3.5px; background-color:white; margin:5px 5px"><v-icon size="35px" color="green">mdi-plus</v-icon></div></div>
+      <div class="inputPhonediv" ><input v-on:keyup.enter="insertPhone" type="number" class="inputPhone" v-model="phone" placeholder="긴급 연락처 추가하기(01012345678 형식으로 적어주세요)"><div @click="insertPhone" style="height:40px;width:40px;border-radius:20px; box-shadow:1px 1px 3px rgb(0,0,0,53%);float:right; padding:3.5px; background-color:white; margin:5px 5px"><v-icon size="35px" color="green">mdi-plus</v-icon></div></div>
       </v-row>
 
       <v-card style="height:80%;">
-        <v-btn @click="sendMessage">메세지보내기</v-btn>
+        <!-- <v-btn @click="sendMessage">메세지보내기</v-btn> -->
           <div style="height:100%; width:100%;" v-if="phoneList.length==0">
               <v-row justify="center" style="margin:0px; width:100%; text-align:center;">
                   <h4>위급상황시 긴급 메세지를 보낼 번호가 없습니다.</h4>
@@ -54,6 +54,12 @@ export default {
     }
   },
     methods:{
+      isNumberKey(evt) {
+          var charCode = (evt.which) ? evt.which : event.keyCode;
+          if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+              return false;
+          return true;
+      },
       sendMessage() {
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
@@ -62,10 +68,11 @@ export default {
             .post(`https://j3b105.p.ssafy.io/api/users/send`,{
               user_id: this.$store.state.userinfo.id,
               nickname: this.$store.state.userinfo.nickname
+              // word:
             })
-            .then(response => {
-              console.log(response);
-              console.log("문자보내기");
+            .then(() => {
+              //console.log(response);
+              //console.log("문자보내기");
             });
         }
       });
@@ -85,9 +92,9 @@ export default {
         success: () => {
           axios
             .delete(`https://j3b105.p.ssafy.io/api/users/phone/${id}`)
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 삭제하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 삭제하기");
                 this.selectPhone();
             });
         }
@@ -102,9 +109,9 @@ export default {
               user_id: res.id,
               number: this.modifyInput
             })
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 수정하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 수정하기");
                 this.closeModify();
                 this.selectPhone();
             });
@@ -118,8 +125,8 @@ export default {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
             .then(response => {
-              console.log(response);
-              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              //console.log(response);
+              //console.log("로그인 아이디가 등록한 모든번호 불러오기");
               this.phoneList = response.data;
             });
         }
@@ -135,9 +142,9 @@ export default {
               user_id: res.id,
               number: this.phone
             })
-            .then(response => {
-              console.log(response);
-              console.log("전화번호 등록하기");
+            .then(() => {
+              //console.log(response);
+              //console.log("전화번호 등록하기");
               this.phone = '';
                 this.selectPhone();
             });

@@ -43,7 +43,7 @@
     </v-card> -->
       </div>
       <div class="background" v-if="$route.name !='Home'&& $route.name!='ToHandLanChoice'" style=" padding-top:64px;" :style="{width:frameSize.x+'px', height:frameSize.y+'px'}">
-        <div style="width:90%; height:90%; background-color:white; margin-left:5%;     border-radius: 30px;
+        <div style="width:90%; height:90%; background-color:#ffffff9e; margin-left:5%;     border-radius: 30px;
     box-shadow: 0px 0px 27px -4openLoginpx #00000026;" :style="{'margin-top':(frameSize.y-46-(frameSize.y*0.9))/2+'px'}">
         <router-view></router-view>
         </div>
@@ -90,7 +90,7 @@
           </div>
         </v-card>
 
-        <router-link to="/toHandLan">
+        <router-link to="/toHandLanChoice">
           <v-list-item>
             <v-icon medium color="gray darken-2" style="margin-right : 8px;">mdi-camera</v-icon>
             <v-list-item-title>수어로 번역하기</v-list-item-title>
@@ -143,6 +143,7 @@
 import axios from 'axios'
 import store from '../store'
 import VueCookies from "vue-cookies"
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -169,8 +170,8 @@ export default {
           axios
             .get(`https://j3b105.p.ssafy.io/api/users/user/phone/${res.id}`)
             .then(response => {
-              console.log(response);
-              console.log("로그인 아이디가 등록한 모든번호 불러오기");
+              //console.log(response);
+              //console.log("로그인 아이디가 등록한 모든번호 불러오기");
               this.userEmerPhonebook = response.data;
             });
         }
@@ -179,11 +180,11 @@ export default {
 
     noshow1d(){
       VueCookies.set("noshow","true",'1d');
-      console.log(VueCookies.keys());
+      //console.log(VueCookies.keys());
     },
     noshow7d(){
       VueCookies.set("noshow","true",'7d');
-      console.log(VueCookies.keys());
+      //console.log(VueCookies.keys());
     },
     onResize(){
         this.frameSize = {x:window.innerWidth, y:window.innerHeight};      
@@ -198,27 +199,27 @@ export default {
     kakaoLogout() {
       window.Kakao.API.request({
         url: "/v1/user/unlink",
-        success: res => {
-          console.log("logout", res);
+        success: () => {
+          //console.log("logout", res);
           store.commit('logout');
         }
       });
     },
     kakaoLogin() {
-      // console.log(window.Kakao);
+      // //console.log(window.Kakao);
       window.Kakao.Auth.login({
         success: this.GetMe
       });
     },
-    GetMe(authObj) {
-      console.log("authObj", authObj);
+    GetMe() {
+      //console.log("authObj", authObj);
       // 토큰 확인: 사용자의 id값 뽑아낼 때 쓰면 될듯
       window.Kakao.API.request({
         url: "/v2/user/me",
         success: res => {
-          console.log("body", res);
+          //console.log("body", res);
           const kakao_account = res.kakao_account;
-          console.log("카", kakao_account);
+          //console.log("카", kakao_account);
           const userInfo = {
             id: res.id,
             nickname: kakao_account.profile.nickname,
@@ -238,23 +239,30 @@ export default {
               age_range: userInfo.age_range
             })
             .then(res => {
-              console.log(res);
-              console.log("로그인 성공");
-              alert("로그인 성공!");
-              console.log(res.data);
+              //console.log(res);
+              //console.log("로그인 성공");
+              // alert("로그인 성공!");
+              Swal.fire({
+                icon: 'success',
+                title: '로그인 성공',
+                text: '',
+                // footer: ' '
+              });
+              //console.log(res.data);
+              this.selectPhone();
               store.commit('login',res.data);
             })
-            .catch(err => {
-              console.log(err);
-              console.log("로그인 실패");
+            .catch(() => {
+              //console.log(err);
+              //console.log("로그인 실패");
             });
 
-          console.log(userInfo);
+          //console.log(userInfo);
           this.$bvModal.hide("bv-modal-example");
         },
-        fail: error => {
+        fail: () => {
           this.$router.push("/errorPage");
-          console.log(error);
+          //console.log(error);
         }
       });
     }
@@ -262,7 +270,6 @@ export default {
   mounted(){
     this.isCookie = VueCookies.isKey('noshow');
     this.onResize();
-    this.selectPhone();
       window.onresize=()=>{
           this.onResize();
         }

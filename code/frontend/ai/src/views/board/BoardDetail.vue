@@ -23,8 +23,8 @@
             v-if="$store.state.userinfo.id == user_id"
             style=" margin-top:-25px; float:right;"
           >
-            <div class="modify btn" style="" @click="moveUpdate">수정</div>
-            <div class="delete btn" @click="Delete">삭제</div>
+            <div class="modify btn"><v-icon color="#72d69a" style="margin-right:8px;" @click="moveUpdate">mdi-wrench</v-icon></div>
+            <div class="delete btn" ><v-icon size="30px" color="#ef746b" @click="Delete">mdi-delete</v-icon></div>
           </div>
         </div>
         <div
@@ -116,7 +116,6 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
       .then(({ data }) => {
-        console.log(data);
         this.id = data.id;
         this.subject = data.subject;
         this.content = data.content;
@@ -142,24 +141,46 @@ export default {
       this.$router.push("/board/update/" + this.id);
     },
     alertlogin(){
-      alert('로그인이 필요한 서비스입니다.');
+      // alert('로그인이 필요한 서비스입니다.');
+      Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 서비스입니다.',
+            text: '',
+            footer: ' '
+        })
     },
     Delete() {
       // this.$router.push("/board/delete/" + this.id);
-      var id = this.$route.params.id;
-      axios
-        .delete(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
-        .then(() => {
-          alert("게시글이 삭제되었습니다");
-          this.$router.push("/board");
-        });
+      Swal.fire({
+        title: '삭제하시겠습니까?',
+        text: " ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '네!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '삭제 완료!',
+            ' ',
+            'success'
+          )
+          var id = this.$route.params.id;
+          axios
+            .delete(`https://j3b105.p.ssafy.io/api/notices/notice/${id}`)
+            .then(() => {       
+              this.$router.push("/board");
+          });
+        }
+      })
+      
     },
     addReply() {
       // var notice_num = 8;
       window.Kakao.API.request({
         url: "/v1/user/access_token_info",
         success: res => {
-          console.log("nic", res);
           axios
             .post(`https://j3b105.p.ssafy.io/api/notices/reply`, {
               user_id: res.id,
@@ -167,26 +188,28 @@ export default {
               content: this.thisReply,
               nickname: this.$store.state.userinfo.nickname
             })
-            .then(res => {
-              console.log(res);
-              console.log("댓글 등록 완료");
+            .then(() => {
               this.thisReply = "";
               this.selectNoticeReply();
             });
         },
         fail: () => {
-          alert('로그인 해주세요.');
+          // alert('로그인 해주세요.');
+          Swal.fire({
+            icon: 'error',
+            title: '로그인이 필요한 서비스입니다.',
+            text: ' ',
+            footer: ' '
+          })
         }
       });
     },
     selectNoticeReply() {
-      console.log(this.$route.params.id);
       axios
       .get(
         `https://j3b105.p.ssafy.io/api/notices/notice/reply/${this.$route.params.id}`
       )
       .then(response => {
-        console.log(response);
         this.reply = response.data;
         
         this.reply.forEach(re => {
@@ -196,8 +219,6 @@ export default {
           re.date = date;
         });
         
-        console.log(this.reply);
-        console.log("한 게시글에 대한 댓글 가져오기 완료");
       });
     },
     deleteReply(reply_id){
@@ -217,9 +238,7 @@ export default {
           );
           axios
             .delete(`https://j3b105.p.ssafy.io/api/notices/reply/${reply_id}`)
-            .then(res => {
-              console.log(res);
-              console.log("댓글 삭제 완료");
+            .then(() => {
               this.selectNoticeReply();
             });
         }

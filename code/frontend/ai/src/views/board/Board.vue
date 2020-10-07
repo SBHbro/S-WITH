@@ -1,7 +1,8 @@
 <template>
   <div class="container" align="center">
     <div>
-      <h3 style="    font-size: x-large; color: #000000b8; margin: 15px 0px;">
+      <h3 style="font-weight: bold;font-size: 24px;
+    color: #495057;">
         문의 게시판
       </h3>
       <div style="height:50px;">
@@ -62,6 +63,7 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 export default {
   name: "boardlist",
@@ -82,7 +84,6 @@ export default {
     axios
       .get(`https://j3b105.p.ssafy.io/api/notices/notice`)
       .then(({ data }) => {
-        console.log(data);
         this.boards = data;
         for (let index = 0; index < data.length; index++) {
           var dateBefore = data[index].date;
@@ -125,7 +126,13 @@ export default {
       this.itemsPerPage = number;
     },
     nologin() {
-      alert("로그인이 필요한 서비스입니다.");
+      // alert("로그인이 필요한 서비스입니다.");
+      Swal.fire({
+          icon: 'error',
+          title: '로그인이 필요한 서비스입니다.',
+          text: '',
+          footer: ' '
+      })
     }
   }
 };
