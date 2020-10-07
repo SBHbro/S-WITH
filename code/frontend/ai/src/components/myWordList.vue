@@ -9,9 +9,9 @@
                 <div style="float:right"><v-btn color="#5ece5a" style="font-weight: bold; color: white; text-shadow: rgb(0 0 0 / 60%) 1px 1px 6px;" @click="showHandLan(word.word)">수화보기</v-btn></div>
             </div>
         </v-row>
-                </div>
-            </div>
-
+              </div>
+        </div>
+    <div style="margin-top:-20px;">
       <v-row justify="center">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn" style="cursor:pointer;">
         <v-icon size="40px">mdi-arrow-left-drop-circle</v-icon>
@@ -21,6 +21,7 @@
         <v-icon size="40px">mdi-arrow-right-drop-circle</v-icon>
       </button>
       </v-row>
+    </div>
   </div>
 </template>
 
