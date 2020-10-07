@@ -1,22 +1,22 @@
 ## **디렉토리 구조도**
 
-> project/project/project: project에 대한 기본 settings과 초기 urls 설정
+> /project/project: project에 대한 기본 settings과 초기 urls 설정
 >
-> project/project/ai: AI 함수를 실행시키는 urls 설정
+> /project/ai: AI 함수를 실행시키는 urls 설정
 >
-> project/project/func: text_detection, object_detection, video_detection에 대한 함수
+> /project/ai/func: text_detection, object_detection, video_detection에 대한 함수
 >
-> project/project/crawling: [국립국어원 한국수어사전]에서 단어 크롤링
+> /project/crawling: [국립국어원 한국수어사전]에서 단어 크롤링
 >
-> project/project/notices: 게시판, 댓글 기능
+> /project/notices: 게시판, 댓글 기능
 >
-> project/project/users: 유저정보, 단어, 긴급연락망, 문자보내기 기능
+> /project/users: 유저정보, 단어, 긴급연락망, 문자보내기 기능
 
 
 
 ## **API 요청**
 
-https://docs.google.com/spreadsheets/d/1zwSpI-WW6NMjS3xbgSPEEW6ZUJLgsfPLZeZYsekbk54/edit#gid=0
+https://docs.google.com/spreadsheets/d/1zwSpI-WW6NMjS3xbgSPEEW6ZUJLgsfPLZeZYsekbk54/edit?usp=sharing
 
 
 
