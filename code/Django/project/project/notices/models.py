@@ -13,6 +13,8 @@ class Notice(models.Model):
     content = models.TextField()
     email = models.CharField(max_length=50)
     date = models.DateTimeField(auto_now_add=True)
+    url = models.TextField(null=True)
+    user = models.ForeignKey(userModel.User, on_delete=models.CASCADE)
 
 
 class Reply(models.Model):
@@ -20,3 +22,4 @@ class Reply(models.Model):
     notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
+    nickname = models.CharField(max_length=50)

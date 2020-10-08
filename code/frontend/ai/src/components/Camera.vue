@@ -1,5 +1,14 @@
 <template>
   <div id="camera" class="camera" >
+    <div style="height:5%; margin-left:5px" align="center">
+        <router-link to="/toHandLanChoice">
+            <div
+              style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;"
+             >
+              <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+            </div>
+            </router-link>
+        </div>
     <video style="width:100%; height:100%;" autoplay ref="video" id="video" class="video" v-if="ok"></video>
     <!-- <button class="snap" v-on:click="capture()">SNAP</button> -->
     <canvas ref="canvas" class="canvas" id="canvas" width="1000" height="800"></canvas>
@@ -135,7 +144,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         })
       
@@ -146,7 +155,7 @@ export default {
       image.src = this.canvas.toDataURL();
 
       axios.post(`https://j3b105.p.ssafy.io/api/ai/objectDetection`,{image : image.src}).then(response=>{
-        // console.log(response);
+        // //console.log(response);
         this.oList = response.data;
         this.objectImage += response.data.image;
         this.roiList = response.data.roi;
@@ -157,7 +166,6 @@ export default {
       image.src = this.canvas.toDataURL();
 
       axios.post(`https://j3b105.p.ssafy.io/api/ai/textDetection`,{image : image.src}).then(response=>{
-        // console.log(response);
         this.tList = response.data;
         this.textImage += response.data.image;
       })
@@ -170,8 +178,8 @@ export default {
   beforeUpdated(){
     this.sendWidth = document.getElementById('send').offsetWidth*2+5;
     this.buttonMargin = (document.getElementById('camera').offsetWidth -100)/2;
-    console.log(this.buttonMargin);
-    console.log(document.getElementById('camera').offsetWidth);
+    //console.log(this.buttonMargin);
+    //console.log(document.getElementById('camera').offsetWidth);
   },
   mounted(){
     window.onresize=()=>{

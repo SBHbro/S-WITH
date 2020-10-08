@@ -1,19 +1,26 @@
 <template>
- <div style="width:100%; height:100%;">
-    <v-row style="width: 100%; height: 100%; padding: 0px 2%; margin: 0px; " justify="center">
+  <div style="width:100%; height:100%;">
+    <v-row
+      style="width: 100%; height: 100%; padding: 0px 2%; margin: 0px; "
+      justify="center"
+    >
       <v-col cols="30" sm="20" md="10" lg="20">
         <!-- <v-card ref="form" cols="12" sm="10" md="8" lg="6"> -->
-          <!-- <v-card-text> -->
-            <div style="height:5%;" align="center">
-              <router-link to="/board"><div style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;">
-                <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
-              </div></router-link>
-            </div>
+        <!-- <v-card-text> -->
+        <div style="height:5%;" align="center">
+          <router-link to="/board"
+            ><div
+              style="float: left; color: rgb(0 0 0 / 60%); font-weight: bold; font-size: large;"
+            >
+              <v-icon size="35px">mdi-chevron-left</v-icon>뒤로가기
+            </div></router-link
+          >
+        </div>
 
-    <table style="width:100%; height:85%;">
-      <tr>
+        <table style="width:100%; height:85%;">
+          <tr>
             <v-text-field
-            style="margin:12px;"
+              style="margin:12px;"
               v-model="subject"
               :counter="20"
               label="제목을 입력해주세요"
@@ -21,10 +28,10 @@
               id="subject"
               ref="subject"
             ></v-text-field>
-  </tr>
-  <tr width ="500" height="300">
+          </tr>
+          <tr width="500" height="200">
             <v-textarea
-              style= "width:100%; height:100%;"
+              style="width:100%; height:70%;"
               no-resize
               v-model="content"
               solo
@@ -36,40 +43,33 @@
               id="content"
               ref="content"
             ></v-textarea>
-  </tr>
-  <tr style="width:80%; margin-left:10%;">
-            <v-text-field
-            style="width:38%;float:left"
-              v-model="email"
-              :counter="20"
-              label="아이디를 적어주세요."
-              required
-              id="email"
-              ref="email"
-            ></v-text-field><div style="float: left; width: 4%; font-size: xx-large; font-weight: 700; color: #00000078;">@</div>
-            <v-col class="d-flex" cols="12" sm="6">
-        <v-select
-        style="width:58%;float:left; margin:0px; padding:0px;"
-          :items="items"
-          v-model="emailDomain"
-          label="이메일을 선택해주세요."
-          Standard
-        ></v-select>
-      </v-col>
+          </tr>
+          <tr>
+            <input
+              style="width:50%; margin-left:0%; margin-top:0%; "
+              type="file"
+              ref="fileInput"
+              @change="onChange($event)"
+            />
+            <!-- <video style="width:50%; height:50%;" autoplay :src="image" /> -->
+            <v-btn @click="uploadImage">Upload video</v-btn>
+            <v-btn @click="removeImage">Remove video</v-btn>
           </tr>
           <!-- </v-card-text> -->
-        </table>        
-          <div style="height:10%;" class="form-group" align="center">
-            <v-btn 
-            align = "left"
-            type="button" 
-            color="rgb(54, 214, 123)"
-            style=" color: white; width: 150px; height: 90%; font-size: large; font-weight: bold; text-shadow:#343a40d4 1px 1px 4px;"
-    
-            @click="checkHandler">등록하기</v-btn>
+        </table>
 
-            <!-- <v-btn @click="clear">초기화</v-btn> -->
-          </div>
+        <div style="height:10%;" class="form-group" align="center">
+          <v-btn
+            align="left"
+            type="button"
+            color="rgb(46 179 103)"
+            style=" color: white; width: 150px; height: 90%; font-size: large; font-weight: bold; text-shadow:#343a40d4 1px 1px 4px;"
+            @click="checkHandler"
+            >등록하기</v-btn
+          >
+
+          <!-- <v-btn @click="clear">초기화</v-btn> -->
+        </div>
         <!-- </v-card> -->
       </v-col>
     </v-row>
@@ -78,15 +78,21 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
+
 export default {
   name: "boardcreate",
   data: () => ({
-    items: ['naver.com', 'gmail.com', 'nate.com', 'daum.net','kakao.com'],
+
+    items: ["naver.com", "gmail.com", "nate.com", "daum.net", "kakao.com"],
     notice: [],
     subject: "",
     content: "",
     email: "",
-    emailDomain:"",
+    emailDomain: "",
+    image: "",
+    fileData: "",
+    isFile: false,
   }),
 
   methods: {
@@ -103,41 +109,168 @@ export default {
         ((msg = "내용 입력해주세요"),
         (err = false),
         this.$refs.content.focus());
-      err &&
-        !this.email &&
-        ((msg = "이메일을 입력해주세요"),
-        (err = false),
-        this.$refs.email.focus());
+      // err &&
+      //   !this.email &&
+      //   ((msg = "이메일을 입력해주세요"),
+      //   (err = false),
+      //   this.$refs.email.focus());
 
-      if (!err) alert(msg);
+      if (!err){
+        Swal.fire({
+          icon: 'error',
+          title: msg,
+          text: '',
+          footer: ' '
+        })
+      } 
       else this.createHandler();
     },
     createHandler() {
-      console.log(this.email+'@'+this.emailDomain);
-      axios
-        .post(`http://j3b105.p.ssafy.io/api/notices/notice/create`, {
-          subject: this.subject,
-          content: this.content,
-          email: this.email+'@'+this.emailDomain,
+      //console.log(this.fileData);
+      if(this.fileData && !this.isFile){
+        Swal.fire({
+          icon: 'error',
+          title: '파일 업로드를 완료해주세요',
+          text: '',
         })
-        .then(() => {
-          alert("등록이 완료되었습니다.");
-          this.moveList();
-        });
+      }
+      else{
+        var url = "null";
+        //console.log(url);
+        if (this.fileData) {
+          var strArr = this.fileData.name.split(".");
+          url =
+            "https://j3b105.p.ssafy.io/media/" +
+            this.$store.state.userinfo.id +
+            "" +
+            this.$route.params.number +
+            "." + strArr[1];
+        }
+        axios
+          .post(`https://j3b105.p.ssafy.io/api/notices/notice`, {
+            subject: this.subject,
+            content: this.content,
+            email: this.$store.state.userinfo.email,
+            user_id: this.$store.state.userinfo.id,
+            url: url
+          })
+          .then(() => {
+            // alert("등록이 완료되었습니다.");
+            Swal.fire({
+                icon: 'success',
+                title: '등록 완료',
+                text: '',
+                footer: ' '
+            })
+            this.moveList();
+          });
+
+      }
     },
     moveList() {
       this.$router.push("/board");
     },
     clear() {
       this.$refs.form.reset();
+    },
+    uploadImage() {
+      var reader = new FileReader();
+      var formData = new FormData();
+      // //console.log(this.fileData);
+      var strArr = this.fileData.name.split("."); // 파일 확장자 가져오기 위해 자르기
+
+      var fileName =
+        this.$store.state.userinfo.id +
+        "" +
+        this.$route.params.number +
+        "." +
+        strArr[1];
+      formData.append("file", this.fileData);
+      formData.append("filename", fileName);
+      axios
+        .post(`https://j3b105.p.ssafy.io/api/notices/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(() => {
+          //console.log(response);
+        })
+        .catch(() => {
+          //console.log(e);
+          // this.task = true
+        });
+
+      reader.readAsDataURL(this.fileData);
+      reader.onloadend = function() {
+        //console.log(fileName);
+        // axios.post(`http://localhost:8000/api/notices/upload`,{data : reader.result, filename : fileName}).then(response=>{
+        //     //console.log(response);
+        //   }).catch(e=>{
+        //     //console.log(e)
+        //     // this.task = true
+        // });
+      };
+
+      let timerInterval;
+      Swal.fire({
+        title: '업로드중...',
+        // html: '전송까지 <b></b> 초 남았습니다.',
+        timer: 2000,
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+          Swal.showLoading()
+          
+          Swal.color= 'green';
+          timerInterval = setInterval(() => {
+            const content = Swal.getContent()
+            if (content) {
+              const b = content.querySelector('b')
+              if (b) {
+                b.textContent = Swal.getTimerLeft()
+              }
+            }
+          }, 100)
+        },
+        onClose: () => {
+          clearInterval(timerInterval)
+          Swal.fire(
+            '업로드완료!',
+            '',
+            'success'
+          )
+          this.isFile = true;
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          // // //console.log('I was closed by the timer')
+        }
+      });
+    },
+    onChange(e) {
+      const file = e.target.files[0];
+      //   this.item.imageUrl = URL.createObjectURL(file);
+      this.image = URL.createObjectURL(file);
+      this.fileData = file;
+      // this.$set(this.items[index], "file", file);
+    },
+    removeImage(){
+      this.fileData = "";
+      this.isFile = false;
+      const input = this.$refs.fileInput
+      input.type = 'text'
+      input.type = 'file'
     }
   }
 };
 </script>
 
 <style>
-.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
-    min-height: 200px;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) inset, 0px 2px 2px 0px rgba(0, 0, 0, 0.14) inset, 0px 1px 5px 0px rgba(0, 0, 0, 0.12) inset;
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+  > .v-input__control
+  > .v-input__slot {
+  min-height: 200px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2) inset,
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14) inset,
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12) inset;
 }
 </style>
