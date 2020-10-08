@@ -7,6 +7,7 @@
         <router-link to="/FromHandLan"><v-btn class="sendBtn" color="rgb(232, 107, 94)" style="width:150px;color:white; margin-right:5px; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-backup-restore</v-icon>다시 하기</v-btn></router-link>
         <v-btn @click="onClickGo()" class="sendBtn" color="rgb(54, 214, 123)" style="width:150px;color:white; height:50px; font-size:45px; font-weight:bold; font-size:large"><v-icon>mdi-check</v-icon>번역 하기</v-btn>
       </div>
+      
 
     </div>
 </template>
@@ -37,17 +38,17 @@ export default {
     methods:{
       onResize(){
           this.frameSize = {x:window.innerWidth, y:window.innerHeight};
-          console.log(this.frameSize.x)
+          //console.log(this.frameSize.x)
       },
 
       videoDetection(){
         axios.post(`https://j3b105.p.ssafy.io/api/ai/videoDetection`,{data : this.$route.params.data}).then(response=>{
-          console.log(response);
+          //console.log(response);
           this.answer = response.data[0].answer
           this.accuracy = response.data[0].accuracy
           this.task = true
-        }).catch(e=>{
-          console.log(e)
+        }).catch(()=>{
+          //console.log(e)
           this.task = true
         })
       },
@@ -57,7 +58,7 @@ export default {
         Swal.fire({
           title: '검색중...',
           // html: '전송까지 <b></b> 초 남았습니다.',
-          timer: 3000,
+          timer: 4000,
           timerProgressBar: true,
           onBeforeOpen: () => {
             Swal.showLoading()
@@ -95,7 +96,7 @@ export default {
               Swal.fire(
                 '아직 분석중이에요!',
                 '조금만 더 기다려주세요',
-                'error'
+                'info'
               ).then(()=>{
                 this.onClickGo()
               })
@@ -104,7 +105,7 @@ export default {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            // // console.log('I was closed by the timer')
+            // // //console.log('I was closed by the timer')
           }
         })
       }

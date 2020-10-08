@@ -36,7 +36,9 @@ def detection(image):
     list = []
 
     # print(texts)
+
     for idx,text in enumerate(texts):
+        isAlpha = False
         # print('\n"{}"'.format(text.description))
         vertices = (['({},{})'.format(vertex.x, vertex.y)
                     for vertex in text.bounding_poly.vertices])
@@ -44,6 +46,20 @@ def detection(image):
         y = text.bounding_poly.vertices[0].y
         x2 = text.bounding_poly.vertices[2].x
         y2 = text.bounding_poly.vertices[2].y
+        if (text.description.isdigit()):
+            continue
+        for t in text.description:
+            if ('a' <= t <= 'z'):
+                isAlpha = True
+                break
+            if ('A' <= t <= 'Z'):
+                isAlpha = True
+                break
+            if ('0' <= t <= '9'):
+                isAlpha = True
+                break
+        if (isAlpha):
+            continue
         if idx != 0:
             cv2.rectangle(new_img, (x,y), (x2,y2), (255,0,0), 1)
         # cv2.rectangle(img, (10,10), (40,40), (255,0,0), 2)
@@ -51,6 +67,7 @@ def detection(image):
 
         data = dict()
 
+        print(text.description)
         data['label'] = text.description
         data['videoname'] = findName(text.description)
         list.append(data)
