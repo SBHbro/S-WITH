@@ -1,0 +1,6 @@
+code/AI/DeepLearning/model/model
+code/AI/backend/datasets/yolo/yolov3.weights
+code/DeepLearning/util/bin/cudnn64_7.dll
+code/DeepLearning/util/bin/opencv_world420d.dll
+code/DeepLearning/util/models/face/pose_iter_116000.caffemodel
+code/DeepLearning/util/models/hand/pose_iter_102000.caffemodel
